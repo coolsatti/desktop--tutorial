@@ -211,7 +211,7 @@ header .sub {
 }
 
 /* --- Fields --- */
-.field { margin-bottom: 14px; }
+.field { margin-bottom: 14px; position: relative; }
 .field label {
   display: block;
   font-size: 12px;
@@ -220,33 +220,115 @@ header .sub {
   margin-bottom: 6px;
   letter-spacing: 0.02em;
 }
-.field label .req { color: var(--rust); }
+.field label .req {
+  color: var(--rust);
+  font-weight: 700;
+}
+/* Compulsory marker — small badge after asterisk */
+.field label .req::after {
+  content: " · आवश्यक";
+  font-size: 9px;
+  font-weight: 600;
+  background: var(--rust);
+  color: #fff;
+  padding: 1px 6px;
+  margin-left: 4px;
+  border-radius: 8px;
+  letter-spacing: 0.05em;
+  vertical-align: 1px;
+}
+/* Optional tag — soft grey pill */
+.field label .opt {
+  font-size: 9px;
+  font-weight: 600;
+  background: #d4d4d0;
+  color: #5d5d58;
+  padding: 1px 6px;
+  margin-left: 6px;
+  border-radius: 8px;
+  letter-spacing: 0.05em;
+  vertical-align: 1px;
+  text-transform: uppercase;
+}
 .field .hint {
   font-size: 11px;
   color: var(--ink-soft);
   margin-top: 4px;
   font-style: italic;
 }
+
+/* === FIELD STATE PALETTE === */
+/* Empty (default) — cream background, brown border */
 .field input[type="text"],
 .field input[type="date"],
 .field input[type="number"],
+.field input[type="tel"],
+.field input[type="email"],
 .field select,
 .field textarea {
   width: 100%;
   padding: 12px 14px;
   font-size: 16px;
   font-family: inherit;
-  background: #fff;
-  border: 1.5px solid var(--line);
+  background: #fffdf6;
+  border: 1.5px solid #c8bb9a;
   border-radius: 8px;
   color: var(--ink);
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
 }
-.field input:focus, .field select:focus, .field textarea:focus {
+/* Focused (currently filling) — bright white + green border + glow */
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
   outline: none;
-  border-color: var(--forest);
-  box-shadow: 0 0 0 3px rgba(26,58,42,0.1);
+  background: #ffffff;
+  border-color: #2f7857;
+  border-width: 2px;
+  padding: 11.5px 13.5px;
+  box-shadow: 0 0 0 3px rgba(47,120,87,0.18), 0 2px 8px rgba(47,120,87,0.10);
 }
+/* Filled (has value) — minty-white background, softer green border */
+.field input:not(:placeholder-shown):not(:focus),
+.field textarea:not(:placeholder-shown):not(:focus) {
+  background: #f5fbf7;
+  border-color: #6fa78c;
+  color: #16261a;
+  font-weight: 500;
+}
+/* Filled select (selects have no :placeholder-shown) — JS adds .filled-select */
+.field select.filled-select {
+  background: #f5fbf7;
+  border-color: #6fa78c;
+  font-weight: 500;
+  color: #16261a;
+}
+/* Required + empty + touched — pink-rust tinted to nudge user */
+.field input[required]:placeholder-shown.touched,
+.field select[required].touched:not(.filled-select),
+.field textarea[required]:placeholder-shown.touched {
+  background: #fef4f0;
+  border-color: #d77a5f;
+  box-shadow: inset 3px 0 0 var(--rust);
+}
+/* Auto-filled by app (from field data) — amber-tinted */
+.field input.field-filled:not(:focus),
+.field select.field-filled:not(:focus),
+.field textarea.field-filled:not(:focus) {
+  background: #fff8e8;
+  border-color: #d4a560;
+  font-weight: 500;
+}
+/* Disabled / read-only — grey */
+.field input:disabled,
+.field select:disabled,
+.field textarea:disabled,
+.field input[readonly] {
+  background: #f0eee6;
+  border-color: #d0c9b8;
+  color: #7a7569;
+  cursor: not-allowed;
+}
+
 .field textarea { min-height: 70px; resize: vertical; font-family: inherit; }
 .field .mono input { font-family: 'JetBrains Mono', monospace; }
 
@@ -554,76 +636,157 @@ header .sub {
 .gps-live-box { background:#f0f8f0; border:1px solid #c8e4d0; border-radius:8px; padding:8px 10px; margin:6px 0; font-size:12px; }
 
 
-/* ═══ FORM FIELD COLOUR STATES ═══════════════════════════════════ */
-/* 1. Blank / empty — light cream warning */
+/* ═══ FORM FIELD COLOUR STATES — high-contrast version ════════════
+   Visual contract:
+     1. EMPTY (default)     — warm cream + dotted-feel brown border
+     2. FILLED (has value)  — soft mint white + green border
+     3. FOCUSED (editing)   — bright white + thicker green border + glow
+     4. AUTO-FILLED         — amber (programmatically filled by app)
+     5. REQUIRED + EMPTY    — pink-rust tint (only after touched)
+     6. ERROR (validation)  — bold red + glow
+     7. READ-ONLY           — grey
+   Each state's foreground (text) and label colour adjust too.
+   All selectors use !important to override Leaflet/page-print resets. */
 .field input:not([type=checkbox]):not([type=radio]):not([type=file]),
 .field select,
 .field textarea {
-  background: #faf7f0;          /* warm cream = needs filling */
-  border: 1.5px solid #d8ccb4;
-  transition: background .2s, border-color .2s, box-shadow .2s;
+  background: #fffdf6 !important;
+  border: 1.5px solid #c8bb9a !important;
+  color: #16261a !important;
+  transition: background .2s, border-color .2s, box-shadow .2s, color .2s !important;
 }
 
-/* 2. Filled — clean white with green tick border */
+/* 2. FILLED — saturated mint */
 .field input:not([type=checkbox]):not([type=radio]):not([type=file]).field-filled,
 .field select.field-filled,
-.field textarea.field-filled {
-  background: #f6fdf8;          /* very light green = done */
-  border-color: #74b990;
+.field select.filled-select,
+.field textarea.field-filled,
+.field input:not([type=checkbox]):not([type=radio]):not([type=file]):not(:placeholder-shown):not(:focus),
+.field textarea:not(:placeholder-shown):not(:focus) {
+  background: #f0fbf4 !important;
+  border-color: #5fa07e !important;
+  border-left: 4px solid #5fa07e !important;
+  padding-left: 11.5px !important;
+  font-weight: 500 !important;
+  color: #16261a !important;
 }
 
-/* 3. Active / focused — blue glow */
+/* 3. FOCUSED — bright white, thick green, glow */
 .field input:not([type=checkbox]):not([type=radio]):not([type=file]):focus,
 .field select:focus,
 .field textarea:focus {
-  background: #f0f6ff;          /* light blue = currently editing */
-  border-color: #5088cc;
-  box-shadow: 0 0 0 3px rgba(80,136,204,0.15);
-  outline: none;
+  background: #ffffff !important;
+  border-color: #2f7857 !important;
+  border-width: 2px !important;
+  border-left-width: 4px !important;
+  box-shadow: 0 0 0 3px rgba(47,120,87,0.22), 0 2px 12px rgba(47,120,87,0.10) !important;
+  outline: none !important;
 }
 
-/* 4. Required + empty — stronger warm orange */
+/* 4. AUTO-FILLED — amber tint (set by JS when value comes from field data) */
+.field input.field-autofilled:not(:focus),
+.field select.field-autofilled:not(:focus),
+.field textarea.field-autofilled:not(:focus) {
+  background: #fff7e0 !important;
+  border-color: #d4a560 !important;
+  border-left: 4px solid #d4a560 !important;
+  padding-left: 11.5px !important;
+  font-weight: 500 !important;
+}
+
+/* 5. REQUIRED + EMPTY (after blur) — pink-rust nudge */
+.field input[required].touched:placeholder-shown,
+.field select[required].touched:not(.filled-select),
+.field textarea[required].touched:placeholder-shown,
 .field input.field-required-empty,
 .field select.field-required-empty,
 .field textarea.field-required-empty {
-  background: #fff4e8;
-  border-color: #e09030;
-  box-shadow: 0 0 0 2px rgba(224,144,48,0.15);
+  background: #fef4f0 !important;
+  border-color: #d77a5f !important;
+  border-left: 4px solid #ad2e15 !important;
+  padding-left: 11.5px !important;
 }
 
-/* 5. GPS captured / read-only display */
-input[readonly].gps-display {
-  background: #eef7f0;
-  border-color: #74b990;
-  color: #1a5030;
-  font-weight: 600;
-  font-size: 12px;
-}
-
-/* 6. Validation error (scroll-to target) */
+/* 6. Validation error — bold red */
 .field input.field-error,
 .field select.field-error,
 .field textarea.field-error {
-  background: #fff0ee;
-  border-color: #e03820;
-  box-shadow: 0 0 0 3px rgba(224,56,32,0.15);
+  background: #ffefea !important;
+  border-color: #d83820 !important;
+  border-width: 2px !important;
+  box-shadow: 0 0 0 3px rgba(216,56,32,0.18) !important;
 }
 
-/* Label colours to match field state */
-.field label { color: #555; font-size: 12px; font-weight: 600; margin-bottom: 2px; display: block; }
+/* 7. Read-only GPS display */
+input[readonly].gps-display {
+  background: #eef7f0 !important;
+  border-color: #74b990 !important;
+  color: #1a5030 !important;
+  font-weight: 600 !important;
+  font-size: 12px !important;
+}
+
+/* Label colour reacts to field state for at-a-glance scanning */
+.field label {
+  color: #6a6a6a;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+  transition: color .15s;
+}
 .field:has(input.field-filled) label,
 .field:has(select.field-filled) label,
+.field:has(select.filled-select) label,
 .field:has(textarea.field-filled) label { color: #2f7857; }
+.field:has(input:not(:placeholder-shown):not(:focus)) label,
+.field:has(textarea:not(:placeholder-shown):not(:focus)) label { color: #2f7857; }
 .field:has(input:focus) label,
 .field:has(select:focus) label,
-.field:has(textarea:focus) label { color: #3060a8; }
-.field:has(.field-required-empty) label { color: #c87020; }
+.field:has(textarea:focus) label { color: #1d4434; font-weight: 700; }
+.field:has(input.field-autofilled) label,
+.field:has(select.field-autofilled) label,
+.field:has(textarea.field-autofilled) label { color: #a06d18; }
+.field:has(input[required].touched:placeholder-shown) label,
+.field:has(.field-required-empty) label { color: #ad2e15; font-weight: 700; }
 .field:has(.field-error) label { color: #c03010; }
 
-/* Filled indicator dot in label */
+/* Required marker — visible asterisk + badge */
+.field label .req {
+  color: var(--rust);
+  font-weight: 700;
+  margin-left: 2px;
+}
+.field label .req::after {
+  content: " · आवश्यक";
+  font-size: 9px;
+  font-weight: 700;
+  background: var(--rust);
+  color: #fff;
+  padding: 2px 7px;
+  margin-left: 4px;
+  border-radius: 9px;
+  letter-spacing: 0.04em;
+  vertical-align: 1px;
+}
+/* Optional marker — soft grey */
+.field label .opt {
+  font-size: 9px;
+  font-weight: 600;
+  background: #e0ddd2;
+  color: #5d5d58;
+  padding: 2px 7px;
+  margin-left: 6px;
+  border-radius: 9px;
+  letter-spacing: 0.04em;
+  vertical-align: 1px;
+  text-transform: uppercase;
+}
+
+/* Filled indicator dot */
 .field-filled-dot {
   display:inline-block; width:6px; height:6px; border-radius:50%;
-  background:#74b990; margin-left:4px; vertical-align:middle;
+  background:#5fa07e; margin-left:4px; vertical-align:middle;
 }
 </style>
 </head>
@@ -710,12 +873,12 @@ input[readonly].gps-display {
 
     <div class="field">
       <label>Name of Project <span class="req">*</span></label>
-      <input type="text" id="f-project" placeholder="e.g. Gaw se ghr tak road">
+      <input type="text" id="f-project" required placeholder="e.g. Gaw se ghr tak road">
     </div>
 
     <div class="field">
       <label>Date of Records <span class="req">*</span></label>
-      <input type="date" id="f-date">
+      <input type="date" id="f-date" required>
     </div>
 
     <div class="divider-label" data-fp-page="2">Location (for Proposal Documents)</div>
@@ -1019,44 +1182,6 @@ input[readonly].gps-display {
       </div>
 
       
-      <div class="field">
-        <label>Terrain slope category</label>
-        <select id="f-slope">
-          <option value="">— Select —</option>
-          <option value="flat">Flat (&lt;5%)</option>
-          <option value="gentle">Gentle (5-15%)</option>
-          <option value="moderate">Moderate (15-25%)</option>
-          <option value="steep">Steep (25-40%)</option>
-          <option value="very-steep">Very steep (&gt;40%)</option>
-        </select>
-      </div>
-
-      
-      <div class="field">
-        <label>Predominant soil / rock type</label>
-        <select id="f-soil">
-          <option value="">— Select —</option>
-          <option value="loose-soil">Loose soil</option>
-          <option value="hard-soil">Hard soil</option>
-          <option value="soft-rock">Soft rock</option>
-          <option value="hard-rock">Hard rock</option>
-          <option value="mixed">Mixed</option>
-        </select>
-      </div>
-
-      
-      <div class="row2">
-        <div class="field">
-          <label>Water crossings (number)</label>
-          <input type="number" id="f-water-crossings" placeholder="e.g. 2" min="0">
-        </div>
-        <div class="field">
-          <label>Crossing types</label>
-          <input type="text" id="f-crossing-types" placeholder="e.g. 1 bridge + 1 culvert">
-        </div>
-      </div>
-
-      
       <div class="row2">
         <div class="field">
           <label>Nearest wildlife / protected area</label>
@@ -1224,23 +1349,6 @@ input[readonly].gps-display {
 
       
       <div data-fp-page="3">
-      <div class="row2">
-        <div class="field">
-          <label>Distance from nearest motor road (km)</label>
-          <input type="number" id="f-dist-motor-road" placeholder="e.g. 4" step="0.1">
-        </div>
-        <div class="field">
-          <label>Approach road exists?</label>
-          <select id="f-approach-road">
-            <option value="">— Select —</option>
-            <option value="metalled">Metalled road</option>
-            <option value="kachcha">Kachcha road</option>
-            <option value="footpath">Only footpath</option>
-            <option value="none">None</option>
-          </select>
-        </div>
-      </div>
-
       <div class="divider-label" style="margin-top:14px;">Chainage &amp; Direction</div>
       <div class="row2">
         <div class="field">
@@ -3006,45 +3114,6 @@ header .sub {
 }
 
 /* --- Fields --- */
-.field { margin-bottom: 14px; }
-.field label {
-  display: block;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--forest-deep);
-  margin-bottom: 6px;
-  letter-spacing: 0.02em;
-}
-.field label .req { color: var(--rust); }
-.field .hint {
-  font-size: 11px;
-  color: var(--ink-soft);
-  margin-top: 4px;
-  font-style: italic;
-}
-.field input[type="text"],
-.field input[type="date"],
-.field input[type="number"],
-.field select,
-.field textarea {
-  width: 100%;
-  padding: 12px 14px;
-  font-size: 16px;
-  font-family: inherit;
-  background: #fff;
-  border: 1.5px solid var(--line);
-  border-radius: 8px;
-  color: var(--ink);
-  transition: border-color 0.15s, box-shadow 0.15s;
-}
-.field input:focus, .field select:focus, .field textarea:focus {
-  outline: none;
-  border-color: var(--forest);
-  box-shadow: 0 0 0 3px rgba(26,58,42,0.1);
-}
-.field textarea { min-height: 70px; resize: vertical; font-family: inherit; }
-.field .mono input { font-family: 'JetBrains Mono', monospace; }
-
 /* --- Buttons --- */
 .btn {
   display: inline-flex;
@@ -5782,10 +5851,6 @@ function doSave() {
     muckPoints: (currentMuckPoints || []).slice(),
     // Extra project details
     width2: document.getElementById('f-width2')?.value || '',
-    slope: document.getElementById('f-slope')?.value || '',
-    soil: document.getElementById('f-soil')?.value || '',
-    waterCrossings: document.getElementById('f-water-crossings')?.value || '',
-    crossingTypes: document.getElementById('f-crossing-types')?.value || '',
     wildlifeName: document.getElementById('f-wildlife-name')?.value || '',
     wildlifeDist: document.getElementById('f-wildlife-dist')?.value || '',
     caSite: document.getElementById('f-ca-site')?.value || '',
@@ -5799,8 +5864,6 @@ function doSave() {
     roContact: document.getElementById('f-ro-contact')?.value || '',
     pradhanContact: document.getElementById('f-pradhan-contact')?.value || '',
     urgency: document.getElementById('f-urgency')?.value || '',
-    distMotorRoad: document.getElementById('f-dist-motor-road')?.value || '',
-    approachRoad: document.getElementById('f-approach-road')?.value || '',
     chainageStart: document.getElementById('f-chainage-start')?.value || '',
     chainageEnd: document.getElementById('f-chainage-end')?.value || '',
     surveyDirection: document.getElementById('f-survey-direction')?.value || 'forward',
@@ -6460,17 +6523,15 @@ function showRecordDetail(r) {
     ['Notes', escapeHtml(r.notes || '—').replace(/\n/g, '<br>')]
   ];
 
-  // Extra project details (20 fields, only show ones with values)
+  // Extra project details (only show ones with values)
   const extraFields = [
-    ['width2','Width (m)'], ['slope','Terrain slope'], ['soil','Soil type'],
-    ['waterCrossings','Water crossings'], ['crossingTypes','Crossing types'],
+    ['width2','Width (m)'],
     ['wildlifeName','Nearest wildlife area'], ['wildlifeDist','Wildlife distance (km)'],
     ['caSite','CA site'], ['sanctionNo','Sanction no.'], ['sanctionDate','Sanction date'],
     ['npvUTR','NPV UTR'], ['npvDate','NPV paid date'],
     ['pwdAE','PWD AE'], ['pwdEE','PWD EE'],
     ['dfoContact','DFO contact'], ['roContact','RO contact'],
     ['pradhanContact','Pradhan contact'], ['urgency','Urgency'],
-    ['distMotorRoad','Dist from motor road'], ['approachRoad','Approach road'],
     ['chainageStart','Start point (Ch. 0)'], ['chainageEnd','End point'],
     ['surveyDirection','Survey direction']
   ];
@@ -13136,19 +13197,68 @@ function renderJIRPage(r, variant, opts) {
   const stampText = isSelected ? 'SELECTED ✓' : 'REJECTED ✗';
 
   // ── JIR signature block ──
-  // Per Uttarakhand FCA-1980 SOP: a Joint Inspection Report is signed by ALL officers
-  // who participated in the joint visit. The standard block has 8 signatories.
-  // Each signature row uses signerMeta() so name/designation/office auto-fills from
-  // the Signatories Directory (page 2 of the form).
+  // Per user request: JIR is signed by people PHYSICALLY PRESENT at the
+  // joint inspection — not the desk-bound AE/EE/Tahsildar/DFO/SDM who
+  // usually only sign in office afterwards.
+  //
+  // Present at inspection (the field party): JE, Range Officer / Forester,
+  // Patwari / Revenue rep, User Agency representative, Gram Pradhan / सरपंच.
+  // Other extras (NGO observer, Forest Dept rep, etc.) come from the
+  // optional inspectionParty field.
   const placeText = (opts && opts.place) ? opts.place : (r.villageName || r.district || '');
+
+  // Build dynamic signature rows for any extra people in the inspection party.
+  // Sources (in order):
+  //  - r.inspectionParty   (free-text field, comma- or newline-separated names)
+  //  - r.rep1, r.rep2      (Other Representative fields from team page)
+  // We dedupe and filter out empty / 'None' values.
+  const partySources = [];
+  if (r.inspectionParty && r.inspectionParty.trim()) {
+    r.inspectionParty.split(/[,\n]/).forEach(s => partySources.push(s.trim()));
+  }
+  if (r.rep1 && r.rep1.trim()) partySources.push(r.rep1.trim());
+  if (r.rep2 && r.rep2.trim()) partySources.push(r.rep2.trim());
+  const seen = new Set();
+  const partyExtras = partySources
+    .filter(s => {
+      if (!s) return false;
+      const k = s.toLowerCase();
+      if (k === 'none' || k === '—' || k === 'na' || k === 'n/a' || k === '-') return false;
+      if (seen.has(k)) return false;
+      seen.add(k);
+      return true;
+    })
+    .slice(0, 6);
+  const extraSigsRows = [];
+  if (partyExtras.length > 0) {
+    // Chunk into rows of 3
+    for (let i = 0; i < partyExtras.length; i += 3) {
+      const chunk = partyExtras.slice(i, i + 3);
+      const rowHtml = `
+  <div class="sig-row" style="margin-top:14pt;">
+    ${chunk.map(name => `
+    <div class="sig">
+      <div class="sig-line">ह0/−</div>
+      <strong class="hindi">${escapeHtml(name)}</strong>
+      <span class="small">(निरीक्षण दल सदस्य / Inspection Party)</span>
+    </div>`).join('')}
+    ${chunk.length < 3 ? Array(3 - chunk.length).fill('<div class="sig" style="visibility:hidden"></div>').join('') : ''}
+  </div>`;
+      extraSigsRows.push(rowHtml);
+    }
+  }
+
   const sigBlock = `
   <h3 class="hindi" style="margin-top:18pt;">हस्ताक्षर / Signatures</h3>
+  <p class="hindi small" style="margin-top:2pt; color:#555;">
+    संयुक्त निरीक्षण के समय उपस्थित अधिकारी / प्रतिनिधि — Officers and representatives present at the joint site inspection.
+  </p>
   <p class="hindi small" style="margin-top:4pt;">
     स्थान / Place :— <span class="fill" ${ce}>${escapeHtml(placeText || '_______________')}</span>
     &nbsp;&nbsp;&nbsp;&nbsp;
     दिनांक / Date :— <span class="fill" ${ce}>${fmtDateHi(r.date)}</span>
   </p>
-  <div class="sig-row" style="margin-top:24pt;">
+  <div class="sig-row" style="margin-top:18pt;">
     <div class="sig">
       <div class="sig-line">ह0/−</div>
       <strong class="hindi">कनिष्ठ अभियन्ता</strong>
@@ -13157,51 +13267,37 @@ function renderJIRPage(r, variant, opts) {
     </div>
     <div class="sig">
       <div class="sig-line">ह0/−</div>
-      <strong class="hindi">सहायक अभियन्ता</strong>
-      <span class="small hindi">निर्माण खण्ड लो.नि.वि.</span>
-      ${signerMeta(r, 'ae')}
-    </div>
-    <div class="sig">
-      <div class="sig-line">ह0/−</div>
-      <strong class="hindi">अधिशासी अभियन्ता</strong>
-      <span class="small hindi">निर्माण खण्ड लो.नि.वि.</span>
-      ${signerMeta(r, 'ee')}
-    </div>
-  </div>
-  <div class="sig-row" style="margin-top:18pt;">
-    <div class="sig">
-      <div class="sig-line">ह0/−</div>
-      <strong class="hindi">वन क्षेत्राधिकारी</strong>
+      <strong class="hindi">वन क्षेत्राधिकारी / फॉरेस्टर</strong>
+      <span class="small hindi">(वन विभाग प्रतिनिधि)</span>
       ${signerMeta(r, 'ro')}
     </div>
     <div class="sig">
       <div class="sig-line">ह0/−</div>
-      <strong class="hindi">पटवारी</strong>
+      <strong class="hindi">पटवारी / लेखपाल</strong>
+      <span class="small hindi">(राजस्व विभाग प्रतिनिधि)</span>
       ${signerMeta(r, 'patwari')}
     </div>
-    <div class="sig">
-      <div class="sig-line">ह0/−</div>
-      <strong class="hindi">तहसीलदार</strong>
-      ${signerMeta(r, 'tahsildar')}
-    </div>
   </div>
-  <div class="sig-row" style="margin-top:18pt;">
+  <div class="sig-row" style="margin-top:14pt;">
     <div class="sig">
       <div class="sig-line">ह0/−</div>
       <strong class="hindi">ग्राम प्रधान</strong>
+      <span class="small hindi">/ वन पंचायत सरपंच</span>
       ${signerMeta(r, 'pradhan')}
     </div>
     <div class="sig">
       <div class="sig-line">ह0/−</div>
-      <strong class="hindi">प्रभागीय वनाधिकारी</strong>
-      ${signerMeta(r, 'dfo')}
+      <strong class="hindi">प्रयोक्ता एजेन्सी प्रतिनिधि</strong>
+      <span class="small hindi">(User Agency)</span>
+      ${signerMeta(r, 'userAgencyRep') || signerMeta(r, 'userAgency')}
     </div>
     <div class="sig">
       <div class="sig-line">ह0/−</div>
-      <strong class="hindi">उप जिलाधिकारी</strong>
-      ${signerMeta(r, 'dm')}
+      <strong class="hindi">वन विभाग प्रतिनिधि</strong>
+      <span class="small hindi">(Forest Dept Rep — if different)</span>
+      ${signerMeta(r, 'forestRep')}
     </div>
-  </div>`;
+  </div>${extraSigsRows.join('')}`;
 
   return `
 <div class="page">
@@ -14115,8 +14211,7 @@ function loadToForm(rec) {
       'f-client-name': rec.clientName, 'f-client-phone': rec.clientPhone, 'f-client-email': rec.clientEmail,
       'f-fee': rec.fee, 'f-status': rec.status, 'f-deadline': rec.deadline, 'f-notes': rec.notes,
       // Extra project details
-      'f-width2': rec.width2, 'f-slope': rec.slope, 'f-soil': rec.soil,
-      'f-water-crossings': rec.waterCrossings, 'f-crossing-types': rec.crossingTypes,
+      'f-width2': rec.width2,
       'f-wildlife-name': rec.wildlifeName, 'f-wildlife-dist': rec.wildlifeDist,
       'f-ca-site': rec.caSite,
       'f-sanction-no': rec.sanctionNo, 'f-sanction-date': rec.sanctionDate,
@@ -14124,7 +14219,6 @@ function loadToForm(rec) {
       'f-pwd-ae': rec.pwdAE, 'f-pwd-ee': rec.pwdEE,
       'f-dfo-contact': rec.dfoContact, 'f-ro-contact': rec.roContact,
       'f-pradhan-contact': rec.pradhanContact, 'f-urgency': rec.urgency,
-      'f-dist-motor-road': rec.distMotorRoad, 'f-approach-road': rec.approachRoad,
       'f-chainage-start': rec.chainageStart, 'f-chainage-end': rec.chainageEnd,
       'f-survey-direction': rec.surveyDirection || 'forward',
       'f-canopy-density': rec.canopyDensity,
@@ -14172,7 +14266,7 @@ function loadToForm(rec) {
     renderMuckList();
 
     // If any extra detail field has a value, open the extra details section
-    const anyExtra = ['width2','slope','soil','waterCrossings','wildlifeName','caSite','sanctionNo',
+    const anyExtra = ['width2','wildlifeName','caSite','sanctionNo',
                      'npvUTR','pwdAE','pwdEE','dfoContact','urgency'].some(k => rec[k]);
     if (anyExtra) {
       const extraContent = document.getElementById('extra-details-content');
@@ -18411,10 +18505,10 @@ document.getElementById('btn-dispatch-export')?.addEventListener('click', () => 
 });
 
 
-const EXTRA_DETAIL_FIELDS = ['f-width2','f-slope','f-soil','f-water-crossings','f-crossing-types',
+const EXTRA_DETAIL_FIELDS = ['f-width2',
   'f-wildlife-name','f-wildlife-dist','f-ca-site','f-sanction-no','f-sanction-date',
   'f-npv-utr','f-npv-date',
-  'f-urgency','f-dist-motor-road','f-approach-road',
+  'f-urgency',
   'f-chainage-start','f-chainage-end','f-survey-direction'];
 
 document.getElementById('toggle-extra-details')?.addEventListener('click', () => {
@@ -20009,7 +20103,7 @@ function applyAlignmentMetrics(metrics, opts) {
     var cur = (el.value || '').trim();
     if (!force && cur !== '' && cur !== '0') return;  // respect user-entered values
     el.value = val;
-    el.classList.add('field-filled');
+    el.classList.add('field-autofilled');
     el.dispatchEvent(new Event('input', { bubbles: true }));
     filled.push(label);
   }
@@ -21987,9 +22081,18 @@ Object.assign(window, {
 function updateFieldState(el) {
   if (!el || el.type === 'checkbox' || el.type === 'radio' || el.type === 'file') return;
   const val = el.value ? el.value.trim() : '';
-  el.classList.toggle('field-filled', val.length > 0);
-  el.classList.toggle('field-required-empty', el.required && val.length === 0);
-  el.classList.remove('field-error'); // clear error state when user types
+  const hasValue = val.length > 0;
+
+  // Selects: add .filled-select when a non-default option is chosen
+  if (el.tagName === 'SELECT') {
+    el.classList.toggle('filled-select', hasValue);
+  }
+
+  // .touched flag set on first blur (so we don't show "required" rust on fresh page)
+  if (!el._touchedHandlerInstalled) {
+    el._touchedHandlerInstalled = true;
+    el.addEventListener('blur', function() { el.classList.add('touched'); });
+  }
 }
 
 function initFieldColours() {
@@ -22003,6 +22106,32 @@ function initFieldColours() {
     el.addEventListener('input', function() { updateFieldState(el); });
     el.addEventListener('change', function() { updateFieldState(el); });
     el.addEventListener('blur', function() { updateFieldState(el); });
+
+    // Inject a real placeholder if missing (so :placeholder-shown works for the
+    // empty-detect CSS). Without a placeholder, browsers consider the input
+    // "filled" with empty string, breaking our visual state.
+    if (el.tagName !== 'SELECT' && !el.getAttribute('placeholder')) {
+      el.setAttribute('placeholder', ' ');
+    }
+  });
+
+  // Add OPT / REQ markers based on the required attribute
+  document.querySelectorAll('#view-form .field label').forEach(function(lbl) {
+    var fld = lbl.parentElement.querySelector('input, select, textarea');
+    if (!fld) return;
+    // Skip if already has marker
+    if (lbl.querySelector('.req') || lbl.querySelector('.opt')) return;
+    if (fld.hasAttribute('required')) {
+      var sp = document.createElement('span');
+      sp.className = 'req';
+      sp.textContent = '*';
+      lbl.appendChild(sp);
+    } else {
+      var op = document.createElement('span');
+      op.className = 'opt';
+      op.textContent = 'optional';
+      lbl.appendChild(op);
+    }
   });
 }
 
@@ -22065,9 +22194,7 @@ var FP = {
         'f-forest-team','f-revenue-team','f-ameen','f-je','f-rep1','f-rep2'],
     // PHASE 3 — Field visit data collection (AT SITE during joint inspection)
     3: ['f-chainage-start','f-chainage-end','f-survey-direction',
-        'f-dist-motor-road','f-approach-road',
-        'f-canopy-density','f-width2','f-slope','f-soil',
-        'f-water-crossings','f-crossing-types',
+        'f-canopy-density','f-width2',
         'f-wildlife-name','f-wildlife-dist'],
     // PHASE 4 — More data needed for the proposal (back at office)
     4: ['f-cost','f-npv-estimate','f-ca-cost','f-ca-site',
