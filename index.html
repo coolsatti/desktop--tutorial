@@ -7409,7 +7409,12 @@ function buildProposalHTML(r, opts, forWord = false) {
     const alignCoords = r.coords || [];
     const treeGpsCount = (r.trees || []).filter(t => t.lat && t.lon).length;
     if (alignCoords.length > 0 || treeGpsCount > 0) {
-      const svgMap = buildAlignmentSVG(r, { width: 720, height: 500 });
+      const anySel = alignCoords.some(c => c.branch === 'selected') ||
+                     (r.trees || []).some(t => t.lat && t.lon && isSelected(t));
+      const anyRej = alignCoords.some(c => c.branch === 'rejected') ||
+                     (r.trees || []).some(t => t.lat && t.lon && isRejected(t));
+      // Combined annexure map — taller for max scale
+      const svgMap = buildAlignmentSVG(r, { width: 720, height: 820 });
       let totalM = 0;
       for (let i = 1; i < alignCoords.length; i++) {
         totalM += haversineMeters(alignCoords[i-1].lat, alignCoords[i-1].lon, alignCoords[i].lat, alignCoords[i].lon);
@@ -7420,19 +7425,27 @@ function buildProposalHTML(r, opts, forWord = false) {
 <div class="page" style="text-align:center;">
   <div class="proforma-tag hindi">संलग्नक / Annexure</div>
   <h1 class="hindi">अलाइनमेंट मानचित्र</h1>
-  <h2>Alignment Map</h2>
+  <h2>Alignment Map (Combined View)</h2>
   <p class="hindi small centered">परियोजना: ${escProp(r.project)}</p>
-  <div style="font-size:11pt; color:#555; margin:10pt 0;">
+  <div style="font-size:10pt; color:#555; margin:6pt 0;">
     Alignment points: <strong>${alignCoords.length}</strong> · Total length: <strong>${totalM.toFixed(1)} m</strong><br>
     Trees on map: <span style="color:#ad2e15; font-weight:600;">${selGps} selected</span> · <span style="color:#2f7857; font-weight:600;">${rejGps} rejected</span>
   </div>
-  <div style="border:1px solid #888; padding:6pt; background:#fff; display:inline-block; max-width:100%;">
+  <div style="border:1px solid #888; padding:4pt; background:#fff; display:inline-block; max-width:100%;">
     ${svgMap}
   </div>
-  <div style="margin-top:10pt; font-size:9pt; color:#888;">
+  <div style="margin-top:8pt; font-size:8pt; color:#888;">
     Coordinate system: WGS84 · Generated: ${new Date().toLocaleDateString('en-IN')}
   </div>
 </div>`);
+
+      // If both alignments present, add detail map pages too (max-scale per branch)
+      if (anySel && anyRej) {
+        parts.push(renderAlignmentMapPage(r, 'चयनित संरेखण विस्तृत / Selected Alignment (Detail)', '#ad2e15',
+          { showSelected: true, showRejected: false }));
+        parts.push(renderAlignmentMapPage(r, 'निरस्त संरेखण विस्तृत / Rejected Alternative (Detail)', '#2f7857',
+          { showSelected: false, showRejected: true }));
+      }
     }
   }
 
@@ -11336,13 +11349,25 @@ function buildJIRHTML(r, type, opts, forWord) {
       }
       // Page 3: Comparison table (separate page per requirement)
       parts.push(renderComparisonTable(selRec, rejRec, r));
-      // Page 4: Selected map
-      if (selRec && ((selRec.coords || []).length > 0 || (selRec.trees || []).some(t => t.lat && t.lon))) {
-        parts.push(renderAlignmentMapPage(selRec, 'Selected Alignment Map / चयनित संरेखण मानचित्र', '#ad2e15'));
+
+      // Maps — three views: combined overview, then selected detail, then rejected detail
+      const hasSelGps = selRec && ((selRec.coords || []).length > 0 || (selRec.trees || []).some(t => t.lat && t.lon));
+      const hasRejGps = rejRec && ((rejRec.coords || []).length > 0 || (rejRec.trees || []).some(t => t.lat && t.lon));
+
+      // Map A: Combined overview (both alignments overlaid for direct comparison)
+      if (hasSelGps && hasRejGps) {
+        parts.push(renderAlignmentMapPage(r, 'संयुक्त संरेखण मानचित्र / Combined Alignment Map', '#1d4434',
+          { showSelected: true, showRejected: true }));
       }
-      // Page 5: Rejected map
-      if (rejRec && ((rejRec.coords || []).length > 0 || (rejRec.trees || []).some(t => t.lat && t.lon))) {
-        parts.push(renderAlignmentMapPage(rejRec, 'Rejected Alignment Map / निरस्त संरेखण मानचित्र', '#2f7857'));
+      // Map B: Selected alignment — zoomed to its bounds only (max detail)
+      if (hasSelGps) {
+        parts.push(renderAlignmentMapPage(selRec, 'चयनित संरेखण मानचित्र / Selected Alignment Map', '#ad2e15',
+          { showSelected: true, showRejected: false }));
+      }
+      // Map C: Rejected alternative — zoomed to its bounds only (max detail)
+      if (hasRejGps) {
+        parts.push(renderAlignmentMapPage(rejRec, 'निरस्त संरेखण मानचित्र / Rejected Alternative Map', '#2f7857',
+          { showSelected: false, showRejected: true }));
       }
     }
 
@@ -11357,11 +11382,25 @@ function buildJIRHTML(r, type, opts, forWord) {
     parts.push(renderJIRPage(r, 'rejected', opts));
   }
 
-  // Append alignment map page if there are GPS points (alignment or tree GPS)
+  // Append alignment map page(s) if there are GPS points (alignment or tree GPS)
   const alignCoords = r.coords || [];
   const treeGpsCount = (r.trees || []).filter(t => t.lat && t.lon).length;
+  const anySelected = alignCoords.some(c => c.branch === 'selected') ||
+                      (r.trees || []).some(t => t.lat && t.lon && isSelected(t));
+  const anyRejected = alignCoords.some(c => c.branch === 'rejected') ||
+                      (r.trees || []).some(t => t.lat && t.lon && isRejected(t));
+
   if (alignCoords.length > 0 || treeGpsCount > 0) {
-    parts.push(renderAlignmentMapPage(r, 'अलाइनमेंट मानचित्र / Alignment Map', '#1d4434'));
+    // Combined view always shown
+    parts.push(renderAlignmentMapPage(r, 'अलाइनमेंट मानचित्र / Alignment Map', '#1d4434',
+      { showSelected: true, showRejected: true }));
+    // If both branches present, add detail maps so each is shown at max scale
+    if (anySelected && anyRejected) {
+      parts.push(renderAlignmentMapPage(r, 'चयनित संरेखण विस्तृत / Selected Alignment (zoomed)', '#ad2e15',
+        { showSelected: true, showRejected: false }));
+      parts.push(renderAlignmentMapPage(r, 'निरस्त संरेखण विस्तृत / Rejected Alternative (zoomed)', '#2f7857',
+        { showSelected: false, showRejected: true }));
+    }
   }
 
   // Append elevation profile page if altitude data was captured
@@ -11416,30 +11455,66 @@ function buildJIRHTML(r, type, opts, forWord) {
 }
 
 
-function renderAlignmentMapPage(r, heading, accentColor) {
-  const alignCoords = r.coords || [];
-  const svgMap = buildAlignmentSVG(r, { width: 720, height: 500 });
+function renderAlignmentMapPage(r, heading, accentColor, opts) {
+  opts = opts || {};
+  const showSelected = opts.showSelected !== false;
+  const showRejected = opts.showRejected !== false;
+  const mapW = opts.width  || 720;
+  const mapH = opts.height || 860;   // taller = max scale on A4 portrait
+
+  // Filter coords by what's being shown so the stats line is accurate
+  const allCoords = r.coords || [];
+  const visCoords = allCoords.filter(c => {
+    if (c.branch === 'selected' && !showSelected) return false;
+    if (c.branch === 'rejected' && !showRejected) return false;
+    return true;
+  });
+
+  const svgMap = buildAlignmentSVG(r, {
+    width: mapW,
+    height: mapH,
+    showSelected: showSelected,
+    showRejected: showRejected
+  });
+
   let totalM = 0;
-  for (let i = 1; i < alignCoords.length; i++) {
-    totalM += haversineMeters(alignCoords[i-1].lat, alignCoords[i-1].lon, alignCoords[i].lat, alignCoords[i].lon);
+  for (let i = 1; i < visCoords.length; i++) {
+    totalM += haversineMeters(visCoords[i-1].lat, visCoords[i-1].lon, visCoords[i].lat, visCoords[i].lon);
   }
-  const selGps = (r.trees || []).filter(t => t.lat && t.lon && isSelected(t)).length;
-  const rejGps = (r.trees || []).filter(t => t.lat && t.lon && isRejected(t)).length;
+  const visTrees = (r.trees || []).filter(t => {
+    if (!(t.lat && t.lon)) return false;
+    if (isSelected(t) && !showSelected) return false;
+    if (isRejected(t) && !showRejected) return false;
+    return true;
+  });
+  const selGps = visTrees.filter(t => isSelected(t)).length;
+  const rejGps = visTrees.filter(t => isRejected(t)).length;
+
+  // Branch summary chip — shows which alignment is being mapped
+  var branchChip = '';
+  if (showSelected && !showRejected) {
+    branchChip = '<span style="display:inline-block; background:#ad2e15; color:#fff; padding:2pt 8pt; border-radius:10pt; font-size:9pt; font-weight:700; margin-bottom:8pt;">🔴 SELECTED ALIGNMENT — Detailed View</span>';
+  } else if (showRejected && !showSelected) {
+    branchChip = '<span style="display:inline-block; background:#2f7857; color:#fff; padding:2pt 8pt; border-radius:10pt; font-size:9pt; font-weight:700; margin-bottom:8pt;">🟢 REJECTED ALTERNATIVE — Detailed View</span>';
+  } else {
+    branchChip = '<span style="display:inline-block; background:#1d4434; color:#fff; padding:2pt 8pt; border-radius:10pt; font-size:9pt; font-weight:700; margin-bottom:8pt;">🗺 COMBINED — Both Alignments</span>';
+  }
+
   return `
-<div class="page" style="text-align:center; padding: 20mm 16mm;">
-  <h2 style="color:${accentColor}; border-bottom:2px solid ${accentColor}; padding-bottom:6pt; margin-bottom:14pt;">
+<div class="page" style="text-align:center; padding: 14mm 12mm;">
+  <h2 style="color:${accentColor}; border-bottom:2px solid ${accentColor}; padding-bottom:5pt; margin-bottom:8pt; font-size:14pt;">
     ${heading}
   </h2>
-  <div style="font-size:11pt; color:#555; margin-bottom:14pt;">
+  ${branchChip}
+  <div style="font-size:10pt; color:#555; margin-bottom:8pt;">
     <strong>${escapeHtml(r.project)}</strong><br>
-    Alignment points: <strong>${alignCoords.length}</strong> · Total length: <strong>${totalM.toFixed(1)} m</strong><br>
-    Trees on map: <span style="color:#ad2e15; font-weight:600;">${selGps} selected</span> · <span style="color:#2f7857; font-weight:600;">${rejGps} rejected</span>
+    Points shown: <strong>${visCoords.length}</strong> alignment · Length: <strong>${totalM.toFixed(1)} m</strong> · Trees: <span style="color:#ad2e15; font-weight:600;">${selGps} sel</span> · <span style="color:#2f7857; font-weight:600;">${rejGps} rej</span>
   </div>
-  <div style="border:1px solid #888; border-radius:4pt; padding:6pt; background:#fff; display:inline-block; max-width:100%;">
+  <div style="border:1px solid #888; border-radius:4pt; padding:4pt; background:#fff; display:inline-block; max-width:100%;">
     ${svgMap}
   </div>
-  <div style="margin-top:12pt; font-size:9pt; color:#888;">
-    Coordinate system: WGS84 · Map generated: ${new Date().toLocaleDateString('en-IN')}
+  <div style="margin-top:8pt; font-size:8pt; color:#888;">
+    WGS84 · Auto-scaled to fit visible points · Generated: ${new Date().toLocaleDateString('en-IN')}
   </div>
 </div>`;
 }
