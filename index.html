@@ -20839,6 +20839,20 @@ async function autoPullOnStart() {
 }
 
 // Initialise dashboard pill + auto-pull when DOM is ready
+
+// ── DEFAULT CLOUD SYNC CONFIG (pre-wired to FC_Inspector_DB sheet) ──────────
+// Sets URL/key in localStorage only if not already saved by user.
+(function() {
+  var CS_URL_KEY = 'forest_cs_url_v1';
+  var CS_KEY_KEY = 'forest_cs_key_v1';
+  if (!localStorage.getItem(CS_URL_KEY)) {
+    localStorage.setItem(CS_URL_KEY, 'https://script.google.com/macros/s/AKfycbyaLK099GglJA0ic28S0MOiBdP4aQi_4ecik-7ZYtoJGI2-wxBmQgK6C2YrSHjkBkKz/exec');
+  }
+  if (!localStorage.getItem(CS_KEY_KEY)) {
+    localStorage.setItem(CS_KEY_KEY, 'gSzr3fSNdzK4R8Am7BrzKWPyQZz8c8AZ');
+  }
+})();
+
 document.addEventListener('DOMContentLoaded', function() {
   setTimeout(updateDashboardCloudSyncPill, 800);
   setTimeout(autoPullOnStart, 2500);  // give app time to load
