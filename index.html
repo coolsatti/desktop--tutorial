@@ -1249,6 +1249,7 @@ input[readonly].gps-display {
         <div class="field">
           <label>Alt alignment — Length (मी0)</label>
           <input type="number" id="f-alt-length" placeholder="e.g. 1050" step="0.1" min="0">
+          <div class="hint" style="font-size:11px; color:#56685c;">Rejected alternative may be <strong>longer or shorter</strong> than selected — enter actual surveyed length.</div>
         </div>
         <div class="field">
           <label>Alt alignment — Rejection reason</label>
@@ -1525,7 +1526,7 @@ input[readonly].gps-display {
   </div>
 
   <!-- ☁ Cloud Sync Status Pill (always visible when configured) -->
-  <div id="cs-dashboard-pill" style="display:none; background:#fff; border:1px solid var(--line); border-left:4px solid #2f7857; padding:10px 12px; margin:0 0 12px 0; border-radius:8px; font-size:12.5px; cursor:pointer;" onclick="document.querySelector('.tab[data-view=\u0022settings\u0022]').click(); setTimeout(()=>document.getElementById('cloud-sync-section')?.scrollIntoView({behavior:'smooth'}), 300);">
+  <div id="cs-dashboard-pill" style="display:none; background:#fff; border:1px solid var(--line); border-left:4px solid #2f7857; padding:10px 12px; margin:0 0 12px 0; border-radius:8px; font-size:12.5px; cursor:pointer;" onclick="document.querySelector('.tab[data-view=\u0022settings\u0022]')?.click(); setTimeout(()=>document.getElementById('cloud-sync-section')?.scrollIntoView({behavior:'smooth'}), 300);">
     <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
       <div style="display:flex; align-items:center; gap:8px; min-width:0; flex:1;">
         <span id="cs-pill-icon" style="font-size:16px; flex-shrink:0;">☁</span>
@@ -1549,8 +1550,8 @@ input[readonly].gps-display {
       Backup all your records to a private Google Sheet. <strong>Free</strong>, takes 5 minutes once. Then everything syncs automatically — recover anytime on any phone.
     </div>
     <div style="display:flex; gap:6px; flex-wrap:wrap;">
-      <button onclick="document.querySelector('.tab[data-view=\u0022settings\u0022]').click(); setTimeout(()=>{document.getElementById('cloud-sync-section')?.scrollIntoView({behavior:'smooth'}); setTimeout(()=>openCloudSyncWizard(),400);}, 300);" style="background:#b56516; color:#fff; border:none; padding:8px 16px; border-radius:6px; font-size:12px; font-weight:700; cursor:pointer;">⚙ Set Up Now</button>
-      <button onclick="document.querySelector('.tab[data-view=\u0022settings\u0022]').click(); setTimeout(()=>document.getElementById('cloud-sync-section')?.scrollIntoView({behavior:'smooth'}), 300);" style="background:rgba(255,255,255,0.15); color:#fff; border:1px solid rgba(255,255,255,0.3); padding:8px 16px; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer;">🔓 I have credentials — Restore</button>
+      <button onclick="document.querySelector('.tab[data-view=\u0022settings\u0022]')?.click(); setTimeout(()=>{document.getElementById('cloud-sync-section')?.scrollIntoView({behavior:'smooth'}); setTimeout(()=>{if(typeof openCloudSyncWizard==='function')openCloudSyncWizard();},400);}, 300);" style="background:#b56516; color:#fff; border:none; padding:8px 16px; border-radius:6px; font-size:12px; font-weight:700; cursor:pointer;">⚙ Set Up Now</button>
+      <button onclick="document.querySelector('.tab[data-view=\u0022settings\u0022]')?.click(); setTimeout(()=>document.getElementById('cloud-sync-section')?.scrollIntoView({behavior:'smooth'}), 300);" style="background:rgba(255,255,255,0.15); color:#fff; border:1px solid rgba(255,255,255,0.3); padding:8px 16px; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer;">🔓 I have credentials — Restore</button>
     </div>
   </div>
 
@@ -1625,7 +1626,7 @@ input[readonly].gps-display {
   <div class="section">
     <h2><span class="num">⚡</span>Quick Actions</h2>
     <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-      <button class="btn btn-primary" onclick="document.querySelector('.tab[data-view=form]').click();">
+      <button class="btn btn-primary" onclick="document.querySelector('.tab[data-view=form]')?.click();">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
         New Project
       </button>
@@ -1645,7 +1646,7 @@ input[readonly].gps-display {
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 2v13m-4-4l4 4 4-4M3 17v3a2 2 0 002 2h14a2 2 0 002-2v-3"/></svg>
         Install as App on Phone
       </button>
-      <button class="btn btn-ghost" onclick="document.querySelector('.tab[data-view=records]').click();" style="grid-column: span 2;">
+      <button class="btn btn-ghost" onclick="document.querySelector('.tab[data-view=records]')?.click();" style="grid-column: span 2;">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 3h18v18H3zM3 9h18M9 21V9"/></svg>
         All Records
       </button>
@@ -1969,8 +1970,19 @@ input[readonly].gps-display {
       </div>
     </div>
 
+    <div class="row2">
+      <div class="field">
+        <label>Computed area (m²)</label>
+        <input type="text" id="mk-area-sqm" readonly style="background:#f8f6f0;" placeholder="L × W">
+      </div>
+      <div class="field">
+        <label>Area (हे0)</label>
+        <input type="text" id="mk-area-ha" readonly style="background:#f8f6f0;" placeholder="in hectares">
+      </div>
+    </div>
+
     <div class="field">
-      <label>Land type</label>
+      <label>Land Category (भूमि श्रेणी)</label>
       <select id="mk-land-type">
         <option value="">— Select —</option>
         <option value="forest">Forest land</option>
@@ -5209,7 +5221,7 @@ document.getElementById('btn-t-gps-clear')?.addEventListener('click', () => {
 
 let _treePhoto = null;
 document.getElementById('btn-t-photo')?.addEventListener('click', () => {
-  document.getElementById('t-photo').click();
+  document.getElementById('t-photo')?.click();
 });
 document.getElementById('t-photo')?.addEventListener('change', e => {
   const file = e.target.files[0];
@@ -5320,7 +5332,7 @@ function processPhotoWithStamp(file, gps, onDone) {
 /* Muck point photo */
 let _muckPhoto = null, _muckPhotoMeta = null;
 document.getElementById('btn-mk-photo')?.addEventListener('click', () => {
-  document.getElementById('mk-photo').click();
+  document.getElementById('mk-photo')?.click();
 });
 document.getElementById('mk-photo')?.addEventListener('change', e => {
   const file = e.target.files[0];
@@ -5343,7 +5355,7 @@ document.getElementById('btn-mk-photo-clear')?.addEventListener('click', () => {
 /* Coord (GPS point) photo */
 let _coordPhoto = null, _coordPhotoMeta = null;
 document.getElementById('btn-c-photo')?.addEventListener('click', () => {
-  document.getElementById('c-photo').click();
+  document.getElementById('c-photo')?.click();
 });
 document.getElementById('c-photo')?.addEventListener('change', e => {
   const file = e.target.files[0];
@@ -6293,12 +6305,12 @@ function handleRecordAction(act, id) {
   } else if (act === 'dup') {
     window.__editingUuid = null;
     hideEditBanner();
-    document.querySelector('.tab[data-view="form"]').click();
+    document.querySelector('.tab[data-view="form"]')?.click();
     loadToForm({...rec, uuid: null, code: null});
     toast('Loaded as new — save to create duplicate');
   } else if (act === 'edit') {
     window.__editingUuid = rec.uuid;
-    document.querySelector('.tab[data-view="form"]').click();
+    document.querySelector('.tab[data-view="form"]')?.click();
     loadToForm(rec);
     showEditBanner(rec);
     toast('Editing ' + (rec.code || 'record'));
@@ -6790,7 +6802,7 @@ function showRecordDetail(r) {
   });
   document.getElementById('btn-rec-jir')?.addEventListener('click', () => {
     document.getElementById('modal-record').classList.remove('active');
-    document.querySelector('.tab[data-view="jir"]').click();
+    document.querySelector('.tab[data-view="jir"]')?.click();
     setTimeout(() => {
       const sel = document.getElementById('jir-record');
       if (sel) { sel.value = r.uuid; sel.dispatchEvent(new Event('change')); }
@@ -7053,7 +7065,7 @@ document.getElementById('btn-send-webhook').addEventListener('click', async () =
 
 /* Import */
 document.getElementById('btn-import').addEventListener('click', () => {
-  document.getElementById('import-file').click();
+  document.getElementById('import-file')?.click();
 });
 document.getElementById('import-file').addEventListener('change', e => {
   const file = e.target.files[0];
@@ -7221,7 +7233,7 @@ function renderProposal() {
   // Initialize with default selection (common proformas)
   if (selectedProformas.size === 0) {
     ['factSheet','fieldSheet','prof1','prof2','prof2_1','prof2_2','prof2_3','prof2_4','prof3','prof4','prof5',
-     'prof8','prof9','prof10','prof11','prof12','prof13','prof14','prof15','prof15_6','prof17','prof17_1',
+     'prof8','prof9','prof10','prof11','prof12','prof13','prof14','prof15','prof15_6','prof16','prof17','prof17_1',
      'prof18','prof19','prof21','prof23','prof23_3','prof24','prof28','prof30','prof32',
      'prof38','prof46','prof47','prof48','prof49']
       .forEach(id => selectedProformas.add(id));
@@ -11501,9 +11513,14 @@ function buildJIRHTML(r, type, opts, forWord) {
     if (vil) parts.push(vil);
     const lt = renderLandTypeSheet(r);
     if (lt) parts.push(lt);
-    // 🌳 BANJ SPECIAL ANNEXURE — always include (even if 0 Banj trees,
-    // acts as a "no Banj affected" certificate)
+    // 🌳 BANJ SPECIAL ANNEXURE — always included:
+    //   • If Banj trees present → shows count, DBH breakdown, per-tree table
+    //   • If no Banj trees → shows "no Banjh affected" certificate
     parts.push(renderBanjSpecialPage(r));
+    // Proforma-16 (Conservator certificate) only when Banj trees are actually there
+    if (getBanjTrees(r).length > 0) {
+      parts.push(proforma16(r));
+    }
   }
 
   // Append photo report page if trees have photos
@@ -13287,12 +13304,6 @@ function renderJIRPage(r, variant, opts) {
     </div>
     <div class="sig">
       <div class="sig-line">ह0/−</div>
-      <strong class="hindi">प्रयोक्ता एजेन्सी प्रतिनिधि</strong>
-      <span class="small hindi">(User Agency)</span>
-      ${signerMeta(r, 'userAgencyRep') || signerMeta(r, 'userAgency')}
-    </div>
-    <div class="sig">
-      <div class="sig-line">ह0/−</div>
       <strong class="hindi">वन विभाग प्रतिनिधि</strong>
       <span class="small hindi">(Forest Dept Rep — if different)</span>
       ${signerMeta(r, 'forestRep')}
@@ -13938,7 +13949,7 @@ function _renderDashProjects(recs) {
           <h3 style="margin:4px 0; color:var(--forest);">No projects yet</h3>
           <p style="color:var(--ink-soft); margin:8px 0 16px;">Tap below to add your first project or load the sample.</p>
           <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
-            <button class="btn btn-primary" onclick="document.querySelector('.tab[data-view=form]').click();" style="padding:10px 18px;">+ New Project</button>
+            <button class="btn btn-primary" onclick="document.querySelector('.tab[data-view=form]')?.click();" style="padding:10px 18px;">+ New Project</button>
             <button class="btn btn-amber" onclick="loadGopeshwarSample();" style="padding:10px 18px;">📋 Blank Template</button>
           </div>
         </div>`;
@@ -14139,7 +14150,7 @@ function _renderDashProjects(recs) {
       if (action === 'view') { showRecordDetail(rec); }
       else if (action === 'edit') {
         window.__editingUuid = rec.uuid;
-        document.querySelector('.tab[data-view="form"]').click();
+        document.querySelector('.tab[data-view="form"]')?.click();
         loadToForm(rec);
         showEditBanner(rec);
         toast('Editing ' + (rec.code || 'record'));
@@ -14154,7 +14165,7 @@ function _renderDashProjects(recs) {
       else if (action === 'tasks') {
         setCurrentProjectUuid(rec.uuid);
         updateCurrentBanner();
-        document.querySelector('.tab[data-view="letters"]').click();
+        document.querySelector('.tab[data-view="letters"]')?.click();
       }
       else if (action === 'quote') { openQuote(rec); }
       else if (action === 'invoice') { openInvoice(rec); }
@@ -14192,7 +14203,7 @@ function duplicateToForm(rec) { loadToForm(rec); }
 function loadToForm(rec) {
   // Only click tab if not already on form (loadRecordToForm pre-switches the tab)
   if (!window.__editingUuid) {
-    document.querySelector('.tab[data-view="form"]').click();
+    document.querySelector('.tab[data-view="form"]')?.click();
   }
   setTimeout(() => {
     // Fill all fields
@@ -18692,7 +18703,13 @@ function openMuckEditor(idx) {
       const l = parseFloat(modal.querySelector('#me-length').value) || 0;
       const w = parseFloat(modal.querySelector('#me-width').value) || 0;
       const d = parseFloat(modal.querySelector('#me-depth').value) || 0;
-      modal.querySelector('#me-volume').value = (l*w*d).toFixed(0) + ' cum';
+      const meVol = l*w*d;
+      modal.querySelector('#me-volume').value = meVol.toFixed(0) + ' cum';
+      const meArea = l*w;
+      const meSqmEl = modal.querySelector('#me-area-sqm');
+      const meHaEl  = modal.querySelector('#me-area-ha');
+      if (meSqmEl) meSqmEl.value = meArea > 0 ? meArea.toFixed(1) + ' m²' : '';
+      if (meHaEl)  meHaEl.value  = meArea > 0 ? (meArea/10000).toFixed(4) + ' हे0' : '';
     });
   });
   modal.querySelector('#me-save').onclick = () => {
@@ -18754,7 +18771,13 @@ document.getElementById('btn-add-muck')?.addEventListener('click', () => {
     const l = parseFloat(document.getElementById('mk-length').value) || 0;
     const w = parseFloat(document.getElementById('mk-width').value) || 0;
     const d = parseFloat(document.getElementById('mk-depth').value) || 0;
-    document.getElementById('mk-volume').value = (l * w * d).toFixed(0) + ' cum';
+    const vol = l * w * d;
+    document.getElementById('mk-volume').value = vol.toFixed(0) + ' cum';
+    const areaSqm = l * w;
+    const sqmEl = document.getElementById('mk-area-sqm');
+    const haEl  = document.getElementById('mk-area-ha');
+    if (sqmEl) sqmEl.value = areaSqm > 0 ? areaSqm.toFixed(1) + ' m²' : '';
+    if (haEl)  haEl.value  = areaSqm > 0 ? (areaSqm / 10000).toFixed(4) + ' हे0' : '';
   });
 });
 
@@ -19480,12 +19503,17 @@ function buildFullDossierHTML(rec) {
     sd6Html = m ? `<div class="dossier-page"><h2 style="color:#1d4434; border-bottom:2pt solid #b56516; padding-bottom:6pt;">7. SD6 — NPV &amp; CA Payment Sheet</h2>${m[1]}</div>` : '';
   } catch (e) { console.warn('SD6 failed:', e); }
 
-  // 🌳 Banj special annexure — always include
+  // 🌳 Banj annexure — always included in dossier:
+  //   • Banj present → details + Proforma-16
+  //   • Banj absent  → "no Banjh affected" certificate page
   let banjHtml = '';
   try {
     const banjPage = renderBanjSpecialPage(rec);
-    // Rewrap as dossier-page while preserving content
     banjHtml = `<div class="dossier-page">${banjPage}</div>`;
+    if (getBanjTrees(rec).length > 0) {
+      const prof16Page = proforma16(rec);
+      banjHtml += `<div class="dossier-page">${prof16Page}</div>`;
+    }
   } catch (e) { console.warn('Banj page failed:', e); }
 
   return `<!DOCTYPE html>
