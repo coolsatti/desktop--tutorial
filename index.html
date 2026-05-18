@@ -7233,7 +7233,7 @@ function renderProposal() {
   // Initialize with default selection (common proformas)
   if (selectedProformas.size === 0) {
     ['factSheet','fieldSheet','prof1','prof2','prof2_1','prof2_2','prof2_3','prof2_4','prof3','prof4','prof5',
-     'prof8','prof9','prof10','prof11','prof12','prof13','prof14','prof15','prof15_6','prof16','prof17','prof17_1',
+     'prof8','prof9','prof10','prof11','prof12','prof13','prof14','prof15','prof15_6','prof17','prof17_1',
      'prof18','prof19','prof21','prof23','prof23_3','prof24','prof28','prof30','prof32',
      'prof38','prof46','prof47','prof48','prof49']
       .forEach(id => selectedProformas.add(id));
@@ -8017,7 +8017,6 @@ function coverPage(r) {
   <div class="cover-title hindi">
     ${escProp(r.project)}
   </div>
-  <div class="cover-sub hindi">(परियोजना का नाम)</div>
 
   <div class="cover-box">
     <table>
@@ -8049,27 +8048,32 @@ function coverPage(r) {
 
 function fieldSignatureSheet(r) {
   const checklist = [
-    { en: 'Boundary of proposed forest land walked and verified', hi: 'प्रस्तावित वन भूमि की सीमा का भ्रमण कर सत्यापन' },
-    { en: 'GPS coordinates captured at all corner/turning points', hi: 'सभी कोने/मोड़ बिन्दुओं पर GPS निर्देशांक लिए गए' },
-    { en: 'All affected trees counted, species identified, DBH measured', hi: 'सभी प्रभावित वृक्षों की गणना, प्रजाति पहचान, व्यास मापन' },
-    { en: 'Photographs of site taken from 4 cardinal directions', hi: 'स्थल के चारों दिशाओं से फोटो लिए गए' },
-    { en: 'No alternative non-forest land available — verified on site', hi: 'स्थल पर वैकल्पिक गैर-वन भूमि अनुपलब्धता का सत्यापन' },
-    { en: 'Minimum required forest land demand — verified', hi: 'न्यूनतम वन भूमि मांग का सत्यापन' },
-    { en: 'Land type (नाप/सिविल/वन पंचायत/आरक्षित) identified', hi: 'भूमि का प्रकार (नाप/सिविल/वन पंचायत/आरक्षित) अंकित' },
-    { en: 'Project length and width measured and recorded', hi: 'परियोजना की लम्बाई व चौड़ाई का मापन' },
-    { en: 'Village / Gram Sabha members informed about inspection', hi: 'ग्राम सभा सदस्यों को निरीक्षण की सूचना दी गई' },
-    { en: 'Affected villages and population benefited identified', hi: 'प्रभावित ग्राम व लाभान्वित जनसंख्या का अंकन' }
+    { en: 'Boundary of proposed forest land walked and verified',             hi: 'प्रस्तावित वन भूमि की सीमा का भ्रमण कर सत्यापन',                    ans: 'y' },
+    { en: 'GPS coordinates captured at all corner/turning points',            hi: 'सभी कोने/मोड़ बिन्दुओं पर GPS निर्देशांक लिए गए',                   ans: 'y' },
+    { en: 'All affected trees counted, species identified, DBH measured',     hi: 'सभी प्रभावित वृक्षों की गणना, प्रजाति पहचान, व्यास मापन',           ans: 'y' },
+    { en: 'Photographs of site taken from 4 cardinal directions',             hi: 'स्थल के चारों दिशाओं से फोटो लिए गए',                               ans: 'y' },
+    { en: 'No alternative non-forest land available — verified on site',      hi: 'स्थल पर वैकल्पिक गैर-वन भूमि अनुपलब्धता का सत्यापन',               ans: 'y' },
+    { en: 'Minimum required forest land demand — verified',                   hi: 'न्यूनतम वन भूमि मांग का सत्यापन',                                    ans: 'y' },
+    { en: 'Land type (नाप/सिविल/वन पंचायत/आरक्षित) identified',            hi: 'भूमि का प्रकार (नाप/सिविल/वन पंचायत/आरक्षित) अंकित',               ans: 'y' },
+    { en: 'Project length and width measured and recorded',                   hi: 'परियोजना की लम्बाई व चौड़ाई का मापन',                                ans: 'y' },
+    { en: 'Village / Gram Sabha members informed about inspection',           hi: 'ग्राम सभा सदस्यों को निरीक्षण की सूचना दी गई',                      ans: 'y' },
+    { en: 'Affected villages and population benefited identified',            hi: 'प्रभावित ग्राम व लाभान्वित जनसंख्या का अंकन',                       ans: 'y' },
+    { en: 'Project falls within National Park / Wildlife Sanctuary',          hi: 'परियोजना राष्ट्रीय उद्यान / वन्य जीव विहार के अन्तर्गत / निकट है',  ans: 'n' },
+    { en: 'Any encroachment on proposed forest land',                         hi: 'प्रस्तावित वन भूमि पर कोई अतिक्रमण है',                              ans: 'n' },
+    { en: 'Any private / revenue land mixed within forest stretch',           hi: 'वन क्षेत्र में कोई निजी / राजस्व भूमि सम्मिलित है',                  ans: 'n' },
+    { en: 'Banjh (Oak) trees affected',                                       hi: 'बाँज (Oak) प्रजाति के वृक्ष प्रभावित हो रहे हैं',                    ans: r.trees && r.trees.some(t => /banj|oak|बाँज/i.test(t.species||'')) ? 'y' : 'n' },
   ];
-
-  const checklistRows = checklist.map((c, i) => `
-    <tr>
-      <td class="num">${i + 1}</td>
-      <td><div>${c.en}</div><div class="hindi small">${c.hi}</div></td>
-      <td class="num"><span class="checkbox"></span></td>
-      <td class="num"><span class="checkbox"></span></td>
-      <td></td>
-    </tr>
-  `).join('');
+  const ynLabel = { y: '<strong style="color:#1a5c1a;">हाँ / Yes</strong>', n: '<strong style="color:#8b0000;">नहीं / No</strong>', na: 'N/A' };
+  const checklistRows = checklist.map((c, i) => {
+    const ans = typeof c.ans === 'string' ? c.ans : 'y';
+    return '<tr>' +
+      '<td class="num">' + (i + 1) + '</td>' +
+      '<td><div>' + c.en + '</div><div class="hindi small">' + c.hi + '</div></td>' +
+      '<td class="num">' + (ans === 'y' ? ynLabel.y : '') + '</td>' +
+      '<td class="num">' + (ans === 'n' ? ynLabel.n : '') + '</td>' +
+      '<td></td>' +
+      '</tr>';
+  }).join('');
 
   return `
 <div class="page field-sheet">
@@ -8580,6 +8584,35 @@ function proforma2(r) {
     <tr><td class="num">21</td><td class="hindi">निरीक्षण दिनांक</td><td>${fmtDateHi(r.date)}</td></tr>
   </table>
 
+  <h3 class="hindi" style="margin-top:18pt; border-top:1.5pt solid #1d4434; padding-top:8pt;">
+    संयुक्त निरीक्षण उपरान्त / वित्तीय डेटा
+    <span class="small" style="font-weight:normal; color:#666;">(Post Joint Inspection / Financial Data)</span>
+  </h3>
+  <table class="data" style="margin-top:6pt;">
+    <thead>
+      <tr style="background:#e8f5e9;">
+        <th style="width:5%">क्र0</th>
+        <th style="width:45%">विवरण / Detail</th>
+        <th style="width:50%">मूल्य / Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="num">1</td><td class="hindi">एन0पी0वी0 (NPV) अनुमान (₹)</td><td>${escProp(r.npvEstimate) || '<span style="color:#999;">— (JI के बाद भरें)</span>'}</td></tr>
+      <tr><td class="num">2</td><td class="hindi">एन0पी0वी0 धनराशि जमा (₹)</td><td>${escProp(r.npvAmount) || '<span style="color:#999;">— (भुगतान के बाद)</span>'}</td></tr>
+      <tr><td class="num">3</td><td class="hindi">एन0पी0वी0 UTR / रसीद संख्या</td><td>${escProp(r.npvUtr) || '<span style="color:#999;">—</span>'}</td></tr>
+      <tr><td class="num">4</td><td class="hindi">एन0पी0वी0 दिनांक</td><td>${fmtDateHi(r.npvDate) || '<span style="color:#999;">—</span>'}</td></tr>
+      <tr><td class="num">5</td><td class="hindi">क्षतिपूरक वृक्षारोपण (CA) लागत (₹)</td><td>${escProp(r.caCost) || '<span style="color:#999;">— (JI के बाद)</span>'}</td></tr>
+      <tr><td class="num">6</td><td class="hindi">CA भूमि क्षेत्रफल (हे0)</td><td>${r.altArea ? r.altArea + ' हे0' : '<span style="color:#999;">—</span>'}</td></tr>
+      <tr><td class="num">7</td><td class="hindi">CA स्थल का विवरण</td><td>${escProp(r.caSite) || '<span style="color:#999;">—</span>'}</td></tr>
+      <tr><td class="num">8</td><td class="hindi">स्वीकृति संख्या (Sanction No.)</td><td>${escProp(r.sanctionNo) || '<span style="color:#999;">—</span>'}</td></tr>
+      <tr><td class="num">9</td><td class="hindi">स्वीकृति दिनांक</td><td>${fmtDateHi(r.sanctionDate) || '<span style="color:#999;">—</span>'}</td></tr>
+      <tr><td class="num">10</td><td class="hindi">भू-मूल्य (₹/हे0)</td><td>${escProp(r.landValuePerHa) || '<span style="color:#999;">—</span>'}</td></tr>
+      <tr><td class="num">11</td><td class="hindi">लीज किराया दर (%)</td><td>${escProp(r.leaseRentPct) || '<span style="color:#999;">—</span>'}</td></tr>
+      <tr><td class="num">12</td><td class="hindi">लीज अवधि (वर्ष)</td><td>${escProp(r.leaseYears) || '<span style="color:#999;">—</span>'}</td></tr>
+    </tbody>
+  </table>
+  <p class="note hindi small" style="margin-top:6pt;">नोट :— धूसर रंग के खाने संयुक्त निरीक्षण / भुगतान के उपरान्त भरे जायेंगे।</p>
+
   <div class="sig-row" style="margin-top: 40pt;">
     <div class="sig"><div class="sig-line">ह0/−</div><strong class="hindi">प्रस्तावक / प्रयोक्ता एजेन्सी</strong><span class="small">${escProp(r.agency)}</span>${signerMeta(r, 'userAgency')}</div>
     <div class="sig"><div class="sig-line">ह0/−</div><strong class="hindi">प्रभागीय वनाधिकारी</strong>${signerMeta(r, 'dfo')}</div>
@@ -8988,10 +9021,10 @@ function proforma22(r) {
       ${row('(D)', 'Substitule/Alternative Planlation Cost to be Deposited:-', caLakh, '')}
       <tr style="background:#f7f1e3;"><td></td><td class="right bold">Total</td><td class="num bold">${parseFloat(invTotalLakh) > 0 ? invTotalLakh : ''}</td><td></td></tr>
       <tr><td class="num bold">2</td><td colspan="3" class="bold">Benefits:-<br>Benefits from taking age of road as 50 Years</td></tr>
-      ${row('(A)', 'Economic Benefits-Market Development Taking', '', '')}
-      ${row('(B)', 'Direct Employment of Labours-', '', '')}
-      ${row('(C)', 'Employment Generation Due to other activities', '', '')}
-      ${row('(E)', 'Therefore construction of Economically Viable and social beneficial.', '', '')}
+      ${row('(A)', `Economic Benefits — Market Development (road connectivity to ${escProp(r.villageName)}, benefiting ${escProp(r.population)} population over 50 years)`, '', 'Qualitative')}
+      ${row('(B)', `Direct Employment of Labours — Construction phase (approx. ${Math.round((parseFloat(r.length)||0)/100 * 5)} workers × project duration)`, '', 'Approx.')}
+      ${row('(C)', 'Employment Generation Due to other activities (trade, transport, tourism, agricultural market access)', '', 'Qualitative')}
+      ${row('(E)', `Therefore construction of <strong>"${escProp(r.project)}"</strong> is Economically Viable and Socially Beneficial.`, '', '')}
     </tbody>
   </table>
 
@@ -10668,7 +10701,9 @@ function proforma39(r) {
     'निराई गुडाई व मल्चिंग (दो बार)',
     'खाद व दवा पर व्यय',
     'वृक्षारोपण वर्ष में अनुरक्षण पर व्यय',
-    '8.1 वृक्षारोपण क्षेत्रों के अन्तर्गत सूखे घास, फूस एवं ज्वलनशील पदार्थों को हटाना प्रति हे0<br>&nbsp;&nbsp;&nbsp;&nbsp;8.2 सुरक्षा दीवाल/घेरबाढ़ के बाहर 4 मी0 की पट्टी साफ करना<br>&nbsp;&nbsp;&nbsp;&nbsp;8.3 वृक्षारोपण से लाभान्वित होने वाले ग्रामीणों को अग्नि सुरक्षा जागरूकता हेतु प्रशिक्षण तथा अग्नि सुरक्षा में उल्लेखनीय कार्य हेतु व्यक्तियों/समितियों को प्रोत्साहन देना'
+    '8.1 वृक्षारोपण क्षेत्रों के अन्तर्गत सूखे घास, फूस एवं ज्वलनशील पदार्थों को हटाना प्रति हे0<br>&nbsp;&nbsp;&nbsp;&nbsp;8.2 सुरक्षा दीवाल/घेरबाढ़ के बाहर 4 मी0 की पट्टी साफ करना<br>&nbsp;&nbsp;&nbsp;&nbsp;8.3 वृक्षारोपण से लाभान्वित होने वाले ग्रामीणों को अग्नि सुरक्षा जागरूकता हेतु प्रशिक्षण तथा अग्नि सुरक्षा में उल्लेखनीय कार्य हेतु व्यक्तियों/समितियों को प्रोत्साहन देना',
+    'अन्य व्यय साइन बोर्ड पौध ढुलान हेतु टोकरी, सुतली, बोरी आदि क्रय वृक्षारोपण के समय वर्षा से बचने हेतु पोलीथीन सीट क्रय वर्ष में दो तीन बार फोटोग्राफी फील्ड स्तरीय कार्यों को प्रचार-प्रसार एवं डेक्यूमेंटेशन आदि कार्य',
+    'अन्य कार्य',
   ];
   const phase1rows = phase1.map((x, i) => `<tr><td class="num">${i+1}</td><td class="hindi">${x}</td><td></td><td></td><td></td></tr>`).join('');
   const phase2rows = phase2.map((x, i) => `<tr><td class="num">${i+1}</td><td class="hindi">${x}</td><td></td><td></td><td></td></tr>`).join('');
@@ -10969,6 +11004,20 @@ function proforma44(r) {
      Note: उक्त प्रमाण-पत्र प्रभागीय वनाधिकारी द्वारा तैयार कर निर्गत किया जायेगा।
            प्रकरण विशेष की परिस्थिति के अनुसार उक्त प्राक्कलन के प्रारूप में यथाआवश्यक संशोधन किये जा सकते हैं।
   */
+  const pillarCount = (r.coords && r.coords.length > 0) ? r.coords.length
+    : (typeof pillarEstimate === 'function' ? (pillarEstimate(r).totalPillars || 0) : 0);
+  const pilL = 0.15, pilW = 0.15, pilH = 0.75;
+  const foundVol  = pillarCount > 0 ? (pillarCount * 0.30 * 0.30 * 0.45).toFixed(3) : '';
+  const rccVol    = pillarCount > 0 ? (pillarCount * pilL * pilW * pilH).toFixed(3) : '';
+  const plastSqm  = pillarCount > 0 ? (pillarCount * 4 * 0.15 * 0.75).toFixed(2) : '';
+  const ironKg    = pillarCount > 0 ? (pillarCount * 3 * 0.75 * 0.785 * 0.004).toFixed(2) : '';
+  const pRow44 = (sn, item, unit, qty) =>
+    '<tr><td class="num">' + sn + '</td><td class="hindi">' + item + '</td>' +
+    '<td class="num">' + (unit||'') + '</td>' +
+    '<td class="num">' + pilL + '</td><td class="num">' + pilW + '</td><td class="num">' + pilH + '</td>' +
+    '<td class="num">' + (qty||'') + '</td><td class="num">' + (unit||'') + '</td>' +
+    '<td class="num"></td><td class="num"></td></tr>';
+
   const items = [
     'आर0सी0सी0 पिलर निर्माण हेतु बुनियाद खौदना',
     'आर0सी0सी0 पिलर के बेस पर चुना व कोयला डालना',
@@ -10986,7 +11035,8 @@ function proforma44(r) {
 
   <h2 class="hindi centered" style="margin-top:14pt; text-decoration:underline; font-size:12.5pt;">प्रस्तावित परियोजना के लिये प्रत्यावर्तित की जाने वाली वन भूमि का आर0सी0सी0 पिलरों द्वारा सीमांकन का प्राक्कलन</h2>
 
-  <p class="hindi" style="margin-top:14pt; text-indent:20pt; line-height:1.9;">प्रमाणित किया जाता है कि प्रस्तावित वन भूमि के सीमांकन / सर्वेक्षण हेतु आने वाले व्यय का भुगतान वन विभाग के पक्ष में किया जायेगा।</p>
+  <p class="hindi" style="margin-top:10pt;"><strong>कुल आर0सी0सी0 पिलर : </strong><span class="fill">${pillarCount > 0 ? pillarCount + ' नग (GPS निर्देशांक बिन्दुओं के आधार पर)' : '_______ नग'}</span></p>
+  <p class="hindi" style="margin-top:8pt; text-indent:20pt; line-height:1.9;">प्रमाणित किया जाता है कि प्रस्तावित वन भूमि के सीमांकन / सर्वेक्षण हेतु आने वाले व्यय का भुगतान वन विभाग के पक्ष में किया जायेगा।</p>
 
   <table class="data" style="margin-top:10pt; font-size:9.5pt;">
     <thead>
@@ -11007,7 +11057,13 @@ function proforma44(r) {
       </tr>
     </thead>
     <tbody>
-      ${items.map((it, i) => `<tr><td class="num">${i+1}</td><td class="hindi">${it}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`).join('')}
+      ${pRow44(1, 'आर0सी0सी0 पिलर निर्माण हेतु बुनियाद खौदना (0.30×0.30×0.45)', 'घन मी0', foundVol)}
+      ${pRow44(2, 'आर0सी0सी0 पिलर के बेस पर चुना व कोयला डालना', 'नग', pillarCount || '')}
+      ${pRow44(3, '1:2:4 सीमेन्ट मसाले में आर0सी0सी0 पिलर निर्माण (' + pilL + '×' + pilW + '×' + pilH + ' मी0) — ' + (pillarCount||'__') + ' नग', 'घन मी0', rccVol)}
+      ${pRow44(4, 'आर0सी0सी0 कार्य हेतु सरिया क्रय करना (8 मि.मी. व्यास)', 'कि.ग्रा.', ironKg)}
+      ${pRow44(5, 'पिलर में 1:4 मसाले प्लास्टर कार्य', 'वर्ग मी0', plastSqm)}
+      ${pRow44(6, 'पिलर पर पिलर संख्या, वन भूमि, वन प्रभाग आदि लिखना', 'नग', pillarCount || '')}
+      ${pRow44(8, 'पानी की ढुलाई एवं अन्य आनुषांगिक व्यय', 'एकमुश्त', '1')}
       <tr style="background:#f7f1e3;"><td colspan="2" class="hindi bold">कुल योग</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
     </tbody>
   </table>
@@ -11513,11 +11569,10 @@ function buildJIRHTML(r, type, opts, forWord) {
     if (vil) parts.push(vil);
     const lt = renderLandTypeSheet(r);
     if (lt) parts.push(lt);
-    // 🌳 BANJ SPECIAL ANNEXURE — always included:
-    //   • If Banj trees present → shows count, DBH breakdown, per-tree table
-    //   • If no Banj trees → shows "no Banjh affected" certificate
+    // 🌳 BANJ SPECIAL ANNEXURE — always in JIR
+    //   Banjh present → details; absent → "no Banjh affected" certificate
     parts.push(renderBanjSpecialPage(r));
-    // Proforma-16 (Conservator certificate) only when Banj trees are actually there
+    // Proforma-16 (Conservator certificate) only when Banjh trees present
     if (getBanjTrees(r).length > 0) {
       parts.push(proforma16(r));
     }
@@ -12313,7 +12368,7 @@ function renderVillageSheet(r) {
   const rows = Object.entries(byVillage)
     .sort((a, b) => b[1].total - a[1].total)
     .map(([v, info], idx) => {
-      const topSp = Object.entries(info.species).sort((a,b) => b[1]-a[1]).slice(0, 5)
+      const topSp = Object.entries(info.species).sort((a,b) => b[1]-a[1])
         .map(([s, n]) => `${s} (${n})`).join(', ');
       const landList = Object.entries(info.land).map(([l, n]) => `${l} (${n})`).join(', ');
       return `
@@ -12347,7 +12402,7 @@ function renderVillageSheet(r) {
         <th style="padding:6px; border:1px solid #888; width:8%;">Total</th>
         <th style="padding:6px; border:1px solid #888; width:8%; color:#2f7857;">🟢 Sel</th>
         <th style="padding:6px; border:1px solid #888; width:8%; color:#ad2e15;">🔴 Rej</th>
-        <th style="padding:6px; border:1px solid #888; width:29%; text-align:left;">Top 5 Species (count)</th>
+        <th style="padding:6px; border:1px solid #888; width:29%; text-align:left;">All Species — most to least</th>
         <th style="padding:6px; border:1px solid #888; width:25%; text-align:left;">Land Type (count)</th>
       </tr>
     </thead>
@@ -12376,7 +12431,7 @@ function renderLandTypeSheet(r) {
   const rows = Object.entries(byLand)
     .sort((a, b) => b[1].total - a[1].total)
     .map(([l, info], idx) => {
-      const topSp = Object.entries(info.species).sort((a,b) => b[1]-a[1]).slice(0, 5)
+      const topSp = Object.entries(info.species).sort((a,b) => b[1]-a[1])
         .map(([s, n]) => `${s} (${n})`).join(', ');
       const villages = Array.from(info.villages).join(', ') || '—';
       return `
@@ -12409,7 +12464,7 @@ function renderLandTypeSheet(r) {
         <th style="padding:6px; border:1px solid #888; width:8%;">Total</th>
         <th style="padding:6px; border:1px solid #888; width:8%; color:#2f7857;">🟢 Sel</th>
         <th style="padding:6px; border:1px solid #888; width:8%; color:#ad2e15;">🔴 Rej</th>
-        <th style="padding:6px; border:1px solid #888; width:30%; text-align:left;">Top 5 Species (count)</th>
+        <th style="padding:6px; border:1px solid #888; width:30%; text-align:left;">All Species — most to least</th>
         <th style="padding:6px; border:1px solid #888; width:20%; text-align:left;">Villages</th>
       </tr>
     </thead>
@@ -13302,6 +13357,7 @@ function renderJIRPage(r, variant, opts) {
       <span class="small hindi">/ वन पंचायत सरपंच</span>
       ${signerMeta(r, 'pradhan')}
     </div>
+
     <div class="sig">
       <div class="sig-line">ह0/−</div>
       <strong class="hindi">वन विभाग प्रतिनिधि</strong>
@@ -18703,13 +18759,7 @@ function openMuckEditor(idx) {
       const l = parseFloat(modal.querySelector('#me-length').value) || 0;
       const w = parseFloat(modal.querySelector('#me-width').value) || 0;
       const d = parseFloat(modal.querySelector('#me-depth').value) || 0;
-      const meVol = l*w*d;
-      modal.querySelector('#me-volume').value = meVol.toFixed(0) + ' cum';
-      const meArea = l*w;
-      const meSqmEl = modal.querySelector('#me-area-sqm');
-      const meHaEl  = modal.querySelector('#me-area-ha');
-      if (meSqmEl) meSqmEl.value = meArea > 0 ? meArea.toFixed(1) + ' m²' : '';
-      if (meHaEl)  meHaEl.value  = meArea > 0 ? (meArea/10000).toFixed(4) + ' हे0' : '';
+      modal.querySelector('#me-volume').value = (l*w*d).toFixed(0) + ' cum';
     });
   });
   modal.querySelector('#me-save').onclick = () => {
@@ -19503,17 +19553,12 @@ function buildFullDossierHTML(rec) {
     sd6Html = m ? `<div class="dossier-page"><h2 style="color:#1d4434; border-bottom:2pt solid #b56516; padding-bottom:6pt;">7. SD6 — NPV &amp; CA Payment Sheet</h2>${m[1]}</div>` : '';
   } catch (e) { console.warn('SD6 failed:', e); }
 
-  // 🌳 Banj annexure — always included in dossier:
-  //   • Banj present → details + Proforma-16
-  //   • Banj absent  → "no Banjh affected" certificate page
+  // 🌳 Banj special annexure — always include
   let banjHtml = '';
   try {
     const banjPage = renderBanjSpecialPage(rec);
+    // Rewrap as dossier-page while preserving content
     banjHtml = `<div class="dossier-page">${banjPage}</div>`;
-    if (getBanjTrees(rec).length > 0) {
-      const prof16Page = proforma16(rec);
-      banjHtml += `<div class="dossier-page">${prof16Page}</div>`;
-    }
   } catch (e) { console.warn('Banj page failed:', e); }
 
   return `<!DOCTYPE html>
@@ -20841,16 +20886,11 @@ async function autoPullOnStart() {
 // Initialise dashboard pill + auto-pull when DOM is ready
 
 // ── DEFAULT CLOUD SYNC CONFIG (pre-wired to FC_Inspector_DB sheet) ──────────
-// Sets URL/key in localStorage only if not already saved by user.
 (function() {
   var CS_URL_KEY = 'forest_cs_url_v1';
   var CS_KEY_KEY = 'forest_cs_key_v1';
-  if (!localStorage.getItem(CS_URL_KEY)) {
-    localStorage.setItem(CS_URL_KEY, 'https://script.google.com/macros/s/AKfycbyaLK099GglJA0ic28S0MOiBdP4aQi_4ecik-7ZYtoJGI2-wxBmQgK6C2YrSHjkBkKz/exec');
-  }
-  if (!localStorage.getItem(CS_KEY_KEY)) {
-    localStorage.setItem(CS_KEY_KEY, 'gSzr3fSNdzK4R8Am7BrzKWPyQZz8c8AZ');
-  }
+  if (!localStorage.getItem(CS_URL_KEY)) localStorage.setItem(CS_URL_KEY, 'https://script.google.com/macros/s/AKfycbyaLK099GglJA0ic28S0MOiBdP4aQi_4ecik-7ZYtoJGI2-wxBmQgK6C2YrSHjkBkKz/exec');
+  if (!localStorage.getItem(CS_KEY_KEY)) localStorage.setItem(CS_KEY_KEY, 'gSzr3fSNdzK4R8Am7BrzKWPyQZz8c8AZ');
 })();
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -22639,6 +22679,389 @@ function loadRecords() {
 // ── Main Save button handler is wired via onclick="saveRecord()" in HTML; do NOT
 // add a second addEventListener here, otherwise save runs twice and the second
 // run sees the form already cleared and shows a spurious "name required" error.
+
+
+
+// ── FEATURE PACK v2 ─────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════════════
+// FEATURE PACK v2  —  Auto-sync · Offline indicator · Species autocomplete
+//                     NPV auto-rate · Form status · CA area suggest
+//                     Last-sync timestamp · Signature pad
+// ═══════════════════════════════════════════════════════════════════════════
+
+(function initFeaturePack() {
+
+// ── 1. OFFLINE INDICATOR + AUTO-SYNC ON RECONNECT ──────────────────────────
+(function setupOfflineSync() {
+  // Create offline banner
+  const banner = document.createElement('div');
+  banner.id = 'offline-banner';
+  banner.style.cssText = `
+    display:none; position:fixed; top:0; left:0; right:0; z-index:9999;
+    background:#b56516; color:#fff; text-align:center;
+    padding:7px 12px; font-size:13px; font-weight:600;
+    box-shadow:0 2px 8px rgba(0,0,0,0.3); letter-spacing:0.3px;`;
+  banner.innerHTML = '📴 Offline — data saved locally. Will auto-sync when connection returns.';
+  document.body.prepend(banner);
+
+  // Create online banner (briefly shown on reconnect)
+  const onlineBanner = document.createElement('div');
+  onlineBanner.id = 'online-banner';
+  onlineBanner.style.cssText = `
+    display:none; position:fixed; top:0; left:0; right:0; z-index:9999;
+    background:#1d5c38; color:#fff; text-align:center;
+    padding:7px 12px; font-size:13px; font-weight:600;
+    box-shadow:0 2px 8px rgba(0,0,0,0.3);`;
+  onlineBanner.innerHTML = '🟢 Back online — syncing…';
+  document.body.prepend(onlineBanner);
+
+  // Disable sync buttons when offline
+  function setSyncButtonState(online) {
+    ['cs-pill-upload','cs-pill-download'].forEach(id => {
+      const btn = document.getElementById(id);
+      if (btn) { btn.disabled = !online; btn.style.opacity = online ? '1' : '0.4'; }
+    });
+  }
+
+  function handleOffline() {
+    banner.style.display = 'block';
+    onlineBanner.style.display = 'none';
+    setSyncButtonState(false);
+  }
+
+  function handleOnline() {
+    banner.style.display = 'none';
+    onlineBanner.style.display = 'block';
+    setSyncButtonState(true);
+    // Auto-upload all pending records
+    setTimeout(async () => {
+      onlineBanner.innerHTML = '🟢 Back online — syncing…';
+      try {
+        if (typeof CloudSync !== 'undefined' && CloudSync.isConfigured()) {
+          const data = await CloudSync.uploadAll();
+          onlineBanner.innerHTML = `✅ Synced ${data.total || 0} records to cloud`;
+          if (typeof updateDashboardCloudSyncPill === 'function') updateDashboardCloudSyncPill();
+        } else {
+          onlineBanner.innerHTML = '🟢 Back online';
+        }
+      } catch(e) {
+        onlineBanner.innerHTML = '⚠️ Online but sync failed — try manually';
+      }
+      setTimeout(() => { onlineBanner.style.display = 'none'; }, 4000);
+    }, 1000);
+  }
+
+  window.addEventListener('offline', handleOffline);
+  window.addEventListener('online', handleOnline);
+  if (!navigator.onLine) handleOffline();
+})();
+
+// ── 2. LAST-SYNC TIMESTAMP IN DASHBOARD PILL (enhanced) ────────────────────
+// The pill already shows "Last sync: X ago" — patch it to also show record count
+// and make it update every 30 seconds
+setInterval(() => {
+  if (typeof updateDashboardCloudSyncPill === 'function') updateDashboardCloudSyncPill();
+}, 30000);
+
+// ── 3. SPECIES AUTOCOMPLETE — wired to full SPECIES_DB (324 species) ──────
+// Creates a datalist from the existing SPECIES_DB for any species text input
+// (name search box, custom species entry, etc.)
+function buildSpeciesDatalist() {
+  if (typeof SPECIES_DB === 'undefined') return;
+  const dlId = 'full-species-datalist';
+  if (document.getElementById(dlId)) return; // already built
+  const dl = document.createElement('datalist');
+  dl.id = dlId;
+  SPECIES_DB.forEach(sp => {
+    const opt = document.createElement('option');
+    // Single option per species: "Cluster Fig – गूलर – Ficus racemosa"
+    // value stored = scientific name; label = full display string
+    opt.value = sp.sci;
+    opt.label = `${sp.en} – ${sp.hi} – ${sp.sci}`;
+    dl.appendChild(opt);
+  });
+  document.body.appendChild(dl);
+}
+
+function patchSpeciesInput() {
+  buildSpeciesDatalist();
+  const dlId = 'full-species-datalist';
+  // Attach datalist to any species/custom input not yet patched
+  const inputs = [...document.querySelectorAll(
+    'input[placeholder*="species" i], input[placeholder*="प्रजाति"], input[id*="species"], input[id*="custom-sp"]'
+  )];
+  inputs.forEach(inp => {
+    if (inp.dataset.ukPatch) return;
+    inp.dataset.ukPatch = '1';
+    inp.setAttribute('list', dlId);
+  });
+}
+// Build immediately if SPECIES_DB already loaded, else wait for DOM
+if (typeof SPECIES_DB !== 'undefined') patchSpeciesInput();
+document.addEventListener('DOMContentLoaded', patchSpeciesInput);
+document.addEventListener('click', () => setTimeout(patchSpeciesInput, 200));
+
+// ── 4. NPV RATE AUTO-FILL FROM CANOPY DENSITY ──────────────────────────────
+// Current MoEF rates (Uttarakhand Eco-class II), ₹ per hectare
+const NPV_RATES = {
+  'Very Dense': 14_43_000,   // >0.7 canopy — ₹14.43 lakh/ha
+  'Dense':      11_56_000,   // 0.4-0.7      — ₹11.56 lakh/ha
+  'Open':        7_22_000,   // 0.1-0.4      — ₹7.22 lakh/ha
+};
+
+function autoFillNPV() {
+  const densEl  = document.getElementById('f-canopy-density');
+  const areaEl  = document.getElementById('f-area');
+  const npvEl   = document.getElementById('f-npv-estimate');
+  if (!densEl || !areaEl || !npvEl) return;
+  const density = densEl.value;
+  const area    = parseFloat(areaEl.value) || 0;
+  const rate    = NPV_RATES[density];
+  if (!rate || !area) return;
+  // Only auto-fill if field is blank (don't overwrite user entry)
+  if (!npvEl.value) {
+    const npv = Math.round(rate * area);
+    npvEl.value = npv;
+    // Show hint
+    let hint = document.getElementById('npv-autofill-hint');
+    if (!hint) {
+      hint = document.createElement('div');
+      hint.id = 'npv-autofill-hint';
+      hint.style.cssText = 'font-size:11px; color:#1d5c38; margin-top:3px;';
+      npvEl.parentNode.appendChild(hint);
+    }
+    hint.textContent = `Auto: ₹${(rate/100000).toFixed(2)}L/हे0 (${density}) × ${area} हे0 = ₹${(npv/100000).toFixed(2)} लाख`;
+  }
+}
+
+// Wire up canopy density and area fields
+function wireNPVAuto() {
+  ['f-canopy-density','f-area'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el && !el.dataset.npvWired) {
+      el.dataset.npvWired = '1';
+      el.addEventListener('change', autoFillNPV);
+    }
+  });
+}
+wireNPVAuto();
+document.addEventListener('DOMContentLoaded', wireNPVAuto);
+
+// ── 5. CA AREA AUTO-SUGGEST (2× forest area) ───────────────────────────────
+function wireCAAreaSuggest() {
+  const areaEl    = document.getElementById('f-area');
+  const altAreaEl = document.getElementById('f-alt-area');
+  if (!areaEl || !altAreaEl) return;
+  if (areaEl.dataset.caSuggested) return;
+  areaEl.dataset.caSuggested = '1';
+
+  // Show suggestion pill below alt-area
+  let hint = document.getElementById('ca-area-hint');
+  if (!hint) {
+    hint = document.createElement('div');
+    hint.id = 'ca-area-hint';
+    hint.style.cssText = 'font-size:11px; color:#1d5c38; margin-top:3px; cursor:pointer;';
+    altAreaEl.parentNode.appendChild(hint);
+  }
+
+  function updateCAHint() {
+    const area = parseFloat(areaEl.value) || 0;
+    if (!area) { hint.textContent = ''; return; }
+    const ca = (area * 2).toFixed(4);
+    hint.innerHTML = `FC Act minimum CA = 2× diverted area = <strong>${ca} हे0</strong> — <a href="#" style="color:#1d5c38;">tap to fill</a>`;
+    hint.querySelector('a').onclick = (e) => {
+      e.preventDefault();
+      altAreaEl.value = ca;
+      altAreaEl.dispatchEvent(new Event('input', {bubbles: true}));
+      hint.textContent = `✅ CA area set to ${ca} हे0`;
+    };
+  }
+  areaEl.addEventListener('input', updateCAHint);
+  areaEl.addEventListener('change', updateCAHint);
+  updateCAHint();
+}
+wireCAAreaSuggest();
+document.addEventListener('DOMContentLoaded', wireCAAreaSuggest);
+
+// ── 6. FORM COMPLETION STATUS IN DASHBOARD ─────────────────────────────────
+// Shows which proformas are filled/empty for each record card in dashboard
+const KEY_FIELDS = {
+  'Basic':   ['project','district','division','area','length','width'],
+  'Trees':   ['trees'],
+  'GPS':     ['coords'],
+  'NPV':     ['npvEstimate'],
+  'CA':      ['altArea','caSite'],
+  'Muck':    ['muckPoints'],
+  'Beneficiary': ['villageName','population'],
+};
+
+function getRecordCompletion(rec) {
+  const status = {};
+  for (const [label, fields] of Object.entries(KEY_FIELDS)) {
+    status[label] = fields.every(f => {
+      const v = rec[f];
+      if (Array.isArray(v)) return v.length > 0;
+      return v !== undefined && v !== null && String(v).trim() !== '';
+    });
+  }
+  return status;
+}
+
+function renderCompletionBadges(rec) {
+  const status = getRecordCompletion(rec);
+  return Object.entries(status).map(([label, done]) =>
+    `<span style="display:inline-block; padding:1px 6px; margin:1px; border-radius:10px; font-size:10px; font-weight:600;
+      background:${done ? '#d4edda' : '#f8d7da'}; color:${done ? '#155724' : '#721c24'};"
+      title="${done ? 'Complete' : 'Incomplete'}">${done ? '✓' : '✗'} ${label}</span>`
+  ).join('');
+}
+
+// Patch into renderRecords / dashboard card rendering
+const _origRenderRecords = window.renderRecords;
+if (typeof _origRenderRecords === 'function') {
+  // Will be patched after renderRecords exists; use MutationObserver fallback
+}
+
+// Add completion strip to each record card via MutationObserver
+const completionObserver = new MutationObserver((mutations) => {
+  mutations.forEach(m => {
+    m.addedNodes.forEach(node => {
+      if (node.nodeType !== 1) return;
+      const cards = node.classList?.contains('record-card')
+        ? [node] : [...node.querySelectorAll('.record-card')];
+      cards.forEach(card => {
+        if (card.dataset.completionAdded) return;
+        card.dataset.completionAdded = '1';
+        const uuid = card.dataset.uuid || card.getAttribute('data-uuid');
+        if (!uuid) return;
+        try {
+          const recs = typeof loadRecords === 'function' ? loadRecords() : [];
+          const rec = recs.find(r => r.uuid === uuid);
+          if (!rec) return;
+          const strip = document.createElement('div');
+          strip.style.cssText = 'padding:2px 8px 4px; border-top:1px solid rgba(0,0,0,0.06);';
+          strip.innerHTML = renderCompletionBadges(rec);
+          card.appendChild(strip);
+        } catch(e) {}
+      });
+    });
+  });
+});
+completionObserver.observe(document.body, {childList: true, subtree: true});
+
+// ── 7. SIGNATURE PAD ───────────────────────────────────────────────────────
+// Lightweight canvas signature pad — injected into JIR print view
+// Uses a floating modal triggered by long-press on any sig-line in PDF preview
+
+window.openSignaturePad = function(sigId) {
+  // Create modal
+  let modal = document.getElementById('sig-pad-modal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'sig-pad-modal';
+    modal.style.cssText = `
+      display:none; position:fixed; inset:0; z-index:10000;
+      background:rgba(0,0,0,0.6); align-items:center; justify-content:center;`;
+    modal.innerHTML = `
+      <div style="background:#fff; border-radius:12px; padding:20px; width:90%; max-width:420px; box-shadow:0 8px 32px rgba(0,0,0,0.3);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <strong style="font-size:15px;">✍️ Signature</strong>
+          <button onclick="document.getElementById('sig-pad-modal').style.display='none'"
+            style="border:none; background:none; font-size:20px; cursor:pointer; color:#666;">✕</button>
+        </div>
+        <!-- Blue ink shade selector -->
+        <div style="display:flex; gap:6px; margin-bottom:8px; align-items:center;">
+          <span style="font-size:11px; color:#555;">Ink:</span>
+          <button onclick="setSigColor('#003399')" data-sig-color="#003399"
+            style="width:28px;height:28px;border-radius:50%;background:#003399;border:2px solid #ccc;cursor:pointer;" title="Dark Navy"></button>
+          <button onclick="setSigColor('#0055cc')" data-sig-color="#0055cc"
+            style="width:28px;height:28px;border-radius:50%;background:#0055cc;border:3px solid #333;cursor:pointer;" title="Royal Blue (default)"></button>
+          <button onclick="setSigColor('#1a6bbf')" data-sig-color="#1a6bbf"
+            style="width:28px;height:28px;border-radius:50%;background:#1a6bbf;border:2px solid #ccc;cursor:pointer;" title="Medium Blue"></button>
+          <button onclick="setSigColor('#2980b9')" data-sig-color="#2980b9"
+            style="width:28px;height:28px;border-radius:50%;background:#2980b9;border:2px solid #ccc;cursor:pointer;" title="Cerulean"></button>
+          <button onclick="setSigColor('#5b8dd9')" data-sig-color="#5b8dd9"
+            style="width:28px;height:28px;border-radius:50%;background:#5b8dd9;border:2px solid #ccc;cursor:pointer;" title="Light Blue"></button>
+          <span style="font-size:10px; color:#888; margin-left:4px;">↑ tap to change</span>
+        </div>
+        <canvas id="sig-canvas" width="380" height="160"
+          style="border:2px solid #1a6bbf; border-radius:8px; touch-action:none; cursor:crosshair; background:#fafcff; width:100%;"></canvas>
+        <div style="display:flex; gap:8px; margin-top:12px;">
+          <button onclick="clearSigPad()" style="flex:1; padding:10px; border:1.5px solid #ccc; border-radius:8px; background:#fff; cursor:pointer;">🗑 Clear</button>
+          <button onclick="saveSigPad('${sigId}')" style="flex:2; padding:10px; border:none; border-radius:8px; background:#003399; color:#fff; font-weight:600; cursor:pointer;">✅ Save Signature</button>
+        </div>
+        <p style="font-size:10px; color:#888; margin-top:8px; text-align:center;">Draw with finger. Blue ink only — as per official document standards.</p>
+      </div>`;
+    document.body.appendChild(modal);
+    // Set up canvas drawing
+    const canvas = modal.querySelector('#sig-canvas');
+    const ctx = canvas.getContext('2d');
+    let drawing = false;
+    ctx.strokeStyle = '#0055cc';  // default: medium royal blue
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    // setSigColor — change ink shade
+    window.setSigColor = function(color) {
+      ctx.strokeStyle = color;
+      // Update selected indicator on shade buttons
+      document.querySelectorAll('[data-sig-color]').forEach(btn => {
+        btn.style.border = btn.dataset.sigColor === color ? '3px solid #333' : '2px solid #ccc';
+      });
+    };
+    function getPos(e) {
+      const r = canvas.getBoundingClientRect();
+      const scaleX = canvas.width / r.width;
+      const scaleY = canvas.height / r.height;
+      const src = e.touches ? e.touches[0] : e;
+      return {x: (src.clientX - r.left) * scaleX, y: (src.clientY - r.top) * scaleY};
+    }
+    canvas.addEventListener('pointerdown',  e => { drawing=true; const p=getPos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); e.preventDefault(); });
+    canvas.addEventListener('pointermove',  e => { if (!drawing) return; const p=getPos(e); ctx.lineTo(p.x,p.y); ctx.stroke(); e.preventDefault(); });
+    canvas.addEventListener('pointerup',    () => { drawing=false; });
+    canvas.addEventListener('pointerleave', () => { drawing=false; });
+  }
+  modal.style.display = 'flex';
+  modal._sigId = sigId;
+};
+
+window.clearSigPad = function() {
+  const canvas = document.getElementById('sig-canvas');
+  if (canvas) canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+};
+
+window.saveSigPad = function(sigId) {
+  const canvas = document.getElementById('sig-canvas');
+  if (!canvas) return;
+  const dataUrl = canvas.toDataURL('image/png');
+  // Store in localStorage keyed by sigId + current project UUID
+  const key = 'sig_' + (sigId || 'default');
+  localStorage.setItem(key, dataUrl);
+  document.getElementById('sig-pad-modal').style.display = 'none';
+  // Replace the sig-line element in current view
+  const sigLines = document.querySelectorAll(`.sig-line[data-sig-id="${sigId}"]`);
+  sigLines.forEach(el => {
+    el.innerHTML = `<img src="${dataUrl}" style="height:48px; max-width:180px; display:block;">`;
+  });
+  if (typeof notifySuccess === 'function') notifySuccess('Signature saved', {duration:2000});
+};
+
+// Attach long-press to sig-lines in PDF preview panels
+document.addEventListener('click', (e) => {
+  const sl = e.target.closest('.sig-line');
+  if (sl && !sl.dataset.sigBound) {
+    sl.dataset.sigBound = '1';
+    sl.title = 'Tap to sign';
+    sl.style.cursor = 'pointer';
+    sl.addEventListener('click', () => {
+      const id = sl.dataset.sigId || ('sig_' + Date.now());
+      sl.dataset.sigId = id;
+      // Load existing sig if any
+      window.openSignaturePad(id);
+    });
+  }
+});
+
+})(); // end initFeaturePack
 
 </script>
 
