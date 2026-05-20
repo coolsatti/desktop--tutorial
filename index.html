@@ -794,30 +794,62 @@ input[readonly].gps-display {
 
 <header>
   <div class="brand">
+    <span id="gps-live-dot" title="GPS tracking — tap to stop" onclick="stopGPSTracking&amp;&amp;stopGPSTracking()" style="display:none;cursor:pointer;font-size:15px;">🛰️</span>
+    <div class="brand-text">
+      <h1>Forest Joint Inspection</h1>
+      <div class="sub" id="header-current-view">Dashboard</div>
+    </div>
     <svg class="leaf" viewBox="0 0 32 32" fill="none">
       <path d="M16 4 C 9 4, 5 10, 5 17 C 5 23, 10 28, 16 28 C 22 28, 27 23, 27 17 C 27 10, 23 4, 16 4 Z M 16 8 L 16 26 M 16 12 L 12 16 M 16 12 L 20 16 M 16 18 L 12 22 M 16 18 L 20 22" stroke="#e8a860" stroke-width="1.5" stroke-linecap="round"/>
     </svg>
-    <div>
-      <h1>Forest Joint Inspection</h1>
-      <div class="sub">Field Data Collection · v1.0</div>
-    </div>
   </div>
-  <div class="status-bar">
-    <span><span class="dot"></span>Offline-ready</span>
-    <span id="rec-count">0 records saved</span>
-  <span id="gps-live-dot" title="GPS tracking — tap to stop" onclick="stopGPSTracking&amp;&amp;stopGPSTracking()" style="display:none;cursor:pointer;font-size:13px;margin-left:4px;animation:_gp 1s infinite;">🛰️</span>
-    </div>
 </header>
 
-<nav class="tabs">
-  <button class="tab active" data-view="dashboard">Dashboard</button>
-  <button class="tab" data-view="form">New Entry</button>
-  <button class="tab" data-view="records">Records <span class="count" id="tab-count">0</span></button>
-  <button class="tab" data-view="jir">JIR</button>
-  <button class="tab" data-view="proposal">Proposal</button>
-  <button class="tab" data-view="audit">📋 Audit</button>
-  <button class="tab" data-view="export">Export</button>
+<!-- Floating menu button — fixed top-left, stays while scrolling -->
+<button id="nav-menu-btn" onclick="toggleNavMenu()" aria-label="Menu" title="Menu">
+  <span id="nav-menu-label">☰ Menu</span>
+</button>
+
+<!-- Dropdown navigation menu -->
+<div id="nav-menu-backdrop" onclick="closeNavMenu()" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.35); z-index:198;"></div>
+<nav class="tabs" id="nav-menu">
+  <button class="tab active" data-view="dashboard">📊 Dashboard</button>
+  <button class="tab" data-view="form">✏️ New Entry</button>
+  <button class="tab" data-view="records">📁 Records <span class="count" id="tab-count">0</span></button>
+  <button class="tab" data-view="jir">📋 JIR</button>
+  <button class="tab" data-view="proposal">📑 Proposal</button>
+  <button class="tab" data-view="audit">🔍 Audit</button>
+  <button class="tab" data-view="export">⇩ Export</button>
 </nav>
+
+<script>
+/* ── Dropdown navigation menu ────────────────────────────────── */
+function toggleNavMenu() {
+  const menu = document.getElementById('nav-menu');
+  const backdrop = document.getElementById('nav-menu-backdrop');
+  if (!menu) return;
+  if (menu.classList.contains('nav-open')) { closeNavMenu(); }
+  else {
+    menu.classList.add('nav-open');
+    if (backdrop) backdrop.style.display = 'block';
+  }
+}
+function closeNavMenu() {
+  const menu = document.getElementById('nav-menu');
+  const backdrop = document.getElementById('nav-menu-backdrop');
+  if (menu) menu.classList.remove('nav-open');
+  if (backdrop) backdrop.style.display = 'none';
+}
+window.toggleNavMenu = toggleNavMenu;
+window.closeNavMenu = closeNavMenu;
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('#nav-menu .tab').forEach(tab => {
+    tab.addEventListener('click', () => { closeNavMenu(); });
+  });
+});
+</script>
+
 
 <!-- Sticky current-project banner -->
 <div id="current-project-banner" style="display:none; background:linear-gradient(to right, #1d4434, #2f7857); color:#fff; padding:8px 14px; margin:0 12px 10px; border-radius:6px; box-shadow:0 2px 6px rgba(0,0,0,0.15);"></div>
@@ -1699,7 +1731,7 @@ input[readonly].gps-display {
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 3h18v18H3zM3 9h18M9 21V9"/></svg>
         All Records
       </button>
-      <button class="btn btn-amber" id="btn-load-sample" style="grid-column: span 2;">
+      <button class="btn btn-amber" id="btn-new-blank-project" style="grid-column: span 2;">
         📋 New Blank Project Template
       </button>
       <button class="btn btn-ghost" id="btn-backup-all-dash">
@@ -1751,10 +1783,6 @@ input[readonly].gps-display {
 
 
 <section id="view-jir" class="view">
-
-  <div class="help-text">
-    Generate the Joint Inspection Report (संयुक्त निरीक्षण रिपोर्ट) that is signed at the time of field inspection. Two versions are produced: <strong>Selected Alignment</strong> and <strong>Rejected Alignment</strong>. All data auto-fills from your saved record. After generating, you can edit any content directly in the browser before printing.
-  </div>
 
   <div class="section">
     <h2><span class="num">📋</span>Create Joint Inspection Report</h2>
@@ -1812,27 +1840,10 @@ input[readonly].gps-display {
     <p class="hint" style="margin:6px 2px 0; font-size:11px; color:#666;">Single CSV with all trees + GPS + HP bends + muck yards + land schedule for the selected record. For offline review or Excel import.</p>
   </div>
 
-  <div class="section">
-    <h2><span class="num">ℹ</span>What's in the Report</h2>
-    <p class="desc" style="line-height: 1.65;">
-      The Joint Inspection Report is a <strong>legally binding field document</strong> signed by all present officers (SDM, DFO/RO, Patwari, JE, Pradhan) at the time of inspection. It certifies that the joint inspection took place, lists the land types and trees observed, and either recommends the alignment or records the reasons for rejecting it.
-      <br><br>
-      <strong>Selected report contents:</strong> joint inspection certificate, land summary by category (आरक्षित वन / सिविल सोयम / वन पंचायत / नाप), tree count summary grouped by species and DBH class across land types, GPS coordinate table, and signature blocks for all inspection members.
-      <br><br>
-      <strong>Rejected report contents:</strong> same as selected but with an explicit rejection certificate and reason section. Used to document why this alignment was considered and rejected (required for Proforma 8/9).
-      <br><br>
-      After generating, the report opens in a new tab where <strong>every field becomes directly editable</strong> — click any text and type. Save as PDF or .doc when done.
-    </p>
-  </div>
-
 </section>
 
 
 <section id="view-proposal" class="view">
-
-  <div class="help-text">
-    Generate the complete forest land transfer proposal documents based on SOP for FC Act 1980. Pick a saved record and the app will produce all required proformas and the field signature document, ready to print, sign, and submit in triplicate.
-  </div>
 
   <div class="section">
     <h2><span class="num">📄</span>Generate Proposal Documents</h2>
@@ -1881,15 +1892,6 @@ input[readonly].gps-display {
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
       Download as .doc file
     </button>
-  </div>
-
-  <div class="section">
-    <h2><span class="num">ℹ</span>How to Use</h2>
-    <p class="desc" style="line-height:1.65;">
-      <strong>Before site visit:</strong> Generate the Field Signature Sheet and print it. Take a physical copy with you.<br><br>
-      <strong>During site visit:</strong> Fill coordinates and tree entries in the New Entry tab. Have the SDM, Forest Range Officer, Revenue officer, Ameen, JE, Gram Pradhan, and other representatives sign the printed Field Signature Sheet as each section of work is inspected.<br><br>
-      <strong>After site visit:</strong> Tap Generate & Open. All proformas will be filled automatically with your collected data. Print in triplicate, collect physical signatures in blue ink, and submit to Divisional Forest Officer.
-    </p>
   </div>
 
 </section>
@@ -1941,25 +1943,48 @@ input[readonly].gps-display {
     <p style="color:#888; font-size:14px;">Pick a record above to audit it.</p>
   </div>
 
-  <div id="audit-save-bar" style="display:none; position:sticky; bottom:0; background:#1d4434; color:#fff; padding:12px 16px; border-radius:8px 8px 0 0; margin-top:16px; box-shadow:0 -4px 12px rgba(0,0,0,0.2);">
-    <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:8px;">
-      <span style="font-size:11px; color:#aac8b5; font-weight:600;">AUTO-SYNC</span>
-      <label style="display:inline-flex; align-items:center; gap:6px; cursor:pointer;">
-        <input type="checkbox" id="audit-autosync-toggle" style="width:16px; height:16px; cursor:pointer;">
-        <span style="font-size:12px; color:#fff;">on edit</span>
-      </label>
-      <span id="audit-sync-status" style="font-size:11px; font-weight:600; transition:all 0.3s;">○ Auto-sync OFF</span>
-    </div>
-    <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+  <div id="audit-save-bar" style="display:none; position:sticky; bottom:0; background:#1d4434; color:#fff; padding:8px 16px 12px; border-radius:8px 8px 0 0; margin-top:16px; box-shadow:0 -4px 12px rgba(0,0,0,0.2);">
+    <!-- Compact header — always visible, tap to expand/collapse -->
+    <div id="audit-savebar-header" onclick="toggleAuditSaveBar()" style="display:flex; gap:8px; align-items:center; cursor:pointer; user-select:none; padding:2px 0;">
+      <span id="audit-savebar-arrow" style="font-size:12px; color:#aac8b5; width:12px;">▲</span>
       <span id="audit-dirty-text" style="font-weight:600; font-size:13px;">No changes</span>
       <span style="flex:1;"></span>
-      <button class="btn btn-ghost" id="btn-audit-discard" style="background:transparent; color:#fff; border:1px solid rgba(255,255,255,0.4); padding:6px 10px; font-size:12px;">Discard</button>
-      <button class="btn" id="btn-audit-upload" style="background:#5b8ba1; color:#fff; border:none; padding:6px 10px; font-size:12px;">☁ Upload Now</button>
-      <button class="btn" id="btn-audit-save" style="background:#b56516; color:#fff; border:none; padding:6px 10px; font-size:12px;">💾 Force Save</button>
+      <span id="audit-sync-status" style="font-size:11px; font-weight:600; transition:all 0.3s;">✓ All synced</span>
     </div>
-    <div style="font-size:10px; color:#aac8b5; margin-top:6px;">💡 Edits save locally instantly. Cloud upload runs in batches (default every 5 min). Tap the top-right pill to sync now, or use <strong>Force Save</strong> below.</div>
+    <!-- Collapsible body -->
+    <div id="audit-savebar-body" style="display:none; margin-top:8px;">
+      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:8px;">
+        <span style="font-size:11px; color:#aac8b5; font-weight:600;">AUTO-SYNC</span>
+        <label style="display:inline-flex; align-items:center; gap:6px; cursor:pointer;">
+          <input type="checkbox" id="audit-autosync-toggle" style="width:16px; height:16px; cursor:pointer;">
+          <span style="font-size:12px; color:#fff;">on edit</span>
+        </label>
+      </div>
+      <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+        <button class="btn btn-ghost" id="btn-audit-discard" style="background:transparent; color:#fff; border:1px solid rgba(255,255,255,0.4); padding:6px 10px; font-size:12px;">Discard</button>
+        <span style="flex:1;"></span>
+        <button class="btn" id="btn-audit-upload" style="background:#5b8ba1; color:#fff; border:none; padding:6px 10px; font-size:12px;">☁ Upload Now</button>
+        <button class="btn" id="btn-audit-save" style="background:#b56516; color:#fff; border:none; padding:6px 10px; font-size:12px;">💾 Force Save</button>
+      </div>
+      <div style="font-size:10px; color:#aac8b5; margin-top:6px;">💡 Edits save locally instantly. Cloud upload runs in batches (default every 5 min). Tap the top-right pill to sync now, or use <strong>Force Save</strong> above.</div>
+    </div>
   </div>
 </section>
+
+<script>
+/* Collapse / expand the Audit save bar. State persists in localStorage. */
+function toggleAuditSaveBar() {
+  const body = document.getElementById('audit-savebar-body');
+  const arrow = document.getElementById('audit-savebar-arrow');
+  if (!body || !arrow) return;
+  const willOpen = body.style.display === 'none';
+  body.style.display = willOpen ? '' : 'none';
+  arrow.textContent = willOpen ? '▼' : '▲';
+  localStorage.setItem('audit_savebar_open', willOpen ? '1' : '0');
+}
+window.toggleAuditSaveBar = toggleAuditSaveBar;
+</script>
+
 
 
 <div class="modal-backdrop" id="modal-muck">
@@ -3053,13 +3078,12 @@ body {
   overscroll-behavior-y: contain;
 }
 
-/* --- Header --- */
+/* --- Header (compact, scrolls away with page) --- */
 header {
   background: var(--forest);
   color: var(--paper);
-  padding: 18px 20px 16px;
-  position: sticky;
-  top: 0;
+  padding: 8px 14px;
+  position: relative;
   z-index: 100;
   border-bottom: 3px solid var(--amber);
   box-shadow: 0 2px 10px rgba(0,0,0,0.15);
@@ -3067,36 +3091,62 @@ header {
 header .brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  /* Title block sits on the RIGHT, leaving room for the floating
+     Menu button on the left */
+  justify-content: flex-end;
+  padding-left: 96px;
 }
 header .leaf {
-  width: 32px; height: 32px;
+  width: 26px; height: 26px;
   flex-shrink: 0;
+}
+header .brand-text {
+  min-width: 0;
+  text-align: right;
 }
 header h1 {
   font-family: 'Fraunces', serif;
   font-weight: 700;
-  font-size: 20px;
+  font-size: 15px;
   letter-spacing: -0.01em;
-  line-height: 1.1;
+  line-height: 1.15;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 header .sub {
-  font-size: 11px;
-  opacity: 0.7;
-  letter-spacing: 0.08em;
+  font-size: 10px;
+  opacity: 0.65;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  margin-top: 2px;
   font-family: 'JetBrains Mono', monospace;
 }
+/* Floating Menu button — fixed top-left, stays put while scrolling */
+#nav-menu-btn {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 200;
+  background: var(--forest);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 8px;
+  padding: 9px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+#nav-menu-btn:active { background: #2f7857; }
 .status-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 11px;
   font-family: 'JetBrains Mono', monospace;
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px dashed rgba(255,255,255,0.15);
   opacity: 0.8;
 }
 .status-bar .dot {
@@ -3108,39 +3158,42 @@ header .sub {
   box-shadow: 0 0 6px var(--amber-soft);
 }
 
-/* --- Tabs --- */
+/* --- Navigation: dropdown menu (anchored top-left under Menu btn) --- */
 .tabs {
-  display: flex;
+  display: none;
+  position: fixed;
+  top: 48px;
+  left: 8px;
+  flex-direction: column;
   background: var(--paper);
-  border-bottom: 1px solid var(--line);
-  position: sticky;
-  top: 92px;
-  z-index: 99;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; /* Firefox */
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.28);
+  z-index: 199;
+  overflow: hidden;
+  min-width: 210px;
+  padding: 5px;
 }
-.tabs::-webkit-scrollbar { display: none; }
+.tabs.nav-open { display: flex; }
 .tab {
   flex: 0 0 auto;
-  min-width: 90px;
-  padding: 14px 14px;
-  font-size: 13px;
+  padding: 13px 16px;
+  font-size: 14px;
   font-weight: 600;
-  text-align: center;
+  text-align: left;
   background: none;
   border: none;
+  border-radius: 7px;
   white-space: nowrap;
-  color: var(--ink-soft);
+  color: var(--ink);
   cursor: pointer;
-  border-bottom: 3px solid transparent;
-  transition: all 0.2s;
+  transition: background 0.15s;
   font-family: inherit;
 }
+.tab:active { background: rgba(0,0,0,0.06); }
 .tab.active {
   color: var(--forest);
-  border-bottom-color: var(--amber);
-  background: rgba(200,120,40,0.05);
+  background: rgba(200,120,40,0.1);
 }
 .tab .count {
   display: inline-block;
@@ -3913,6 +3966,25 @@ document.addEventListener('keydown', e => {
 });
 
 
+/* Update the header subtitle to match whichever view is active.
+   Called both from tab clicks and from card buttons that jump to a view. */
+function syncHeaderViewLabel() {
+  const VIEW_LABELS = {
+    dashboard: 'Dashboard', form: 'New Entry', records: 'Records',
+    jir: 'JIR', proposal: 'Proposal', audit: 'Audit', export: 'Export'
+  };
+  const active = document.querySelector('.view.active');
+  if (!active) return;
+  const viewKey = active.id.replace('view-', '');
+  const lbl = document.getElementById('header-current-view');
+  if (lbl && VIEW_LABELS[viewKey]) lbl.textContent = VIEW_LABELS[viewKey];
+  // Keep the menu's active highlight in sync too
+  document.querySelectorAll('#nav-menu .tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.view === viewKey);
+  });
+}
+window.syncHeaderViewLabel = syncHeaderViewLabel;
+
 document.querySelectorAll('.tab').forEach(tab => {
   tab.addEventListener('click', () => {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -3926,9 +3998,27 @@ document.querySelectorAll('.tab').forEach(tab => {
     if (tab.dataset.view === 'audit') renderAudit();
     if (tab.dataset.view === 'dashboard') renderDashboard();
     updateCurrentBanner();
+    syncHeaderViewLabel();
     window.scrollTo(0, 0);
   });
 });
+
+/* When any code path activates a view directly (card buttons, deep links),
+   observe the change and refresh the header label. */
+(function watchViewChanges() {
+  const container = document.querySelector('main') || document.body;
+  let lastActive = '';
+  const check = () => {
+    const active = document.querySelector('.view.active');
+    const id = active ? active.id : '';
+    if (id !== lastActive) {
+      lastActive = id;
+      syncHeaderViewLabel();
+    }
+  };
+  // Lightweight poll — cheap, runs only while app is open
+  setInterval(check, 400);
+})();
 
 // ── CORE UTILITIES (haversineDistance + notify system) ─────────────
 
@@ -7114,27 +7204,11 @@ function editDetailItem(rec, kind, idx) {
 
 
 function updateCurrentBanner() {
+  // Active-project banner removed — it took space without practical use.
+  // The active project is still tracked internally (getCurrentProject) and
+  // shown where it matters (Records list highlight, form prefill).
   const banner = document.getElementById('current-project-banner');
-  if (!banner) return;
-  const rec = getCurrentProject();
-  if (!rec) {
-    banner.style.display = 'none';
-    return;
-  }
-  banner.style.display = 'block';
-  banner.innerHTML = `
-    <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
-      <div style="flex:1; min-width:0;">
-        <span style="font-size:10px; opacity:0.8; font-weight:500;">ACTIVE PROJECT</span>
-        <div style="font-size:13px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
-          ${rec.code ? `<code style="background:rgba(255,255,255,0.2); padding:1px 5px; border-radius:3px; font-size:11px; margin-right:4px;">${escapeHtml(rec.code)}</code>` : ''}
-          ${escapeHtml(rec.project)}
-        </div>
-      </div>
-      <button onclick="setCurrentProjectUuid(''); updateCurrentBanner(); renderRecords(); toast('Project deselected');"
-        style="background:rgba(255,255,255,0.25); color:#fff; border:none; padding:4px 10px; border-radius:4px; font-size:11px; cursor:pointer; white-space:nowrap;">✕ Clear</button>
-    </div>
-  `;
+  if (banner) banner.style.display = 'none';
 }
 
 function csvEscape(v) {
@@ -7382,8 +7456,10 @@ document.getElementById('btn-clear-all').addEventListener('click', () => {
 
 function updateCount() {
   const n = loadRecords().length;
-  document.getElementById('rec-count').textContent = `${n} record${n === 1 ? '' : 's'} saved`;
-  document.getElementById('tab-count').textContent = n;
+  const recCount = document.getElementById('rec-count');
+  if (recCount) recCount.textContent = `${n} record${n === 1 ? '' : 's'} saved`;
+  const tabCount = document.getElementById('tab-count');
+  if (tabCount) tabCount.textContent = n;
 }
 updateCount();
 
@@ -7442,26 +7518,26 @@ const PROFORMA_CATALOG = [
   { id: 'prof26', num: '26', title: 'भू-वैज्ञानिक की आख्या', tags: ['road','building'] },
   { id: 'prof27', num: '27', title: 'भू-वैज्ञानिक सुझावों का अनुपालन प्रमाण-पत्र', tags: ['road','building'] },
   { id: 'prof28', num: '28', title: 'Task Force Certificate', tags: ['road','hillarea'] },
-  { id: 'prof29', num: '29', title: 'प्रस्तावित स्थल धार्मिक/पौराणिक/ऐतिहासिक महत्व', tags: ['all'] },
-  { id: 'prof30', num: '30', title: 'वन्य जीवों व वनस्पतियों को क्षति न पहुँचाने का प्रमाण', tags: ['all'] },
-  { id: 'prof31', num: '31', title: 'श्रमिकों को केरोसीन/कुकिंग गैस उपलब्ध कराने का प्रमाण', tags: ['all'] },
-  { id: 'prof32', num: '32', title: 'लाभान्वित ग्रामों/जनसंख्या/परिवारों का विवरण', tags: ['all'] },
-  { id: 'prof33', num: '33', title: 'क्षतिपूरक वृक्षारोपण की सप्तवर्षीय योजना', tags: ['all'] },
-  { id: 'prof34', num: '34', title: 'क्षतिपूरक वृक्षारोपण स्थल की उपयुक्तता का प्रमाण', tags: ['all'] },
-  { id: 'prof35', num: '35', title: 'सड़क के दोनों ओर रिक्त स्थानों पर वृक्षारोपण प्राक्कलन', tags: ['road'] },
-  { id: 'prof36', num: '36', title: 'दस गुना पेड़ लगाने का सप्तवर्षीय प्राक्कलन', tags: ['all'] },
-  { id: 'prof37', num: '37', title: 'मक डिस्पोजल योजना, मानचित्र व उपचार प्राक्कलन', tags: ['road'] },
-  { id: 'prof38', num: '38', title: 'NPV धनराशि का आकलन', tags: ['all'] },
-  { id: 'prof39', num: '39', title: 'NPV की बढ़ी दरों की अतिरिक्त धनराशि का प्रमाण', tags: ['all'] },
-  { id: 'prof40', num: '40', title: 'वन संरक्षण अधिनियम उल्लंघन विवरण (if any)', tags: ['violation'] },
-  { id: 'prof41', num: '41', title: 'MUCK DISPOSAL — Cut/Fill & Dump Yard Table', tags: ['road'] },
-  { id: 'prof41_1', num: '41.1', title: 'प्रपत्र—41 (PWD) — Detailed Muck Cut/Utilize/Disposal Calc', tags: ['road'] },
-  { id: 'prof42', num: '42', title: 'RCC Pillars द्वारा सीमांकन का प्राक्कलन', tags: ['all'] },
-  { id: 'prof43', num: '43', title: 'NPV बढ़ी दरों के अनुसार अतिरिक्त धनराशि जमा', tags: ['all'] },
-  { id: 'prof44', num: '44', title: 'RCC Pillars सीमांकन का प्राक्कलन', tags: ['all'] },
+  { id: 'prof29', num: '29', title: 'मानक शर्तों के अनुपालन का प्रमाण-पत्र', tags: ['all'] },
+  { id: 'prof30', num: '30', title: 'धार्मिक/पौराणिक/ऐतिहासिक स्थल न होने का प्रमाण', tags: ['all'] },
+  { id: 'prof31', num: '31', title: 'वन्य जीवों व वनस्पतियों को क्षति न पहुँचाने का प्रमाण', tags: ['all'] },
+  { id: 'prof32', num: '32', title: 'श्रमिकों को केरोसीन/कुकिंग गैस उपलब्ध कराने का प्रमाण', tags: ['all'] },
+  { id: 'prof33', num: '33', title: 'लाभान्वित ग्रामों/जनसंख्या/परिवारों का विवरण', tags: ['all'] },
+  { id: 'prof34', num: '34', title: 'वन भूमि के मूल्य/वार्षिक लीज रेन्ट का प्रमाण-पत्र', tags: ['all'] },
+  { id: 'prof35', num: '35', title: 'क्षतिपूरक वृक्षारोपण का प्राक्कलन मय मानचित्र', tags: ['all'] },
+  { id: 'prof36', num: '36', title: 'क्षतिपूरक वृक्षारोपण स्थल की उपयुक्तता का प्रमाण', tags: ['all'] },
+  { id: 'prof37', num: '37', title: 'रिक्त स्थानों पर उचित प्रजातियों के वृक्षारोपण का प्राक्कलन', tags: ['all'] },
+  { id: 'prof38', num: '38', title: 'पथ वृक्षारोपण किये जाने का प्रमाण-पत्र', tags: ['road'] },
+  { id: 'prof39', num: '39', title: 'काटे जाने वाले पेड़ों के एवज में दस गुना वृक्षारोपण', tags: ['all'] },
+  { id: 'prof40', num: '40', title: 'पारेषण लाईन/रोपवे कोरिडोर बौनी प्रजाति वृक्षारोपण प्राक्कलन', tags: ['transmission'] },
+  { id: 'prof41', num: '41', title: 'मलवा निस्तारण योजना व मानचित्र', tags: ['road'] },
+  { id: 'prof41_1', num: '41.1', title: 'प्रपत्र—41 (PWD) — मलवा कटान/उपयोग/निस्तारण गणना', tags: ['road'] },
+  { id: 'prof42', num: '42', title: 'एन0पी0वी0 की धनराशि का आंकलन', tags: ['all'] },
+  { id: 'prof43', num: '43', title: 'एन0पी0वी0 बढ़ी दरों के अनुसार अतिरिक्त धनराशि जमा', tags: ['all'] },
+  { id: 'prof44', num: '44', title: 'प्रत्यावर्तित की जाने वाली वन भूमि का विवरण', tags: ['all'] },
   { id: 'prof45', num: '45', title: 'लीज अवधि का प्रमाण-पत्र', tags: ['lease'] },
-  { id: 'prof46', num: '46', title: 'वन संरक्षण अधिनियम उल्लंघन न होने का प्रमाण-पत्र', tags: ['all'] },
-  { id: 'prof47', num: '47', title: 'पूर्व प्रस्ताव वित्तीय देनदारी शेष न होने का प्रमाण', tags: ['all'] },
+  { id: 'prof46', num: '46', title: 'वन संरक्षण अधिनियम, 1980 का उल्लंघन न होने का प्रमाण', tags: ['all'] },
+  { id: 'prof47', num: '47', title: 'जल विद्युत परियोजना — कैचमेन्ट एरिया ट्रीटमेन्ट प्लान', tags: ['hydro'] },
   { id: 'prof48', num: '48', title: 'वन भूमि पर गंदगी न फैलाये जाने का प्रमाण', tags: ['all'] },
   { id: 'prof49', num: '49', title: 'वन भूमि पर मलवा न फेंके जाने का प्रमाण', tags: ['all'] }
 ];
@@ -8065,10 +8141,23 @@ function buildProposalHTML(r, opts, forWord = false) {
   h2 { text-align: center; font-size: 14pt; margin: 8pt 0; font-weight: bold; text-decoration: underline; }
   h3 { font-size: 12pt; margin: 16pt 0 8pt; text-decoration: underline; }
   p { margin: 6pt 0; text-align: justify; }
-  table { border-collapse: collapse; width: 100%; margin: 10pt 0; }
-  table.data th, table.data td { border: 1px solid #000; padding: 5pt 7pt; font-size: 11pt; text-align: left; vertical-align: top; }
-  table.data th { background: #f0e8d0; font-weight: bold; text-align: center; }
-  table.data td.num { text-align: center; }
+  table { border-collapse: collapse; width: 100%; margin: 10pt 0; table-layout: fixed; }
+  table.data th, table.data td {
+    border: 1px solid #000;
+    padding: 4pt 5pt;
+    font-size: 10pt;
+    text-align: left;
+    vertical-align: top;
+    line-height: 1.25;
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    white-space: normal;
+    overflow: hidden;
+  }
+  table.data th { background: #f0e8d0; font-weight: bold; text-align: center; font-size: 9.5pt; line-height: 1.2; }
+  table.data td.num { text-align: center; white-space: normal; overflow-wrap: anywhere; }
+  table.data td.coord, table.data td.small { font-size: 8pt; line-height: 1.2; word-break: break-all; }
   .sig-row { display: flex; justify-content: space-between; margin-top: 30pt; page-break-inside: avoid; flex-wrap: wrap; gap: 8pt; }
   .sig { text-align: center; flex: 1; padding: 0 4pt; font-size: 11pt; min-width: 130pt; }
   .sig-line { border-top: 1px solid #000; margin-top: 38pt; padding-top: 3pt; min-width: 110pt; }
@@ -9779,11 +9868,55 @@ function proforma23(r) {
 function proforma24(r) {
   /* PDF प्रपत्र-24 (page 74): प्रस्तावित परियोजना के विभिन्न घटकों का मदवार/भूमिवार/क्षेत्रफवार का विवरण।
      (केवल जल विद्युत परियोजनाओं के लिय लागू)
-     Columns: क0सं0 | घटक/कम्पोनेंट (Component) | आरक्षित वन भूमि (हे0 में) | सिविल एवं सोयम वन भूमि (हे0 में) | वन पंचायत भूमि (हे0 में) | कुल वन भूमि (हे0 में) | नाप भूमि (हे0 में) | अभ्युक्ति
-     Empty rows for user to fill. योग row at bottom.
-     Signatures (2): प्रयोक्ता एजेन्सी | प्रभागीय वनाधिकारी
-     Note: उक्त सूचना सम्बन्धित प्रयोक्ता एजेन्सी के द्वारा तैयार कर प्रस्ताव के साथ संलग्न की जायेगी।
+     Columns: क0सं0 | घटक/कम्पोनेंट (Component) | आरक्षित वन भूमि (हे0) | सिविल एवं सोयम वन भूमि (हे0) | वन पंचायत भूमि (हे0) | कुल वन भूमि (हे0) | नाप भूमि (हे0) | अभ्युक्ति
+     Auto-fills the project itself as the first component-row from the
+     land-type breakdown; leaves blank rows below for additional components.
   */
+  // Pull the land-type areas the same way the JIR land summary does.
+  let lb = null;
+  try { lb = (typeof landTypeBreakdown === 'function') ? landTypeBreakdown(r) : null; } catch (e) {}
+  const ha = (k) => {
+    if (!lb || !lb[k]) return 0;
+    return Number(lb[k].areaHa || 0);
+  };
+  const fmt = (n) => (n > 0 ? n.toFixed(4) : '');
+  // Forest categories
+  const reservedHa  = ha('forest') + ha('protectedF');
+  const civilHa     = ha('civilSoyam');
+  const vanPanchHa  = ha('vanPanchayat');
+  const napHa       = ha('nap');
+  const totalForest = reservedHa + civilHa + vanPanchHa;
+  // Does the record have any usable land data?
+  const hasData = (reservedHa + civilHa + vanPanchHa + napHa) > 0;
+
+  // First row = the project itself (its name is the "component").
+  const compName = escProp(r.project || 'मुख्य परियोजना घटक');
+  const dataRow = hasData
+    ? `<tr>
+        <td class="num">1</td>
+        <td class="hindi">${compName}</td>
+        <td class="num">${fmt(reservedHa)}</td>
+        <td class="num">${fmt(civilHa)}</td>
+        <td class="num">${fmt(vanPanchHa)}</td>
+        <td class="num">${fmt(totalForest)}</td>
+        <td class="num">${fmt(napHa)}</td>
+        <td></td>
+      </tr>`
+    : `<tr><td style="height:22pt"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`;
+
+  const blankRow = `<tr><td style="height:22pt"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`;
+  const totalRow = hasData
+    ? `<tr style="background:#f7f1e3;">
+        <td class="bold hindi" colspan="2">योग:—</td>
+        <td class="num bold">${fmt(reservedHa)}</td>
+        <td class="num bold">${fmt(civilHa)}</td>
+        <td class="num bold">${fmt(vanPanchHa)}</td>
+        <td class="num bold">${fmt(totalForest)}</td>
+        <td class="num bold">${fmt(napHa)}</td>
+        <td></td>
+      </tr>`
+    : `<tr style="background:#f7f1e3;"><td class="bold hindi">योग:—</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`;
+
   return `
 <div class="page">
   <div class="proforma-tag hindi">प्रपत्र—24</div>
@@ -9805,11 +9938,11 @@ function proforma24(r) {
       </tr>
     </thead>
     <tbody>
-      <tr><td style="height:22pt"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td style="height:22pt"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td style="height:22pt"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td style="height:22pt"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr style="background:#f7f1e3;"><td class="bold hindi">योग:—</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      ${dataRow}
+      ${blankRow}
+      ${blankRow}
+      ${blankRow}
+      ${totalRow}
     </tbody>
   </table>
 
@@ -11539,7 +11672,7 @@ function proforma41(r) {
         <td class="num">${area.toFixed(1)}</td>
         <td class="num">${vol.toFixed(1)}</td>
         <td class="hindi small">${escapeHtml(landTypeDisplay)}</td>
-        <td class="num small" style="white-space:nowrap; font-size:8pt;">${coord}</td>
+        <td class="num coord" style="font-size:8pt;">${coord}</td>
       </tr>`;
     }).join('');
     const totVol = sumVol(pts), totArea = sumArea(pts);
@@ -12334,6 +12467,13 @@ function renderJIR() {
     all.slice().reverse().map(r =>
       `<option value="${r.uuid}">${escapeHtml(r.project)} · ${r.date ? fmtDateHi(r.date) : ""}</option>`
     ).join('');
+  // Auto-select the current project if one is set (e.g. user tapped
+  // "📋 JIR" on a record card — that record should be pre-picked here).
+  const curUuid = (typeof getCurrentProjectUuid === 'function') ? getCurrentProjectUuid() : null;
+  if (curUuid && all.some(r => r.uuid === curUuid)) {
+    sel.value = curUuid;
+    sel.dispatchEvent(new Event('change'));
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -12737,6 +12877,14 @@ function buildAuditContent() {
 
   // Show save bar
   document.getElementById('audit-save-bar').style.display = '';
+  // Restore collapse state (default = collapsed, just the compact status line)
+  const sbBody = document.getElementById('audit-savebar-body');
+  const sbArrow = document.getElementById('audit-savebar-arrow');
+  if (sbBody && sbArrow) {
+    const open = localStorage.getItem('audit_savebar_open') === '1';
+    sbBody.style.display = open ? '' : 'none';
+    sbArrow.textContent = open ? '▼' : '▲';
+  }
   // Init auto-sync toggle state on first render
   const toggle = document.getElementById('audit-autosync-toggle');
   if (toggle) {
@@ -15247,12 +15395,45 @@ function wrapJIR(parts, r, forWord) {
   p { margin: 6pt 0; text-align: justify; }
   table { border-collapse: collapse; width: 100%; margin: 8pt 0; table-layout: fixed; }
   table.data { table-layout: fixed; }
-  table.data th, table.data td { border: 1px solid #000; padding: 5pt 6pt; font-size: 10pt; vertical-align: top; line-height: 1.3; word-wrap: break-word; overflow-wrap: break-word; word-break: break-word; }
-  table.data th { text-align: center; }
+  table.data th, table.data td {
+    border: 1px solid #000;
+    padding: 4pt 4pt;
+    font-size: 9.5pt;
+    vertical-align: top;
+    line-height: 1.25;
+    /* Force every cell to wrap rather than overflow into the next column */
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    white-space: normal;
+    overflow: hidden;
+  }
+  table.data th {
+    text-align: center;
+    background: #f0e8d0;
+    font-weight: bold;
+    line-height: 1.2;
+    font-size: 9pt;
+  }
   table.data td { text-align: left; }
-  table.data th { background: #f0e8d0; font-weight: bold; text-align: center; }
-  table.data td.num { text-align: center; white-space: nowrap; }
-  table.sum th { background: #1d4434; color: white; font-size: 10pt; }
+  /* Number cells: centered, but ALLOWED TO WRAP so long values like
+     coordinates / amounts break onto two lines instead of spilling over. */
+  table.data td.num {
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  /* Coordinate cells get an even smaller font + tighter line-height since
+     lat/long values are long. They wrap onto two lines neatly. */
+  table.data td.coord, table.data td.small {
+    font-size: 8pt;
+    line-height: 1.2;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-all;
+  }
+  table.sum th { background: #1d4434; color: white; font-size: 9.5pt; }
   table.sum tr.total { background: #f8f0e0; font-weight: bold; }
   .sig-row { display: flex; justify-content: space-between; margin-top: 20pt; page-break-inside: avoid; flex-wrap: wrap; gap: 6pt; }
   .sig { text-align: center; flex: 1; padding: 0 4pt; font-size: 10.5pt; min-width: 110pt; }
@@ -18009,8 +18190,23 @@ document.addEventListener('click', e => {
 
 
 document.addEventListener('click', e => {
-  if (e.target && e.target.id === 'btn-load-sample') {
+  // Records-view "Load Sample" button — loads the demo data
+  const sampleBtn = e.target.closest && e.target.closest('#btn-load-sample');
+  if (sampleBtn) {
     loadGopeshwarSample();
+    return;
+  }
+  // Dashboard "New Blank Project Template" — clears the form and opens it
+  const blankBtn = e.target.closest && e.target.closest('#btn-new-blank-project');
+  if (blankBtn) {
+    if (typeof setCurrentProjectUuid === 'function') setCurrentProjectUuid('');
+    document.querySelector('.tab[data-view="form"]')?.click();
+    // Trigger the form's own Clear button to reset all fields
+    setTimeout(() => {
+      const clr = document.getElementById('btn-clear');
+      if (clr) clr.click();
+      if (typeof toast === 'function') toast('📋 Blank project — fill in the details and Save');
+    }, 200);
   }
 });
 
@@ -23015,7 +23211,7 @@ function ensureGlobalSyncBadge() {
   const header = document.querySelector('header') || document.body;
   pill = document.createElement('div');
   pill.id = 'global-sync-pill';
-  pill.style.cssText = 'position:fixed; top:8px; right:8px; z-index:9000; padding:4px 6px 4px 10px; border-radius:14px; background:#1d4434; color:#fff; font-size:11px; font-weight:600; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.2); transition:all 0.3s; max-width:280px; user-select:none; display:flex; align-items:center; gap:6px;';
+  pill.style.cssText = 'position:fixed; bottom:10px; right:10px; z-index:150; padding:4px 6px 4px 10px; border-radius:14px; background:#1d4434; color:#fff; font-size:11px; font-weight:600; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.2); transition:all 0.3s; max-width:280px; user-select:none; display:flex; align-items:center; gap:6px;';
   pill.title = 'Cloud sync — tap to sync now · long-press for settings';
   // Inner text span (so we don't blow away the close button)
   const text = document.createElement('span');
