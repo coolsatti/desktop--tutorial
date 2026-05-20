@@ -24707,28 +24707,24 @@ function initCloudSyncUI() {
     // 2. Check local records
     const all = (typeof loadRecords === 'function') ? loadRecords() : [];
     add('📋', 'Local records: ' + all.length);
-    // 3. Check each record's JSON size — critical: Google Sheets has 50KB cell limit
-    const oversized = [];
+    // 3. Report total data size. NOTE: the v3.3 sync script writes trees,
+    //    coords, HP bends etc. as individual ROWS (not one big JSON cell),
+    //    so the old 49KB-per-cell limit no longer applies to project size.
+    //    Only tiny side-blobs (signers, landSchedule) use a cell, and those
+    //    are always well under the limit.
     let totalBytes = 0;
+    let biggest = { code: '', trees: 0, coords: 0 };
     all.forEach(r => {
       try {
         const json = JSON.stringify(r);
         totalBytes += json.length;
-        if (json.length > 49000) oversized.push({
-          code: r.code || '?',
-          size: json.length,
-          trees: (r.trees || []).length,
-          coords: (r.coords || []).length
-        });
+        const tc = (r.trees || []).length;
+        if (tc > biggest.trees) biggest = { code: r.code || '?', trees: tc, coords: (r.coords || []).length };
       } catch (e) {}
     });
     add('📦', 'Total local data: ' + (totalBytes / 1024).toFixed(0) + ' KB');
-    if (oversized.length > 0) {
-      add('⚠', oversized.length + ' record(s) exceed 49KB cell limit:');
-      oversized.slice(0, 5).forEach(o => lines.push('    • ' + o.code + ': ' + (o.size / 1024).toFixed(0) + ' KB (' + o.trees + ' trees, ' + o.coords + ' coords)'));
-      lines.push('    Server-side truncation will trim trees/coords/sci-names to fit.');
-    } else {
-      add('✓', 'All records fit within cell limits');
+    if (biggest.trees > 0) {
+      add('✓', 'Largest project: ' + biggest.code + ' (' + biggest.trees + ' trees, ' + biggest.coords + ' coords) — uploads as rows, no size limit');
     }
     // 4. Ping test
     if (CloudSync.isConfigured()) {
@@ -24736,8 +24732,12 @@ function initCloudSyncUI() {
         const pingResp = await CloudSync.ping();
         const ver = pingResp.version || '1.0';
         add('✓', 'Server reachable. Sheet: "' + (pingResp.sheet || '?') + '" · script v' + ver);
-        if (ver.indexOf('3.0') < 0 && ver.indexOf('multisheet') < 0) {
-          add('⚠', 'Server is running OLD Apps Script (v' + ver + '). Re-copy and re-deploy the new v3 script — current data above 49KB will keep getting skipped.');
+        // v3.x (any minor) is current. Only warn for genuinely old scripts.
+        const verMajor = parseInt(String(ver).split('.')[0], 10) || 0;
+        if (verMajor < 3 && ver.indexOf('multisheet') < 0) {
+          add('⚠', 'Server is running an OLD Apps Script (v' + ver + '). Re-copy and re-deploy the latest forest-inspector-sync.gs.');
+        } else {
+          add('✓', 'Apps Script is up to date (v' + ver + ').');
         }
         if (!pingResp.valid_key) add('❌', 'Secret KEY MISMATCH. Check Sync Key field matches SECRET_KEY in your Apps Script.');
       } catch (e) {
