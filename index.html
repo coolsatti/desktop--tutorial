@@ -1728,7 +1728,7 @@ document.addEventListener('DOMContentLoaded', () => {
   <div class="section">
     <h2><span class="num">⚡</span>Quick Actions</h2>
     <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-      <button class="btn btn-primary" onclick="document.querySelector('.tab[data-view=form]')?.click();">
+      <button class="btn btn-primary" onclick="newBlankProject()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
         New Project
       </button>
@@ -6409,7 +6409,7 @@ function renderRecords(searchTerm) {
   } catch (e) {}
 
   if (!all.length) {
-    container.innerHTML = `<div style="padding:40px 16px;text-align:center;"><div style="font-size:42px;margin-bottom:12px;">🌲</div><h3 style="color:var(--forest);">No projects yet</h3><p style="color:#888;margin:8px 0 16px;">Save your first inspection to get started.</p><div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;"><button class="btn btn-primary" onclick="document.querySelector('.tab[data-view=form]')?.click();" style="padding:10px 18px;">＋ New Project</button></div></div>`;
+    container.innerHTML = `<div style="padding:40px 16px;text-align:center;"><div style="font-size:42px;margin-bottom:12px;">🌲</div><h3 style="color:var(--forest);">No projects yet</h3><p style="color:#888;margin:8px 0 16px;">Save your first inspection to get started.</p><div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;"><button class="btn btn-primary" onclick="newBlankProject()" style="padding:10px 18px;">＋ New Project</button></div></div>`;
     return;
   }
 
@@ -17046,7 +17046,7 @@ function _renderDashProjects(recs) {
           <h3 style="margin:4px 0; color:var(--forest);">No projects yet</h3>
           <p style="color:var(--ink-soft); margin:8px 0 16px;">Tap below to add your first project.</p>
           <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
-            <button class="btn btn-primary" onclick="document.querySelector('.tab[data-view=form]')?.click();" style="padding:10px 18px;">+ New Project</button>
+            <button class="btn btn-primary" onclick="newBlankProject()" style="padding:10px 18px;">+ New Project</button>
           </div>
         </div>`;
     } else {
@@ -18297,14 +18297,10 @@ document.addEventListener('click', e => {
   // Dashboard "New Blank Project Template" — clears the form and opens it
   const blankBtn = e.target.closest && e.target.closest('#btn-new-blank-project');
   if (blankBtn) {
-    if (typeof setCurrentProjectUuid === 'function') setCurrentProjectUuid('');
-    document.querySelector('.tab[data-view="form"]')?.click();
-    // Trigger the form's own Clear button to reset all fields
-    setTimeout(() => {
-      const clr = document.getElementById('btn-clear');
-      if (clr) clr.click();
+    if (typeof newBlankProject === 'function') {
+      newBlankProject();
       if (typeof toast === 'function') toast('📋 Blank project — fill in the details and Save');
-    }, 200);
+    }
   }
 });
 
@@ -30144,6 +30140,41 @@ window.parseGoogleMapsCoords = function(text) {
         }
       });
     }
+
+    /* Start a brand-new project: clear the form completely (NO confirm —
+       a new project should always begin empty) and open the form tab. */
+    window.newBlankProject = function() {
+      try {
+        if (typeof currentCoords !== 'undefined') { try { currentCoords.length = 0; } catch (e) {} }
+        if (typeof currentTrees  !== 'undefined') { try { currentTrees.length  = 0; } catch (e) {} }
+        var formView = document.getElementById('view-form');
+        if (formView) {
+          formView.querySelectorAll('input:not([type="checkbox"]):not([type="radio"]):not([type="file"]), textarea, select').forEach(function(el) {
+            if (el.id === 'f-date') return;
+            el.value = '';
+          });
+          // uncheck any checkboxes/radios too
+          formView.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(function(el) {
+            el.checked = false;
+          });
+        }
+        var df = document.getElementById('f-date');
+        if (df) df.value = new Date().toISOString().slice(0, 10);
+        window.__editingUuid = null;
+        if (typeof setCurrentProjectUuid === 'function') { try { setCurrentProjectUuid(''); } catch (e) {} }
+        if (typeof hideEditBanner === 'function') { try { hideEditBanner(); } catch (e) {} }
+        if (typeof renderCoordList  === 'function') { try { renderCoordList();  } catch (e) {} }
+        if (typeof renderTreeList   === 'function') { try { renderTreeList();   } catch (e) {} }
+        if (typeof renderMilestones === 'function') { try { renderMilestones(null); } catch (e) {} }
+        // jump to the form
+        var tab = document.querySelector('.tab[data-view="form"]');
+        if (tab) tab.click();
+        // scroll form to top
+        if (formView) formView.scrollTop = 0;
+      } catch (err) {
+        console.error('newBlankProject failed:', err);
+      }
+    };
   }
 
   if (document.readyState === 'loading') {
