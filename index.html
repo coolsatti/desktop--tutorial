@@ -904,7 +904,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     <div class="field">
       <label>Name of Project <span class="req">*</span></label>
-      <input type="text" id="f-project" required placeholder="e.g. Gaw se ghr tak road">
+      <input type="text" id="f-project" required placeholder="e.g. Road widening from village A to village B">
     </div>
 
     <div class="field">
@@ -937,7 +937,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </optgroup>
         <option value="__custom">Other / Custom…</option>
       </select>
-      <input type="text" id="f-district" placeholder="e.g. Chamoli" style="display:none;">
+      <input type="text" id="f-district" placeholder="e.g. District name" style="display:none;">
     </div>
 
     <div class="field">
@@ -945,7 +945,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <select id="f-tehsil-select" style="margin-bottom:6px;">
         <option value="">— Select District first —</option>
       </select>
-      <input type="text" id="f-tehsil" placeholder="e.g. Joshimath" style="display:none;">
+      <input type="text" id="f-tehsil" placeholder="e.g. Tehsil name" style="display:none;">
     </div>
 
     <div class="field">
@@ -953,7 +953,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <select id="f-block-select" style="margin-bottom:6px;">
         <option value="">— Select District first —</option>
       </select>
-      <input type="text" id="f-block" placeholder="e.g. Joshimath" style="display:none;">
+      <input type="text" id="f-block" placeholder="e.g. Block name" style="display:none;">
     </div>
 
     <div class="field">
@@ -961,49 +961,49 @@ document.addEventListener('DOMContentLoaded', () => {
       <select id="f-division-select" style="margin-bottom:6px;">
         <option value="">— Select District first —</option>
       </select>
-      <input type="text" id="f-division" placeholder="e.g. Kedarnath Vanya Jeev Prabhag" style="display:none;">
+      <input type="text" id="f-division" placeholder="e.g. Forest Division name" style="display:none;">
     </div>
 
     <div class="field">
       <label>Forest Range / Block (वन राजि / ब्लाक)</label>
-      <input type="text" id="f-range" placeholder="e.g. Joshimath Range / Gaw Block">
+      <input type="text" id="f-range" placeholder="e.g. Range / Block name">
     </div>
 
     <div class="field">
       <label>Village Name (ग्राम का नाम)</label>
-      <input type="text" id="f-village-name" placeholder="e.g. Gaw">
+      <input type="text" id="f-village-name" placeholder="e.g. Village name">
     </div>
 
     <div class="field">
       <label>Gram Pradhan / Sarpanch Name</label>
-      <input type="text" id="f-pradhan" placeholder="e.g. Shri Ram Lal">
+      <input type="text" id="f-pradhan" placeholder="e.g. Gram Pradhan name">
     </div>
 
     <div class="field">
       <label>Population Benefited (जनसंख्या)</label>
-      <input type="number" id="f-population" placeholder="e.g. 250" min="0">
+      <input type="number" id="f-population" placeholder="e.g. 2100" min="0">
     </div>
 
     <div class="divider-label" data-fp-page="2" style="margin-top:14px;">👥 Inspection Team</div>
 
     <div class="field">
       <label>Forest Team Name</label>
-      <input type="text" id="f-forest-team" placeholder="e.g. Forester Gaurav Bhatt">
+      <input type="text" id="f-forest-team" placeholder="e.g. Forest official name & designation">
     </div>
 
     <div class="field">
       <label>Revenue Team</label>
-      <input type="text" id="f-revenue-team" placeholder="e.g. Gambhir">
+      <input type="text" id="f-revenue-team" placeholder="e.g. Revenue official name & designation">
     </div>
 
     <div class="field">
       <label>Ameen / PWD</label>
-      <input type="text" id="f-ameen" placeholder="e.g. Anoop">
+      <input type="text" id="f-ameen" placeholder="e.g. Ameen name">
     </div>
 
     <div class="field">
       <label>Junior Engineer / PWD</label>
-      <input type="text" id="f-je" placeholder="e.g. Satti">
+      <input type="text" id="f-je" placeholder="e.g. Junior Engineer name">
     </div>
 
     <div class="field">
@@ -1018,12 +1018,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     <div class="field">
       <label>User Agency (प्रयोक्ता एजेन्सी)</label>
-      <input type="text" id="f-agency" placeholder="e.g. PWD Uttarakhand">
+      <input type="text" id="f-agency" placeholder="e.g. User agency / department name">
     </div>
 
     <div class="field">
       <label>Project Length (meters) <span style="font-size:10px; color:#b56516; font-weight:normal;">— estimated from PWD letter, refined after survey</span></label>
-      <input type="number" id="f-length" placeholder="e.g. 850" min="0" step="1">
+      <input type="number" id="f-length" placeholder="e.g. 10000" min="0" step="1">
     </div>
 
     <div class="field">
@@ -1033,7 +1033,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     <div class="field">
       <label>Total Forest Area Sought (hectares) <span style="font-size:10px; color:#b56516; font-weight:normal;">— client's estimate; actual measured during survey</span></label>
-      <input type="number" id="f-area" placeholder="e.g. 0.425" min="0" step="0.0001">
+      <input type="number" id="f-area" placeholder="e.g. 6.3336" min="0" step="0.0001">
     </div>
 
     <div class="field">
@@ -1064,6 +1064,27 @@ document.addEventListener('DOMContentLoaded', () => {
       <label>Total Project Cost (₹ in lakhs)</label>
       <input type="number" id="f-cost" placeholder="e.g. 85.50" min="0" step="0.01">
     </div>
+
+    <!-- ════════ PAYMENT TRACKER ════════ -->
+    <div class="divider-label" style="margin-top:18px;">💵 Consultancy Payment Tracker</div>
+    <div class="field">
+      <label>Total Consultancy Fee (₹) — what the client pays you</label>
+      <input type="number" id="f-fee-total" placeholder="e.g. 75000" min="0" step="1" oninput="recalcPayments()">
+    </div>
+    <div id="milestone-list" style="margin:8px 0;"></div>
+    <button type="button" class="btn btn-ghost" id="btn-add-milestone" style="font-size:13px; padding:8px 12px;">+ Add Milestone</button>
+    <div id="payment-summary" style="margin-top:10px; padding:10px 12px; background:#f0f6f0; border:1px solid #cde0cd; border-radius:8px; font-size:13px;">
+      <div style="display:flex; justify-content:space-between; margin-bottom:3px;">
+        <span>Total received</span><strong id="pay-received" style="color:#2f7857;">₹0</strong>
+      </div>
+      <div style="display:flex; justify-content:space-between; margin-bottom:3px;">
+        <span>Balance due</span><strong id="pay-balance" style="color:#b56516;">₹0</strong>
+      </div>
+      <div style="display:flex; justify-content:space-between;">
+        <span>Collected</span><strong id="pay-pct" style="color:#1d4434;">0%</strong>
+      </div>
+    </div>
+    <!-- ════════ END PAYMENT TRACKER ════════ -->
 
     <div class="field">
       <label>NPV Estimate (₹) — for alignment comparison</label>
@@ -1100,18 +1121,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     <div class="field">
       <label>Client Name / Contact Person</label>
-      <input type="text" id="f-client-name" placeholder="e.g. Er. Anuj Bharadwaj, AE PWD Ukhimath">
+      <input type="text" id="f-client-name" placeholder="e.g. Contact person name & designation">
     </div>
 
     <div class="field">
       <label>Client Phone (for WhatsApp share)</label>
-      <input type="tel" id="f-client-phone" placeholder="e.g. 9412345678" inputmode="tel">
+      <input type="tel" id="f-client-phone" placeholder="e.g. 10-digit mobile number" inputmode="tel">
       <div class="hint">10-digit number, no +91 prefix needed</div>
     </div>
 
     <div class="field">
       <label>Client Email (optional)</label>
-      <input type="email" id="f-client-email" placeholder="e.g. ae.ukhimath@pwd.uk.gov.in">
+      <input type="email" id="f-client-email" placeholder="e.g. name@example.com">
     </div>
 
     <div class="field">
@@ -1138,7 +1159,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     <div class="field">
       <label>Private Notes</label>
-      <textarea id="f-notes" rows="3" placeholder="e.g. NPV rate pending from DFO. Collected ₹5000 advance on 12/3. Balance on delivery."></textarea>
+      <textarea id="f-notes" rows="3" placeholder="e.g. Any project notes or pending items"></textarea>
     </div>
   </div>
 
@@ -1220,7 +1241,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="row2">
         <div class="field">
           <label>Nearest wildlife / protected area</label>
-          <input type="text" id="f-wildlife-name" placeholder="e.g. Kedarnath Wildlife Sanctuary">
+          <input type="text" id="f-wildlife-name" placeholder="e.g. Wildlife sanctuary / national park name">
         </div>
         <div class="field">
           <label>Distance (km)</label>
@@ -1232,14 +1253,14 @@ document.addEventListener('DOMContentLoaded', () => {
       
       <div class="field">
         <label>Compensatory Afforestation (CA) land — if identified</label>
-        <input type="text" id="f-ca-site" placeholder="e.g. Compartment 7B, Mandal Range (9.64 ha)">
+        <input type="text" id="f-ca-site" placeholder="e.g. CA plantation site (compartment, range, area)">
       </div>
 
       
       <div class="row2">
         <div class="field">
           <label>Sanction / GO letter no.</label>
-          <input type="text" id="f-sanction-no" placeholder="e.g. 1234/PWD/2025">
+          <input type="text" id="f-sanction-no" placeholder="e.g. Sanction / GO letter number">
         </div>
         <div class="field">
           <label>Sanction date</label>
@@ -1251,7 +1272,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="row2">
         <div class="field">
           <label>NPV UTR / PFMS ref (if paid)</label>
-          <input type="text" id="f-npv-utr" placeholder="UTR2026030600157823">
+          <input type="text" id="f-npv-utr" placeholder="e.g. UTR / PFMS reference number">
         </div>
         <div class="field">
           <label>NPV paid on</label>
@@ -1288,7 +1309,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         <div class="field">
           <label>Alt alignment — Rejection reason</label>
-          <input type="text" id="f-alt-reason" placeholder="e.g. H.P. Band-4 व अधिक वन भूमि प्रभावित">
+          <input type="text" id="f-alt-reason" placeholder="e.g. Reason this alignment was rejected">
         </div>
       </div>
       </div><!-- /data-fp-page=5 (rejected alt) -->
@@ -1389,11 +1410,11 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="row2">
         <div class="field">
           <label>Start point name / location (Ch. 0+000)</label>
-          <input type="text" id="f-chainage-start" placeholder="e.g. Gopeshwar end / Near Gopeshwar Bridge">
+          <input type="text" id="f-chainage-start" placeholder="e.g. Start point / landmark">
         </div>
         <div class="field">
           <label>End point name / location</label>
-          <input type="text" id="f-chainage-end" placeholder="e.g. Chopta end / Ukhimath Junction">
+          <input type="text" id="f-chainage-end" placeholder="e.g. End point / landmark">
         </div>
       </div>
       <div class="field">
@@ -1748,6 +1769,9 @@ document.addEventListener('DOMContentLoaded', () => {
       <button class="btn btn-ghost" id="btn-import-xlsx">
         📥 Import from tracker.xlsx
       </button>
+      <button class="btn btn-ghost" id="btn-portfolio-report" onclick="generatePortfolioReport()" style="grid-column: span 2;">
+        📄 Projects Portfolio Report (PDF)
+      </button>
     </div>
   </div>
 
@@ -1771,12 +1795,12 @@ document.addEventListener('DOMContentLoaded', () => {
   <button onclick="renderTrashModal()" id="btn-show-trash"
     style="padding:7px 11px;border:1px solid #b56516;background:#fff8e8;color:#a86832;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;"
     title="View trashed records — restore or permanently delete">🗑 Trash <span id="trash-count-badge" style="background:#ad2e15;color:#fff;border-radius:9px;padding:1px 6px;font-size:10px;font-weight:700;display:none;">0</span></button>
-  <button onclick="loadSampleRoadProject()" id="btn-load-sample"
-    style="padding:7px 11px;border:1px solid #1d4434;background:#e8f5e9;color:#1d4434;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;"
-    title="Load a realistic 4 km Uttarakhand hill-road sample with full data — for testing & demos">📋 Load Sample</button>
-  <button onclick="loadAllBigSamples()" id="btn-load-big-samples"
-    style="padding:7px 11px;border:1px solid #6a4c1e;background:#f5e8d4;color:#6a4c1e;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;"
-    title="Load 3 LARGE samples — each ~620 trees, 20 HP bends, 10 muck yards, 3 villages — for comparison scrutiny">📚 Load 3 Big Samples</button>
+  <button onclick="removeSampleData()" id="btn-remove-samples"
+    style="padding:7px 11px;border:1px solid #ad2e15;background:#fdecea;color:#ad2e15;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;"
+    title="Delete all demo/sample projects (SAMPLE-* and BIG sample) from this device">🗑 Remove Sample Data</button>
+  <button onclick="generatePortfolioReport()" id="btn-records-report"
+    style="padding:7px 11px;border:1px solid #1d4434;background:#e8f3ed;color:#1d4434;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;"
+    title="Generate a one-page PDF report of all projects">📄 Portfolio Report</button>
 </div>
 <div id="records-list"></div>
 </section>
@@ -2055,7 +2079,7 @@ window.toggleAuditSaveBar = toggleAuditSaveBar;
 
     <div class="field">
       <label>🌳 Trees on this yard <span style="color:#888;">— optional, will be cut at disposal site</span></label>
-      <textarea id="mk-trees-on-yard" rows="3" placeholder="One tree per line — format: Species | DBH (cm) | Condition&#10;e.g.&#10;Banj Oak | 30-40 | Sound&#10;Chir Pine | 50-60 | Diseased"></textarea>
+      <textarea id="mk-trees-on-yard" rows="3" placeholder="One tree per line — format: Species ; DBH (cm) ; Condition&#10;e.g.&#10;Banj Oak ; 30-40 ; Sound&#10;Chir Pine ; 50-60 ; Diseased"></textarea>
       <div class="hint">Trees standing on the muck disposal site that may need cutting. Listed separately from main alignment trees.</div>
     </div>
 
@@ -2103,7 +2127,7 @@ window.toggleAuditSaveBar = toggleAuditSaveBar;
 
     <div class="field">
       <label>Bend Name / Label <span class="req">*</span></label>
-      <input type="text" id="hp-name" placeholder="e.g. HP-1 at Pawannagar climb">
+      <input type="text" id="hp-name" placeholder="e.g. HP-1 at hill climb section">
     </div>
 
     <div class="field">
@@ -2161,7 +2185,7 @@ window.toggleAuditSaveBar = toggleAuditSaveBar;
 
     <div class="field">
       <label>🌳 Trees affected at this bend <span style="color:#888;">— optional</span></label>
-      <textarea id="hp-trees" rows="3" placeholder="One tree per line — format: Species | DBH (cm) | Condition&#10;e.g.&#10;Chir Pine | 30-40 | Sound&#10;Banj Oak | 20-30 | Sound"></textarea>
+      <textarea id="hp-trees" rows="3" placeholder="One tree per line — format: Species ; DBH (cm) ; Condition&#10;e.g.&#10;Chir Pine ; 30-40 ; Sound&#10;Banj Oak ; 20-30 ; Sound"></textarea>
       <div class="hint">Trees standing at/near this bend that may need cutting for widening. Listed separately from main alignment trees in JIR.</div>
     </div>
 
@@ -2263,6 +2287,28 @@ window.toggleAuditSaveBar = toggleAuditSaveBar;
       <button class="btn btn-ghost" id="btn-cs-diagnose" style="background:#fff4e6;">🩺 Diagnose</button>
     </div>
 
+    <div style="height:10px;"></div>
+
+    <!-- ═══ SYNC MODE ═══ -->
+    <div style="background:#f8f6f0; border:1px solid var(--line); border-radius:8px; padding:12px;">
+      <div style="font-weight:700; color:var(--forest); font-size:13px; margin-bottom:8px;">📱 Sync Mode for this device</div>
+      <div style="display:flex; gap:8px;">
+        <button type="button" id="btn-mode-office" onclick="applySyncMode('office')"
+          style="flex:1; padding:10px 8px; border-radius:8px; border:2px solid var(--line); background:#fff; cursor:pointer; font-size:12px; font-weight:600;">
+          🏢 Office Mode<br><span style="font-weight:400; font-size:10px; color:#888;">All projects sync</span>
+        </button>
+        <button type="button" id="btn-mode-field" onclick="applySyncMode('field')"
+          style="flex:1; padding:10px 8px; border-radius:8px; border:2px solid var(--line); background:#fff; cursor:pointer; font-size:12px; font-weight:600;">
+          🥾 Field Mode<br><span style="font-weight:400; font-size:10px; color:#888;">Only chosen projects</span>
+        </button>
+      </div>
+      <div id="mode-hint" style="font-size:11px; color:#666; margin-top:8px;"></div>
+      <button type="button" id="btn-cloud-projects" onclick="openCloudProjectsBrowser()"
+        style="display:none; width:100%; margin-top:8px; padding:9px; border-radius:8px; border:1px solid var(--forest); background:#e8f3ed; color:var(--forest); font-weight:600; font-size:12px; cursor:pointer;">
+        ☁ Choose Cloud Projects to Download
+      </button>
+    </div>
+
     <div style="height:8px;"></div>
 
     <div class="btn-row" style="flex-wrap:wrap;">
@@ -2282,6 +2328,18 @@ window.toggleAuditSaveBar = toggleAuditSaveBar;
             <div style="font-size:11px;color:#888;">Push each record to Google Sheets as soon as you save it</div>
           </div>
           <label style="cursor:pointer;"><input type="checkbox" id="auto-sync-toggle" style="width:18px;height:18px;cursor:pointer;vertical-align:middle;"></label>
+        </div>
+        <div style="padding:8px 0; border-top:1px solid var(--line);">
+          <div style="font-weight:600; margin-bottom:6px;">⏱ Sync frequency</div>
+          <div style="font-size:11px;color:#888; margin-bottom:6px;">How often the app checks for changes and syncs both devices</div>
+          <select id="sync-interval-select" onchange="setBatchSyncInterval(parseInt(this.value,10))"
+            style="width:100%; padding:8px; border:1px solid var(--line); border-radius:6px; font-size:13px; background:#fff;">
+            <option value="30000">Every 30 seconds</option>
+            <option value="45000">Every 45 seconds</option>
+            <option value="60000">Every 1 minute (default)</option>
+            <option value="300000">Every 5 minutes</option>
+            <option value="86400000">Manual only</option>
+          </select>
         </div>
         <div style="font-size:11px; color:#666; padding-top:8px; border-top:1px solid var(--line);">
           <div>Last sync: <span id="cs-last-sync">—</span></div>
@@ -2468,7 +2526,7 @@ window.toggleAuditSaveBar = toggleAuditSaveBar;
         <option value="">— Pick from project villages (or Other) —</option>
         <option value="__other">Other / custom — type below</option>
       </select>
-      <input type="text" id="t-village" placeholder="e.g. Gaw village, Comp. 4" style="display:none;">
+      <input type="text" id="t-village" placeholder="e.g. Mansoona village, Comp. 4" style="display:none;">
       <div class="hint">Dropdown is populated from the villages you entered on the project form. Pick "Other" to type a custom location.</div>
     </div>
 
@@ -2752,37 +2810,37 @@ window.toggleAuditSaveBar = toggleAuditSaveBar;
 
     <div class="field">
       <label>Business Name <span class="req">*</span></label>
-      <input type="text" id="s-businessName" placeholder="e.g. Pawan Forest Consultancy">
+      <input type="text" id="s-businessName" placeholder="e.g. Your business / consultancy name">
     </div>
     <div class="field">
       <label>Tagline</label>
-      <input type="text" id="s-tagline" placeholder="e.g. FC Act 1980 Proposals · Joint Inspection Support">
+      <input type="text" id="s-tagline" placeholder="e.g. Forest diversion proposals · Inspection support">
     </div>
     <div class="field">
       <label>Proprietor / Your Name</label>
-      <input type="text" id="s-proprietor" placeholder="e.g. Er. Pawan Kumar">
+      <input type="text" id="s-proprietor" placeholder="e.g. Proprietor name">
     </div>
     <div class="field">
       <label>Address</label>
-      <input type="text" id="s-address" placeholder="e.g. Ukhimath, Rudraprayag, Uttarakhand 246439">
+      <input type="text" id="s-address" placeholder="e.g. Town, District, State, PIN">
     </div>
     <div class="field">
       <label>Phone (WhatsApp preferred)</label>
-      <input type="tel" id="s-phone" placeholder="e.g. 9412345678" inputmode="tel">
+      <input type="tel" id="s-phone" placeholder="e.g. 10-digit mobile number" inputmode="tel">
     </div>
     <div class="field">
       <label>Email</label>
-      <input type="email" id="s-email" placeholder="e.g. pawan@forestconsult.in">
+      <input type="email" id="s-email" placeholder="e.g. name@example.com">
     </div>
     <div class="field">
       <label>GSTIN (optional — enables 18% GST on invoices)</label>
-      <input type="text" id="s-gstin" placeholder="e.g. 05AAAAA0000A1Z5">
+      <input type="text" id="s-gstin" placeholder="e.g. 15-character GSTIN">
     </div>
 
     <div class="divider-label">Bank Details (for invoice payment)</div>
     <div class="field">
       <label>Bank Name</label>
-      <input type="text" id="s-bankName" placeholder="e.g. State Bank of India, Ukhimath Branch">
+      <input type="text" id="s-bankName" placeholder="e.g. Bank name & branch">
     </div>
     <div class="field">
       <label>Account Number</label>
@@ -2794,7 +2852,7 @@ window.toggleAuditSaveBar = toggleAuditSaveBar;
     </div>
     <div class="field">
       <label>UPI ID (optional)</label>
-      <input type="text" id="s-upi" placeholder="e.g. pawan@oksbi">
+      <input type="text" id="s-upi" placeholder="e.g. yourname@bank">
     </div>
 
     <div class="divider-label">Terms & Conditions</div>
@@ -2925,7 +2983,7 @@ window.toggleAuditSaveBar = toggleAuditSaveBar;
       <summary style="cursor:pointer; font-size:13px; font-weight:600; color:var(--forest); padding:6px 0;">Expected Format — Click to expand</summary>
       <div style="background:#f8f6f0; padding:10px; border-radius:6px; font-size:12px; line-height:1.6;">
         <strong>Columns (in this order):</strong><br>
-        <code style="font-family:monospace;">Species | DBH (cm) | Condition | Land Type | Village/Notes</code><br><br>
+        <code style="font-family:monospace;">Species ; DBH (cm) ; Condition ; Land Type ; Village/Notes</code><br><br>
         <strong>Example rows (tab/comma separated):</strong><br>
         <pre style="background:#fff; padding:8px; border-radius:4px; overflow-x:auto; margin:4px 0; font-size:11px;">Chir Pine	20-30	green standing	आरक्षित वन भूमि	Gaw
 Banj Oak	30-40	green standing	सिविल एवं सोयम	Gaw
@@ -6222,7 +6280,10 @@ function doSave() {
     // Signatories directory — collected from signers-table rows
     signers: collectSigners(),
     landSchedule: collectLandScheduleAsObject(),
-    landScheduleRows: collectLandScheduleAsArray()
+    landScheduleRows: collectLandScheduleAsArray(),
+    // Consultancy payment tracker
+    feeTotal: document.getElementById('f-fee-total')?.value || '',
+    milestones: (typeof collectMilestones === 'function') ? collectMilestones() : []
   };
 
   const all = loadRecords();
@@ -6245,6 +6306,12 @@ function doSave() {
     toast('Record saved ✓ Code: ' + rec.code);
   }
   updateCount();
+
+  // Auto-subscribe this project so it always syncs on this device
+  // (whether newly created or just edited here).
+  if (typeof subscribeUuid === 'function') {
+    try { subscribeUuid(rec.uuid); } catch (e) {}
+  }
 
   // Auto-set this project as current so next tabs work on it
   setCurrentProjectUuid(rec.uuid);
@@ -6342,7 +6409,7 @@ function renderRecords(searchTerm) {
   } catch (e) {}
 
   if (!all.length) {
-    container.innerHTML = `<div style="padding:40px 16px;text-align:center;"><div style="font-size:42px;margin-bottom:12px;">🌲</div><h3 style="color:var(--forest);">No projects yet</h3><p style="color:#888;margin:8px 0 16px;">Save your first inspection to get started.</p><div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;"><button class="btn btn-primary" onclick="document.querySelector('.tab[data-view=form]')?.click();" style="padding:10px 18px;">＋ New Project</button><button class="btn" onclick="loadSampleRoadProject()" style="padding:10px 18px; background:#fff; color:#1d4434; border:1px solid #1d4434;">📋 Load Sample Road Project</button></div><p style="color:#aaa; font-size:11px; margin:14px 0 0;">Sample loads a realistic 4 km Uttarakhand hill road with trees, GPS, muck points and signatories — for testing & demos.</p></div>`;
+    container.innerHTML = `<div style="padding:40px 16px;text-align:center;"><div style="font-size:42px;margin-bottom:12px;">🌲</div><h3 style="color:var(--forest);">No projects yet</h3><p style="color:#888;margin:8px 0 16px;">Save your first inspection to get started.</p><div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;"><button class="btn btn-primary" onclick="document.querySelector('.tab[data-view=form]')?.click();" style="padding:10px 18px;">＋ New Project</button></div></div>`;
     return;
   }
 
@@ -6410,7 +6477,15 @@ function renderRecords(searchTerm) {
           ${tc?`<span style="background:#fff0e0;color:#a06010;border-radius:4px;padding:2px 7px;font-size:11px;">🌳 ${tc}</span>`:''}
           ${cc?`<span style="background:#e0f0ff;color:#1a5fa8;border-radius:4px;padding:2px 7px;font-size:11px;">📍 ${cc}</span>`:''}
           ${mc?`<span style="background:#fff0f8;color:#a03860;border-radius:4px;padding:2px 7px;font-size:11px;">🟤 ${mc}</span>`:''}
-          ${r.fee?`<span style="background:#f0f8ff;color:#1a5fa8;border-radius:4px;padding:2px 7px;font-size:11px;">₹${Number(r.fee).toLocaleString('en-IN')}</span>`:''}
+          ${(function(){
+            const fee = parseFloat(r.feeTotal||'0')||0;
+            if (fee<=0) return '';
+            let rcv=0;(r.milestones||[]).forEach(m=>{if(m.status==='Received')rcv+=parseFloat(m.amount||'0')||0;});
+            const bal=Math.max(0,fee-rcv);
+            const paid=rcv>=fee&&fee>0;
+            const fmt=n=>'₹'+Math.round(n).toLocaleString('en-IN');
+            return `<span style="background:${paid?'#e8f8e8':'#fff4e0'};color:${paid?'#128c40':'#b56516'};border-radius:4px;padding:2px 7px;font-size:11px;font-weight:600;">💵 ${fmt(rcv)}/${fmt(fee)}${paid?' ✓':' · '+fmt(bal)+' due'}</span>`;
+          })()}
         </div>
         <div style="height:3px;background:#eee;border-radius:2px;margin:3px 0;">
           <div style="height:100%;width:${pct}%;background:${m.color};border-radius:2px;"></div>
@@ -6671,9 +6746,17 @@ function deleteRecordById(uuid) {
     const rec = all[idx];
     const label = rec.code || rec.project || 'record';
 
+    const fieldMode = (typeof getSyncMode === 'function') && getSyncMode() === 'field';
+    const confirmTitle = fieldMode
+      ? 'Remove ' + label + ' from this device?'
+      : 'Move ' + label + ' to trash?';
+    const confirmMsg = fieldMode
+      ? 'This only removes the project from THIS device. The full copy stays safe in the cloud sheet — you can re-add it any time from Settings → Cloud Sync → ☁ Choose Cloud Projects. It also goes to local Trash (restorable 30 days).'
+      : 'The record (with trees, coords, muck points and photos) will be moved to Trash. You can restore it within 30 days from the 🗑 Trash button on the Records tab.';
+
     customConfirm(
-      'Move ' + label + ' to trash?',
-      'The record (with trees, coords, muck points and photos) will be moved to Trash. You can restore it within 30 days from the 🗑 Trash button on the Records tab.',
+      confirmTitle,
+      confirmMsg,
       () => {
         // YES → move to trash
         try {
@@ -6683,6 +6766,11 @@ function deleteRecordById(uuid) {
           const removed = all2.splice(idx2, 1)[0];
           saveRecords(all2);
           moveToTrash(removed);
+          // Field mode: unsubscribe so it isn't re-downloaded next sync.
+          // The cloud copy is intentionally left untouched.
+          if (typeof unsubscribeUuid === 'function') {
+            try { unsubscribeUuid(uuid); } catch (e) {}
+          }
           if (getCurrentProjectUuid() === uuid) setCurrentProjectUuid('');
 
           try { updateCount(); } catch (e) {}
@@ -6969,16 +7057,16 @@ function showRecordDetail(r) {
       if (!hasAnyGps) return '';
       const svg = buildAlignmentSVG(r, { width: 640, height: 400 });
       const withPhotos = (r.trees || []).filter(t => t.photo).length;
-      const selTrees = (r.trees || []).filter(t => (t.selStatus || t.condition) === 'Selected').length;
-      const rejTrees = (r.trees || []).filter(t => (t.selStatus || t.condition) === 'Rejected').length;
+      const totalTrees = (r.trees || []).length;
+      const sparedT = (r.trees || []).filter(t => (t.selStatus || t.condition) === 'Rejected').length;
       return `
       <details open style="margin:14px 0;">
         <summary style="cursor:pointer; font-weight:600; color:#1d4434; padding:6px 0; font-size:14px;">🗺 Alignment Preview &amp; Map</summary>
         <div style="background:#fafaf5; padding:10px; border-radius:6px; border:1px solid var(--line); margin-top:6px;">
           <div style="font-size:11px; color:var(--ink-soft); margin-bottom:6px; display:flex; gap:10px; flex-wrap:wrap;">
             <span><strong style="color:#1d4434;">${(r.coords||[]).length}</strong> alignment pts</span>
-            <span style="color:#ad2e15;"><strong>${selTrees}</strong> 🔴 Selected</span>
-            <span style="color:#2f7857;"><strong>${rejTrees}</strong> 🟢 Rejected</span>
+            <span style="color:#1d4434;"><strong>${totalTrees}</strong> 🌳 trees</span>
+            ${sparedT > 0 ? `<span style="color:#2f7857;"><strong>${sparedT}</strong> 🟢 spared</span>` : ''}
             ${withPhotos > 0 ? `<span style="color:#b56516;"><strong>${withPhotos}</strong> 📷 photos</span>` : ''}
           </div>
           <div style="border:1px solid #ccc; border-radius:4px; overflow:hidden; background:#fff;">
@@ -10214,15 +10302,21 @@ function proforma9(r) {
      Signatures: प्रभागीय वनाधिकारी | प्रयोक्ता एजेन्सी
      Note: यह सूचना प्रयोक्ता एजेन्सी के द्वारा प्रस्ताव के साथ संलग्न की जानी है।
   */
-  // Auto-compute from data: selected alignment = main survey; rejected = alt alignment
-  const selTrees = (r.trees || []).filter(t => (t.selStatus || t.condition) === 'Selected').length;
-  const rejTrees = (r.trees || []).filter(t => (t.selStatus || t.condition) === 'Rejected').length;
+  // संरेखण-1 (चयनित) = your actual surveyed road. Show TOTAL trees affected.
+  // If any trees were marked as spared, note that count alongside the total.
+  const allTrees = (r.trees || []).length;
+  const sparedTrees = (r.trees || []).filter(t => (t.selStatus || t.condition) === 'Rejected').length;
+  // Display: total, and "(N बचाये गये)" only when some are actually spared.
+  const selTreesDisplay = allTrees > 0
+    ? (sparedTrees > 0 ? allTrees + '<br><span class="small">(' + sparedTrees + ' बचाये गये)</span>' : String(allTrees))
+    : '';
   const selArea = escProp(r.area);
   const selLen  = escProp(r.length);
-  // Alt alignment data from optional altAlignment object on record
+  // संरेखण-2 (निरस्त) = the alternative route — filled in manually by the user
+  // (in the app or via the Google Sheet). Not field-surveyed.
   const alt = r.altAlignment || {};
   const altArea = alt.area || '';
-  const altTrees = alt.trees != null ? alt.trees : (rejTrees || '');
+  const altTrees = (alt.trees != null && alt.trees !== '') ? alt.trees : '';
   const altLen = alt.length || '';
   const altReason = alt.reason || 'अधिक वन भूमि प्रभावित एवं अधिक वृक्षों का पातन';
 
@@ -10252,7 +10346,7 @@ function proforma9(r) {
       </tr>
     </thead>
     <tbody>
-      ${row('संरेखण—1<br><span class="small">(चयनित)</span>', selArea, selTrees || '', selLen, 'कम वन भूमि प्रभावित एवं कम वृक्षों का पातन')}
+      ${row('संरेखण—1<br><span class="small">(चयनित)</span>', selArea, selTreesDisplay, selLen, 'कम वन भूमि प्रभावित एवं कम वृक्षों का पातन')}
       ${row('संरेखण—2<br><span class="small">(निरस्त)</span>', altArea, altTrees, altLen, altReason)}
     </tbody>
   </table>
@@ -11086,7 +11180,7 @@ function proforma33(r) {
   const villages = (r.beneficiaryVillages || '').split('\n')
     .map(l => l.trim()).filter(Boolean)
     .map(line => {
-      const parts = line.split('|').map(p => p.trim());
+      const parts = line.split(/[;|]/).map(p => p.trim());
       return { name: parts[0] || '', pop: parts[1] || '', fam: parts[2] || '' };
     });
   // Fallback: if empty list, use main village row
@@ -11595,7 +11689,7 @@ function proforma41(r) {
        (c) Rejected alignment muck points (with totals) — appears only if any rejected points exist
        (d) Safety check: yard capacity vs surplus muck → safe / NOT SAFE
      Signatures: प्रभागीय वनाधिकारी + प्रयोक्ता एजेन्सी
-     Cut depths use PWD Ukhimath convention (Forest 3m, Nap 2m, Civil 2m) — matches प्रपत्र-41.1 so
+     Cut depths use standard PWD convention (Forest 3m, Nap 2m, Civil 2m) — matches प्रपत्र-41.1 so
      both proformas show the same surplus value for the same project.
   */
   const all = r.muckPoints || [];
@@ -11615,7 +11709,7 @@ function proforma41(r) {
   // Totals for lead line
   const totalAreaHa = (selAreaHa + rejAreaHa).toFixed(4);
 
-  // ---- Surplus muck calculation (PWD Ukhimath convention) -----------------
+  // ---- Surplus muck calculation (standard PWD convention) -----------------
   // Forest 3m, Nap 2m, Civil 2m, half-cut/half-fill, +40% swell.
   // Utilized = sum of 8 standard work-item volumes (R/W, B/W, HP, Solling,
   // Super-elev, Edge, Patri, Regarding) — same formulas as प्रपत्र—41.1.
@@ -11625,7 +11719,7 @@ function proforma41(r) {
   const totalLenInput = parseFloat(r.length) || 0;
   let lenForest = parseFloat(ls.forest && ls.forest.length) || 0;
   let lenNap    = parseFloat(ls.nap    && ls.nap.length)    || 0;
-  // Civil-Soyam + Van Panchayat both use 2m cut depth (PWD Ukhimath convention);
+  // Civil-Soyam + Van Panchayat both use 2m cut depth (standard PWD convention);
   // group them together so VP land isn't ignored in muck balance.
   let lenCivil  = (parseFloat(ls.civilSoyam && ls.civilSoyam.length) || 0)
                 + (parseFloat(ls.vanPanchayat && ls.vanPanchayat.length) || 0);
@@ -11767,7 +11861,7 @@ function proforma41(r) {
 /* ============================================================
    प्रारुप — PWD Cost-Benefit Summary (Construction Division format)
    Two-row deposit table + Benefits + JE/AE/EE signatures.
-   Used by C.D. PWD Ukhimath as a one-page attachment alongside
+   Used by C.D. PWD as a one-page attachment alongside
    the central Annexure VI cost-benefit (which is proforma22).
    Auto-fills from:
      r.cost              — project construction cost (lakh)
@@ -11881,7 +11975,7 @@ function prarupCostBenefit(r) {
 
 /* ============================================================
    प्रपत्र—41 (PWD format) — Detailed Muck Disposal Calculation
-   Construction Division PWD Ukhimath convention. Three sections:
+   Construction Division standard PWD convention. Three sections:
      (1) Material Received from Hill Side Cutting (Half-cut/Half-fill)
          — Forest / Nap / Civil land × ½ × L × W × depth
          — +40% Swelling Factor → Grand Total
@@ -11893,7 +11987,7 @@ function prarupCostBenefit(r) {
      (4) Dumping Yard table from r.muckPoints (Selected branch)
      (5) Safety check: yard capacity ≥ net disposal → "safe"
    Signatures: Junior / Assistant / Executive Engineer (PWD)
-   Cut depths follow PWD-Ukhimath convention: Forest 3m, Nap 2m, Civil 2m.
+   Cut depths follow standard PWD convention: Forest 3m, Nap 2m, Civil 2m.
    ============================================================ */
 function proforma41_1(r) {
   const F2 = (n, d = 2) => (isFinite(n) ? n.toFixed(d) : '0.00');
@@ -11904,14 +11998,14 @@ function proforma41_1(r) {
   const roadW = parseFloat(r.width) || 4.0;
   const totalLenInput = parseFloat(r.length) || 0;
 
-  // Cut depths (PWD Ukhimath convention)
+  // Cut depths (standard PWD convention)
   const dForest = 3.0, dNap = 2.0, dCivil = 2.0;
   const HALF = 0.5;  // half-cut, half-fill method
 
   // Land lengths from Land Schedule
   let lenForest = parseFloat(ls.forest && ls.forest.length) || 0;
   let lenNap    = parseFloat(ls.nap    && ls.nap.length)    || 0;
-  // Civil-Soyam + Van Panchayat both use 2m cut depth (PWD Ukhimath convention);
+  // Civil-Soyam + Van Panchayat both use 2m cut depth (standard PWD convention);
   // group them together so VP land isn't ignored in muck balance.
   let lenCivil  = (parseFloat(ls.civilSoyam && ls.civilSoyam.length) || 0)
                 + (parseFloat(ls.vanPanchayat && ls.vanPanchayat.length) || 0);
@@ -11937,7 +12031,7 @@ function proforma41_1(r) {
   // Total length L used as base for all utilization items
   const L = totalLenInput > 0 ? totalLenInput : lenSum;
 
-  // 8 utilization items (matches PWD Ukhimath template)
+  // 8 utilization items (matches PWD template)
   const items = [
     { particular: 'For construction of R/W 20% of Total Length', nos1: 1, nos2: 1,   L: 0.20 * L, Bexpr: '(0.50+1.50)/2', B: 1.00, H: 4.00 },
     { particular: 'For construction of B/W 20% of Total Length', nos1: 1, nos2: 1,   L: 0.20 * L, Bexpr: '(0.60+0.90)/2', B: 0.75, H: 1.80 },
@@ -11996,9 +12090,9 @@ function proforma41_1(r) {
   const safetyColor = isSafe ? '#1d6a3a' : '#ad2e15';
 
   // PWD signature office — independent of project block.
-  // Defaults to Ukhimath (user's home division); set r.pwdOffice to override.
-  const pwdOffice = (r.pwdOffice && String(r.pwdOffice).trim()) || 'Ukhimath';
-  const pwdOfficeHi = (r.pwdOfficeHi && String(r.pwdOfficeHi).trim()) || 'ऊखीमठ';
+  // Falls back to the project block name; set r.pwdOffice to override.
+  const pwdOffice = (r.pwdOffice && String(r.pwdOffice).trim()) || (r.block && String(r.block).trim()) || '__________';
+  const pwdOfficeHi = (r.pwdOfficeHi && String(r.pwdOfficeHi).trim()) || (r.blockHi && String(r.blockHi).trim()) || '__________';
 
   return `
 <div class="page">
@@ -13431,8 +13525,7 @@ function renderBanjSpecialPage(rec) {
     <h3 style="color:#b56516; margin-top:14pt; font-size:12pt;">सारांश / Summary</h3>
     <table style="width:100%; border-collapse:collapse; font-size:11pt; margin-top:6pt;">
       <tr><td style="padding:6pt 10pt; background:#f8f6f0; font-weight:600; width:55%; border:1pt solid #ccc;">कुल बाँज वृक्ष / Total Banj trees affected</td><td style="padding:6pt 10pt; border:1pt solid #ccc;"><strong>${banj.length}</strong> of ${total} total trees (${banjPct}%)</td></tr>
-      <tr><td style="padding:6pt 10pt; background:#f8f6f0; font-weight:600; border:1pt solid #ccc;">चयनित संरेखण पर / On Selected alignment</td><td style="padding:6pt 10pt; border:1pt solid #ccc;">🟢 <strong>${selected}</strong> trees</td></tr>
-      <tr><td style="padding:6pt 10pt; background:#f8f6f0; font-weight:600; border:1pt solid #ccc;">निरस्त संरेखण पर / On Rejected alignment</td><td style="padding:6pt 10pt; border:1pt solid #ccc;">🔴 <strong>${rejected}</strong> trees</td></tr>
+      ${rejected > 0 ? `<tr><td style="padding:6pt 10pt; background:#f8f6f0; font-weight:600; border:1pt solid #ccc;">इनमें से बचाये गये बाँज / Banj trees spared</td><td style="padding:6pt 10pt; border:1pt solid #ccc;">🟢 <strong>${rejected}</strong> trees</td></tr>` : ''}
       <tr><td style="padding:6pt 10pt; background:#f8f6f0; font-weight:600; border:1pt solid #ccc;">परिपक्व बाँज (DBH ≥ 60cm) / Mature Banj</td><td style="padding:6pt 10pt; border:1pt solid #ccc;"><strong>${mature}</strong> ${mature > 0 ? '<span style="color:#ad2e15; font-weight:600;">⚠ विशेष संरक्षण अनिवार्य</span>' : ''}</td></tr>
       <tr><td style="padding:6pt 10pt; background:#f8f6f0; font-weight:600; border:1pt solid #ccc;">औसत व्यास (DBH) / Average DBH</td><td style="padding:6pt 10pt; border:1pt solid #ccc;">${avgDia} cm</td></tr>
       <tr><td style="padding:6pt 10pt; background:#f8f6f0; font-weight:600; border:1pt solid #ccc;">अनुशंसित CA अनुपात / Recommended CA ratio</td><td style="padding:6pt 10pt; border:1pt solid #ccc;"><strong>${caRatio}</strong> (per Banj → plantation seedlings)</td></tr>
@@ -16951,10 +17044,9 @@ function _renderDashProjects(recs) {
         <div style="padding:24px 16px; text-align:center;">
           <div style="font-size:42px; margin-bottom:8px;">🌲</div>
           <h3 style="margin:4px 0; color:var(--forest);">No projects yet</h3>
-          <p style="color:var(--ink-soft); margin:8px 0 16px;">Tap below to add your first project or load the sample.</p>
+          <p style="color:var(--ink-soft); margin:8px 0 16px;">Tap below to add your first project.</p>
           <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
             <button class="btn btn-primary" onclick="document.querySelector('.tab[data-view=form]')?.click();" style="padding:10px 18px;">+ New Project</button>
-            <button class="btn btn-amber" onclick="loadGopeshwarSample();" style="padding:10px 18px;">📋 Blank Template</button>
           </div>
         </div>`;
     } else {
@@ -17247,8 +17339,14 @@ function loadToForm(rec) {
       'f-lease-rent-pct':    rec.leaseRentPct || '',
       'f-lease-years':       rec.leaseYears || '',
       // Beneficiaries
-      'f-beneficiary-villages': rec.beneficiaryVillages || ''
+      'f-beneficiary-villages': rec.beneficiaryVillages || '',
+      // Payment tracker
+      'f-fee-total': rec.feeTotal || ''
     };
+    // Payment milestones — populate the milestone list
+    if (typeof renderMilestones === 'function') {
+      renderMilestones(Array.isArray(rec.milestones) && rec.milestones.length ? rec.milestones : null);
+    }
     // Land schedule — populate dynamic rows (handles both old and new format)
     if (typeof populateLandScheduleFromRecord === 'function') {
       populateLandScheduleFromRecord(rec);
@@ -17636,7 +17734,7 @@ const TERMS_AND_CONDITIONS = [
       '<strong>We work year-round.</strong> Uttarakhand has only 2–3 months of unrestricted weather annually; rigidly avoiding monsoon or winter would make most projects unviable. Instead, we plan each project around its specific altitude, access, and project urgency.',
       '<strong>Optimal windows (least risk, fastest turnaround):</strong> Mid-March to mid-June, and mid-September to mid-November. Surveys scheduled here are charged at standard rates.',
       '<strong>Monsoon period (15 June – 15 September):</strong> We continue to work, but with a <strong>daily weather-based go/no-go call</strong>. On days of heavy rain or active landslide activity, field work is paused; we use the time for data processing, report drafting, and office work. Any weather-caused delay adds to timeline without penalty. If a specific site becomes inaccessible (washed-out approach road, active landslide) we wait for clearance rather than risk safety.',
-      '<strong>Winter period (15 November – 15 March):</strong> Survey is fully feasible for sites <strong>below ~2,000 m altitude</strong> (most of Rudraprayag, Chamoli, Uttarkashi valleys — Gopeshwar, Ukhimath, Karnaprayag, Srinagar, Gauchar). Work continues normally in these areas. For sites between 2,000–2,500 m, we plan around snow forecasts. For sites above ~2,500 m (upper Chopta, Tungnath area, Kedarnath valley, Madhyamaheshwar, Har-ki-Dun), surveys are rescheduled to after snowmelt (typically April). Client is informed of this constraint at quote stage.',
+      '<strong>Winter period (15 November – 15 March):</strong> Survey is fully feasible for sites <strong>below ~2,000 m altitude</strong> (most lower Garhwal valley areas). Work continues normally in these areas. For sites between 2,000–2,500 m, we plan around snow forecasts. For sites above ~2,500 m (upper Chopta, Tungnath area, Kedarnath valley, Madhyamaheshwar, Har-ki-Dun), surveys are rescheduled to after snowmelt (typically April). Client is informed of this constraint at quote stage.',
       '<strong>Char Dham Yatra peak (May 1 – June 30):</strong> We continue to work; traffic regulation only affects drive-in times. We typically start earlier in the day or arrange overnight stays near site to work around yatra traffic. No rescheduling needed unless the specific site lies on the yatra route and local police/SDRF imposes a temporary survey-halt.',
       'For projects with regulatory / court-ordered deadlines, we adjust our schedule aggressively to meet them — including early-morning / pre-dawn starts, extended stays at site, and overnight office turnarounds. Expedited-schedule surcharge (₹25,000) applies only if the turnaround is under 7 days.',
       'Bottom line: weather adds uncertainty, not a shutdown. Every project gets a realistic schedule at quote stage based on its altitude and season — with explicit contingency days built in.'
@@ -18193,7 +18291,7 @@ document.addEventListener('click', e => {
   // Records-view "Load Sample" button — loads the demo data
   const sampleBtn = e.target.closest && e.target.closest('#btn-load-sample');
   if (sampleBtn) {
-    loadGopeshwarSample();
+    loadTownSample();
     return;
   }
   // Dashboard "New Blank Project Template" — clears the form and opens it
@@ -18757,9 +18855,9 @@ function importTrackerXlsx(wb, filename) {
   });
 }
 
-function loadGopeshwarSample() {
+function loadTownSample() {
   // NOTE: This function now creates a BLANK TEMPLATE record with generic placeholder
-  // labels ("Name", "Designation", "Office", etc.) instead of the old Gopeshwar-Chopta
+  // labels ("Name", "Designation", "Office", etc.) instead of the old the town-Chopta
   // hardcoded sample. User fills in actual values. Function name kept for backward
   // compatibility with existing button onClick handlers.
   safeConfirm({
@@ -18767,11 +18865,11 @@ function loadGopeshwarSample() {
     message: 'A new project with placeholder fields will be created. You can then fill in real data.',
     yesLabel: 'Create',
     yesColor: '#1d4434',
-    onYes: () => _doLoadGopeshwarSample()
+    onYes: () => _doLoadTownSample()
   });
   return;
 }
-function _doLoadGopeshwarSample() {
+function _doLoadTownSample() {
 
   const recUuid = uuid();
   const rec = {
@@ -20704,7 +20802,7 @@ document.getElementById('btn-hp-save')?.addEventListener('click', () => {
   // Parse trees-on-bend textarea (same format as muck trees-on-yard)
   const treesText = (document.getElementById('hp-trees')?.value || '').trim();
   const treesOnBend = treesText ? treesText.split('\n').map((line, idx) => {
-    const parts = line.split('|').map(s => s.trim()).filter(Boolean);
+    const parts = line.split(/[;|]/).map(s => s.trim()).filter(Boolean);
     if (parts.length === 0) return null;
     return {
       sno: idx + 1,
@@ -20932,7 +21030,7 @@ function openMuckEditor(idx) {
         </div>
         <div class="field">
           <label>🌳 Trees on this yard (will be cut at disposal site)</label>
-          <textarea id="me-trees-on-yard" rows="3" placeholder="One tree per line — format: Species | DBH | Condition">${escapeHtml(treesOnYardText)}</textarea>
+          <textarea id="me-trees-on-yard" rows="3" placeholder="One tree per line — format: Species ; DBH ; Condition">${escapeHtml(treesOnYardText)}</textarea>
           <div class="hint">Separate from main alignment trees. Format: <code>Species | DBH (cm) | Condition</code></div>
         </div>
         <div class="field">
@@ -20982,7 +21080,7 @@ function openMuckEditor(idx) {
     const treesText = (document.getElementById('me-trees-on-yard').value || '').trim();
     if (treesText) {
       m.treesOnYard = treesText.split('\n').map((line, idx) => {
-        const parts = line.split('|').map(s => s.trim()).filter(Boolean);
+        const parts = line.split(/[;|]/).map(s => s.trim()).filter(Boolean);
         if (parts.length === 0) return null;
         return {
           sno: idx + 1,
@@ -21159,7 +21257,7 @@ document.getElementById('btn-mk-save')?.addEventListener('click', () => {
   // Parse trees-on-yard textarea — one tree per line, "Species | DBH | Condition"
   const treesText = (document.getElementById('mk-trees-on-yard')?.value || '').trim();
   const treesOnYard = treesText ? treesText.split('\n').map((line, idx) => {
-    const parts = line.split('|').map(s => s.trim()).filter(Boolean);
+    const parts = line.split(/[;|]/).map(s => s.trim()).filter(Boolean);
     if (parts.length === 0) return null;
     return {
       sno: idx + 1,
@@ -22996,10 +23094,59 @@ window.markRecordDirty = markRecordDirty;
    User can force immediate sync via global pill tap / Upload Now.
    ──────────────────────────────────────────────────────────────────── */
 const SYNC_INTERVAL_KEY = 'forest_sync_interval_ms';
-const BATCH_SYNC_DEFAULT_MS = 5 * 60 * 1000;  // 5 minutes
+const BATCH_SYNC_DEFAULT_MS = 60 * 1000;  // 1 minute
 let _batchSyncTimer = null;
 let _batchSyncNextRunAt = 0;
 let _batchPillTicker = null;
+
+/* ── SYNC MODE & SUBSCRIPTIONS ────────────────────────────────────
+   Office mode  : full sync — every project syncs both ways.
+   Field mode   : selective — only "subscribed" project UUIDs sync.
+                  Unsubscribed projects are never uploaded, never
+                  downloaded, and never deleted from the cloud sheet.
+   ──────────────────────────────────────────────────────────────── */
+const SYNC_MODE_KEY = 'forest_sync_mode';            // 'office' | 'field'
+const SUBSCRIBED_KEY = 'forest_subscribed_uuids_v1'; // JSON array of uuids
+
+function getSyncMode() {
+  return localStorage.getItem(SYNC_MODE_KEY) === 'field' ? 'field' : 'office';
+}
+function setSyncMode(mode) {
+  localStorage.setItem(SYNC_MODE_KEY, mode === 'field' ? 'field' : 'office');
+}
+function getSubscribedUuids() {
+  try { return new Set(JSON.parse(localStorage.getItem(SUBSCRIBED_KEY) || '[]')); }
+  catch (e) { return new Set(); }
+}
+function setSubscribedUuids(set) {
+  localStorage.setItem(SUBSCRIBED_KEY, JSON.stringify([...set]));
+}
+function isSubscribed(uuid) {
+  if (getSyncMode() === 'office') return true;  // office = everything
+  return getSubscribedUuids().has(uuid);
+}
+function subscribeUuid(uuid) {
+  const s = getSubscribedUuids(); s.add(uuid); setSubscribedUuids(s);
+}
+function unsubscribeUuid(uuid) {
+  const s = getSubscribedUuids(); s.delete(uuid); setSubscribedUuids(s);
+}
+window.getSyncMode = getSyncMode;
+window.setSyncMode = setSyncMode;
+window.isSubscribed = isSubscribed;
+window.subscribeUuid = subscribeUuid;
+window.unsubscribeUuid = unsubscribeUuid;
+
+/* Filter a list of remote records down to what THIS device should hold.
+   Office mode: keep all. Field mode: keep only subscribed UUIDs. */
+function filterRemoteForDevice(remote) {
+  if (getSyncMode() === 'office') return remote;
+  const subs = getSubscribedUuids();
+  return remote.filter(r => subs.has(r.uuid));
+}
+window.filterRemoteForDevice = filterRemoteForDevice;
+
+
 
 function getBatchSyncInterval() {
   const v = parseInt(localStorage.getItem(SYNC_INTERVAL_KEY) || '0', 10);
@@ -23007,7 +23154,11 @@ function getBatchSyncInterval() {
 }
 function setBatchSyncInterval(ms) {
   localStorage.setItem(SYNC_INTERVAL_KEY, String(ms));
-  ensureBatchTimer(true);  // restart timer
+  ensureBatchTimer(true);  // restart upload timer
+  // restart the download (auto-pull) timer too, so both match the new interval
+  if (typeof startPeriodicAutoPull === 'function') {
+    try { startPeriodicAutoPull(); } catch (e) {}
+  }
 }
 window.setBatchSyncInterval = setBatchSyncInterval;
 
@@ -23259,13 +23410,11 @@ function ensureGlobalSyncBadge() {
 /* Picker modal for sync interval — long-press the global pill to open */
 function showSyncIntervalPicker() {
   const choices = [
-    { label: 'Sync immediately on edit (live)', ms: 5 * 1000 },
-    { label: 'Every 1 minute',                  ms: 60 * 1000 },
-    { label: 'Every 5 minutes (default)',       ms: 5 * 60 * 1000 },
-    { label: 'Every 15 minutes',                ms: 15 * 60 * 1000 },
-    { label: 'Every 30 minutes',                ms: 30 * 60 * 1000 },
-    { label: 'Every 1 hour',                    ms: 60 * 60 * 1000 },
-    { label: 'Manual only (tap pill to sync)',  ms: 24 * 60 * 60 * 1000 }
+    { label: 'Every 30 seconds',               ms: 30 * 1000 },
+    { label: 'Every 45 seconds',               ms: 45 * 1000 },
+    { label: 'Every 1 minute (default)',       ms: 60 * 1000 },
+    { label: 'Every 5 minutes',                ms: 5 * 60 * 1000 },
+    { label: 'Manual only (tap pill to sync)', ms: 24 * 60 * 60 * 1000 }
   ];
   const current = getBatchSyncInterval();
   // Build inline modal
@@ -23475,7 +23624,7 @@ function openSyncConflictModal() {
               if (idx >= 0) all[idx] = resp.record;
               else all.push(resp.record);
               // Use raw localStorage write to avoid the saveRecords patch re-queuing this
-              localStorage.setItem('forest_records_v2', JSON.stringify(all));
+              localStorage.setItem(STORE_KEY, JSON.stringify(all));
               clearSyncConflict(uuid);
               notifySuccess('✓ Local updated from cloud', { title: 'Conflict resolved' });
               openSyncConflictModal();
@@ -23496,7 +23645,7 @@ function openSyncConflictModal() {
             // Bump updated_at to "now" so it wins
             rec.updated_at = new Date().toISOString();
             // Use raw write to avoid re-queueing this through markRecordDirty
-            localStorage.setItem('forest_records_v2', JSON.stringify(all));
+            localStorage.setItem(STORE_KEY, JSON.stringify(all));
             // Force upload with ?force=1
             const url = CloudSync.getUrl() + '?action=upload&key=' + encodeURIComponent(CloudSync.getKey()) + '&force=1';
             const fr = await fetch(url, {
@@ -23559,7 +23708,7 @@ if (typeof window !== 'undefined') {
   if (saveRecords._autoSyncPatched) return;
   const origSave = saveRecords;
   let lastSnapshot = null;
-  try { lastSnapshot = origSave._snapshot ? null : JSON.parse(localStorage.getItem('forest_records_v2') || '[]'); }
+  try { lastSnapshot = origSave._snapshot ? null : JSON.parse(localStorage.getItem(STORE_KEY) || '[]'); }
   catch (e) { lastSnapshot = []; }
   window.saveRecords = function(arr) {
     const before = lastSnapshot || [];
@@ -23678,7 +23827,7 @@ window.csQuickDownload = async function() {
     const local = (typeof loadRecords === 'function') ? loadRecords() : [];
     const merged = (typeof mergeRecords === 'function') ? mergeRecords(local, remote, 'merge-newer') : remote;
     if (typeof saveRecords === 'function') saveRecords(merged);
-    else localStorage.setItem('forest_records_v2', JSON.stringify(merged));
+    else localStorage.setItem(STORE_KEY, JSON.stringify(merged));
     const added = merged.length - local.length;
     notifySuccess('☁ Downloaded ' + remote.length + ' cloud records · ' + (added > 0 ? '+' + added + ' new' : 'no new records'),
                   { title: 'Cloud Sync', duration: 4000 });
@@ -23701,31 +23850,66 @@ window.csQuickDownload = async function() {
 async function autoPullOnStart() {
   if (typeof CloudSync === 'undefined') return;
   if (!CloudSync.isConfigured() || !CloudSync.isAutoEnabled()) return;
-  // Skip if we already pulled in the last 5 minutes
+  // Skip if we already pulled in the last 25 seconds (rate-limit guard).
   const lastPullKey = 'forest_cs_last_pull_v1';
   const lastPull = parseInt(localStorage.getItem(lastPullKey) || '0', 10);
-  if (Date.now() - lastPull < 5 * 60 * 1000) return;
+  if (Date.now() - lastPull < 25 * 1000) return;
   try {
-    const remote = await CloudSync.downloadAll();
+    // CHEAP CHECK FIRST: a ping tells us the newest cloud timestamp.
+    // If it matches what we already pulled, there is NO new data —
+    // skip the heavy downloadAll entirely. This is the "only sync if
+    // there is new data" behaviour for the download direction.
+    const seenKey = 'forest_cs_cloud_latest_v1';
+    let ping = null;
+    try { ping = await CloudSync.ping(); } catch (e) { ping = null; }
+    if (ping && ping.cloud_latest) {
+      const lastSeen = localStorage.getItem(seenKey) || '';
+      if (ping.cloud_latest === lastSeen) {
+        // Nothing new on the cloud — record the check time and stop.
+        localStorage.setItem(lastPullKey, String(Date.now()));
+        updateDashboardCloudSyncPill();
+        return;
+      }
+    }
+    const remoteRaw = await CloudSync.downloadAll();
+    // Field mode: only keep projects this device is subscribed to.
+    const remote = (typeof filterRemoteForDevice === 'function')
+      ? filterRemoteForDevice(remoteRaw) : remoteRaw;
     const local = (typeof loadRecords === 'function') ? loadRecords() : [];
     const localUuids = new Set(local.map(r => r.uuid));
     const newOnes = remote.filter(r => !localUuids.has(r.uuid));
-    if (newOnes.length > 0) {
-      const merged = (typeof mergeRecords === 'function') ? mergeRecords(local, remote, 'merge-newer') : [...local, ...newOnes];
-      if (typeof saveRecords === 'function') saveRecords(merged);
-      else localStorage.setItem('forest_records_v2', JSON.stringify(merged));
-      if (typeof notifyInfo === 'function') {
-        notifyInfo('☁ ' + newOnes.length + ' new record' + (newOnes.length > 1 ? 's' : '') + ' from cloud', { duration: 3000, title: 'Sync' });
-      }
-      if (typeof renderRecords === 'function') renderRecords();
-      if (typeof renderDashboard === 'function') renderDashboard();
+    // Merge always — picks up edits to existing records, not just new ones,
+    // so a project edited on the office PC updates on the field phone too.
+    const merged = (typeof mergeRecords === 'function')
+      ? mergeRecords(local, remote, 'merge-newer')
+      : [...local, ...newOnes];
+    if (typeof saveRecords === 'function') saveRecords(merged);
+    else localStorage.setItem(STORE_KEY, JSON.stringify(merged));
+    if (newOnes.length > 0 && typeof notifyInfo === 'function') {
+      notifyInfo('☁ ' + newOnes.length + ' new record' + (newOnes.length > 1 ? 's' : '') + ' from cloud', { duration: 3000, title: 'Sync' });
     }
+    if (typeof renderRecords === 'function') renderRecords();
+    if (typeof renderDashboard === 'function') renderDashboard();
     localStorage.setItem(lastPullKey, String(Date.now()));
+    if (ping && ping.cloud_latest) localStorage.setItem(seenKey, ping.cloud_latest);
     updateDashboardCloudSyncPill();
   } catch (e) {
     // Silent on startup — don't bother the user with errors
     CloudSync.log('error', 'Auto-pull failed: ' + e.message);
   }
+}
+
+/* Periodic auto-pull — keeps a field phone and an office PC in sync.
+   Runs on the same cadence as the batch upload interval, so within one
+   sync cycle each device both sends its changes and receives the other's. */
+function startPeriodicAutoPull() {
+  if (window._autoPullTimer) clearInterval(window._autoPullTimer);
+  const interval = Math.max(30 * 1000, (typeof getBatchSyncInterval === 'function') ? getBatchSyncInterval() : 60 * 1000);
+  window._autoPullTimer = setInterval(() => {
+    if (typeof CloudSync !== 'undefined' && CloudSync.isConfigured() && CloudSync.isAutoEnabled()) {
+      autoPullOnStart();
+    }
+  }, interval);
 }
 
 // Initialise dashboard pill + auto-pull when DOM is ready
@@ -23735,12 +23919,14 @@ async function autoPullOnStart() {
   var CS_URL_KEY = 'forest_cs_url_v1';
   var CS_KEY_KEY = 'forest_cs_key_v1';
   if (!localStorage.getItem(CS_URL_KEY)) localStorage.setItem(CS_URL_KEY, 'https://script.google.com/macros/s/AKfycbyaLK099GglJA0ic28S0MOiBdP4aQi_4ecik-7ZYtoJGI2-wxBmQgK6C2YrSHjkBkKz/exec');
-  if (!localStorage.getItem(CS_KEY_KEY)) localStorage.setItem(CS_KEY_KEY, 'gSzr3fSNdzK4R8Am7BrzKWPyQZz8c8AZ');
+  // Sync key is NOT hard-coded — enter it once in Settings -> Cloud Sync.
+  // (Keeping it out of the public HTML keeps the key private.)
 })();
 
 document.addEventListener('DOMContentLoaded', function() {
   setTimeout(updateDashboardCloudSyncPill, 800);
   setTimeout(autoPullOnStart, 2500);  // give app time to load
+  setTimeout(startPeriodicAutoPull, 5000);  // then keep pulling on a timer
 
   // Restore saved GPS target accuracy in settings dropdown
   var sel = document.getElementById('gps-target-select');
@@ -23851,16 +24037,21 @@ const APPS_SCRIPT_CODE = `/**
  * Setup steps at bottom. CHANGE SECRET_KEY below before deploying.
  */
 const SECRET_KEY = 'CHANGE_ME_TO_A_LONG_RANDOM_STRING';
+// Spreadsheet this script writes to (required for standalone scripts).
+const SPREADSHEET_ID = '1ewmrbK0ifxGdikM6dAjxXqlZrFdTSMXYXZdCzEwrKX0';
 const DASHBOARD_SHEET = 'Dashboard';
 const MASTER_SHEET = 'Records';
 const LOG_SHEET_NAME = 'SyncLog';
 const MAX_PHOTO_CHARS = 1000;
 const ENABLE_LOGGING = true;
-const SCRIPT_VERSION = '3.3-officers';
+const SCRIPT_VERSION = '3.7-newdata';
 
 const SECTION = {
   META:       '════ PROJECT META ════',
   OFFICERS:   '════ OFFICERS / SIGNATORIES ════',
+  PAYMENTS:   '════ PAYMENTS ════',
+  VILLAGES:   '════ BENEFICIARY VILLAGES ════',
+  ALTALIGN:   '════ ALT-ALIGNMENT ════',
   TREES:      '════ TREES ════',
   COORDS:     '════ GPS COORDS ════',
   HP:         '════ HP BENDS ════',
@@ -23883,10 +24074,28 @@ function handle_(e, method) {
       return reply_({ ok: false, error: 'Invalid or missing key' });
     }
     if (action === 'ping') {
+      // Also report the newest record updated_at, so the client can skip a
+      // full download when nothing on the cloud has changed.
+      var cloudLatest = '';
+      try {
+        var mst = SpreadsheetApp.openById(SPREADSHEET_ID).getSheetByName(MASTER_SHEET);
+        if (mst && mst.getLastRow() > 1) {
+          var hdr = mst.getRange(1, 1, 1, mst.getLastColumn()).getValues()[0];
+          var uaCol = hdr.indexOf('updated_at');
+          if (uaCol >= 0) {
+            var col = mst.getRange(2, uaCol + 1, mst.getLastRow() - 1, 1).getValues();
+            for (var i = 0; i < col.length; i++) {
+              var v = String(col[i][0] || '');
+              if (v > cloudLatest) cloudLatest = v;
+            }
+          }
+        }
+      } catch (e) {}
       return reply_({ ok: true, valid_key: (key === SECRET_KEY),
         message: 'Forest Inspector sync alive',
         version: SCRIPT_VERSION,
-        sheet: SpreadsheetApp.getActiveSpreadsheet().getName(),
+        sheet: SpreadsheetApp.openById(SPREADSHEET_ID).getName(),
+        cloud_latest: cloudLatest,
         ts: new Date().toISOString() });
     }
     if (action === 'list')     return doList_();
@@ -23903,7 +24112,7 @@ function handle_(e, method) {
 }
 
 function getDashboardSheet_() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
   let sh = ss.getSheetByName(DASHBOARD_SHEET);
   if (!sh) sh = ss.insertSheet(DASHBOARD_SHEET, 0);
   else { try { ss.setActiveSheet(sh); ss.moveActiveSheet(1); } catch (e) {} }
@@ -23911,7 +24120,7 @@ function getDashboardSheet_() {
 }
 
 function rebuildDashboard_() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
   const sh = getDashboardSheet_();
   sh.clear(); sh.clearFormats();
   const master = readMaster_();
@@ -24058,7 +24267,7 @@ function doRebuildDashboard_() {
 }
 
 function getMasterSheet_() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
   let sh = ss.getSheetByName(MASTER_SHEET);
   if (!sh) {
     sh = ss.insertSheet(MASTER_SHEET);
@@ -24097,7 +24306,7 @@ function sanitizeSheetName_(name) {
 }
 
 function uniqueSheetName_(base, currentUuid) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
   const master = readMaster_();
   let candidate = base;
   let suffix = 1;
@@ -24114,7 +24323,7 @@ function uniqueSheetName_(base, currentUuid) {
 }
 
 function writeProjectSheet_(rec) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
   const base = sanitizeSheetName_(rec.code || rec.uuid);
   const sheetName = uniqueSheetName_(base, rec.uuid);
   let sh = ss.getSheetByName(sheetName);
@@ -24145,17 +24354,23 @@ function writeProjectSheet_(rec) {
     ['chainage', rec.chainage || ''], ['compartment', rec.compartment || ''],
     ['forestBlock', rec.forestBlock || ''], ['altArea', rec.altArea || ''],
     ['estimatedTrees', rec.estimatedTrees || ''], ['canopyDensity', rec.canopyDensity || ''],
-    ['cost', rec.cost || ''], ['npvAmount', rec.npvAmount || ''], ['caAmount', rec.caAmount || ''],
+    ['cost', rec.cost || ''], ['npvEstimate', rec.npvEstimate || ''],
+    ['npvAmount', rec.npvAmount || ''], ['caCost', rec.caCost || ''],
+    ['caAmount', rec.caAmount || ''], ['fellingAmount', rec.fellingAmount || ''],
+    ['treeValuation', rec.treeValuation || ''], ['landValuePerHa', rec.landValuePerHa || ''],
+    ['leaseRentPct', rec.leaseRentPct || ''], ['leaseYears', rec.leaseYears || ''],
+    ['feeTotal', rec.feeTotal || ''],
+    ['feeReceived', (function(){var s=0;(rec.milestones||[]).forEach(function(m){if(m.status==='Received')s+=parseFloat(m.amount||'0')||0;});return s;})()],
+    ['feeBalance', (function(){var f=parseFloat(rec.feeTotal||'0')||0,s=0;(rec.milestones||[]).forEach(function(m){if(m.status==='Received')s+=parseFloat(m.amount||'0')||0;});return Math.max(0,f-s);})()],
     ['startDate', rec.startDate || ''], ['endDate', rec.endDate || ''],
     ['agency', rec.agency || ''], ['pradhan', rec.pradhan || ''], ['population', rec.population || ''],
     ['clientName', rec.clientName || ''], ['clientPhone', rec.clientPhone || ''],
     ['clientEmail', rec.clientEmail || ''],
     ['inspectionParty', rec.inspectionParty || ''], ['notes', rec.notes || ''],
-    ['updated_at', rec.updated_at || new Date().toISOString()],
-    ['landSchedule_json', safeJson_(rec.landSchedule)],
-    ['signers_json', safeJson_(rec.signers)],
-    ['beneficiaryVillagesArr_json', safeJson_(rec.beneficiaryVillagesArr)],
-    ['altAlignment_json', safeJson_(rec.altAlignment)]
+    ['sanctionNo', rec.sanctionNo || ''], ['sanctionDate', rec.sanctionDate || ''],
+    ['npvUTR', rec.npvUTR || ''], ['npvDate', rec.npvDate || ''],
+    ['caSite', rec.caSite || ''],
+    ['updated_at', rec.updated_at || new Date().toISOString()]
   ];
   sh.getRange(row, 1, metaFields.length, 2).setValues(metaFields);
   sh.getRange(row, 1, metaFields.length, 1).setFontWeight('bold').setBackground('#f8f6f0');
@@ -24211,6 +24426,26 @@ function writeProjectSheet_(rec) {
     row += officerRows.length;
   }
   row += 1;
+
+  // ── PAYMENTS — consultancy fee milestones ──────────────────────
+  marker(SECTION.PAYMENTS || '════ PAYMENTS ════', '#2f7857');
+  writeHeaderRow(['milestone', 'amount', 'status', 'date_received'], '#d0e8d4');
+  var msRows = (rec.milestones || []).map(function(m) {
+    return [m.name || '', m.amount || '', m.status || 'Pending', m.date || ''];
+  });
+  if (msRows.length > 0) {
+    sh.getRange(row, 1, msRows.length, 4).setValues(msRows);
+    row += msRows.length;
+  }
+  // Summary line
+  var feeTot = parseFloat(rec.feeTotal || '0') || 0;
+  var feeRcv = 0;
+  (rec.milestones || []).forEach(function(m) {
+    if (m.status === 'Received') feeRcv += parseFloat(m.amount || '0') || 0;
+  });
+  sh.getRange(row, 1, 1, 4).setValues([['TOTAL', feeTot, 'Received: ' + feeRcv, 'Balance: ' + Math.max(0, feeTot - feeRcv)]]);
+  sh.getRange(row, 1, 1, 4).setFontWeight('bold').setBackground('#f0f6f0');
+  row += 2;
 
   marker(SECTION.TREES, '#a3491e');
   const treeHeaders = ['sno', 'name', 'species_en', 'species_hi', 'species_sci', 'dia',
@@ -24318,6 +24553,31 @@ function writeProjectSheet_(rec) {
   }
   row += 1;
 
+  // ── BENEFICIARY VILLAGES — readable rows ───────────────────────
+  marker(SECTION.VILLAGES || '════ BENEFICIARY VILLAGES ════', '#5b8ba1');
+  writeHeaderRow(['village', 'population', 'families'], '#dce5ec');
+  var villageRows = (rec.beneficiaryVillagesArr || []).map(function(v) {
+    return [v.name || '', v.population || '', v.families || ''];
+  });
+  if (villageRows.length > 0) {
+    sh.getRange(row, 1, villageRows.length, 3).setValues(villageRows);
+    row += villageRows.length;
+  }
+  row += 1;
+
+  // ── ALT-ALIGNMENT — readable rows (rejected alignment details) ─
+  marker(SECTION.ALTALIGN || '════ ALT-ALIGNMENT ════', '#a3491e');
+  writeHeaderRow(['field', 'value'], '#f5dcc8');
+  var alt = rec.altAlignment || {};
+  var altRows = [
+    ['Rejected area (ha)', alt.area || ''],
+    ['Rejected trees', alt.trees || ''],
+    ['Rejected length (m)', alt.length || ''],
+    ['Reason for rejection', alt.reason || '']
+  ];
+  sh.getRange(row, 1, altRows.length, 2).setValues(altRows);
+  row += altRows.length + 1;
+
   marker(SECTION.END, '#888');
   for (let c = 1; c <= 8; c++) { try { sh.autoResizeColumn(c); } catch (e) {} }
   return sheetName;
@@ -24332,27 +24592,32 @@ function safeJson_(obj) {
 }
 
 function readProjectSheet_(sheetName) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
   const sh = ss.getSheetByName(sheetName);
   if (!sh) return null;
   const last = sh.getLastRow();
   if (last < 1) return null;
   const lastCol = Math.max(17, sh.getLastColumn());
   const data = sh.getRange(1, 1, last, lastCol).getValues();
-  const rec = { trees: [], coords: [], hpBends: [], muckPoints: [], landScheduleRows: [] };
+  const rec = { trees: [], coords: [], hpBends: [], muckPoints: [], landScheduleRows: [],
+                beneficiaryVillagesArr: [], milestones: [], signers: {}, altAlignment: {} };
   let section = null, headers = null, inHeaderRow = false;
 
   function isSection(cell) {
     if (typeof cell !== 'string') return null;
-    if (cell.indexOf('PROJECT META') >= 0)    return 'meta';
-    if (cell.indexOf('GPS COORDS') >= 0)      return 'coords';
-    if (cell.indexOf('HP BEND TREES') >= 0)   return 'hp_trees';
-    if (cell.indexOf('MUCK YARD TREES') >= 0) return 'muck_trees';
-    if (cell.indexOf('HP BENDS') >= 0)        return 'hp';
-    if (cell.indexOf('MUCK YARDS') >= 0)      return 'muck';
-    if (cell.indexOf('LAND SCHEDULE') >= 0)   return 'land';
-    if (cell.indexOf('TREES') >= 0)           return 'trees';
-    if (cell.indexOf('END') >= 0)             return 'end';
+    if (cell.indexOf('PROJECT META') >= 0)        return 'meta';
+    if (cell.indexOf('OFFICERS') >= 0)            return 'officers';
+    if (cell.indexOf('PAYMENTS') >= 0)            return 'payments';
+    if (cell.indexOf('BENEFICIARY VILLAGES') >= 0) return 'villages';
+    if (cell.indexOf('ALT-ALIGNMENT') >= 0)       return 'altalign';
+    if (cell.indexOf('GPS COORDS') >= 0)          return 'coords';
+    if (cell.indexOf('HP BEND TREES') >= 0)       return 'hp_trees';
+    if (cell.indexOf('MUCK YARD TREES') >= 0)     return 'muck_trees';
+    if (cell.indexOf('HP BENDS') >= 0)            return 'hp';
+    if (cell.indexOf('MUCK YARDS') >= 0)          return 'muck';
+    if (cell.indexOf('LAND SCHEDULE') >= 0)       return 'land';
+    if (cell.indexOf('TREES') >= 0)               return 'trees';
+    if (cell.indexOf('END') >= 0)                 return 'end';
     return null;
   }
 
@@ -24400,6 +24665,40 @@ function readProjectSheet_(sheetName) {
       else if (section === 'hp') rec.hpBends.push(obj);
       else if (section === 'muck') rec.muckPoints.push(obj);
       else if (section === 'land') rec.landScheduleRows.push(obj);
+      else if (section === 'villages') {
+        rec.beneficiaryVillagesArr.push({
+          name: obj.village || '', population: obj.population || '', families: obj.families || ''
+        });
+      }
+      else if (section === 'payments') {
+        // skip the TOTAL summary row; keep real milestones
+        if (String(obj.milestone || '').toUpperCase() !== 'TOTAL') {
+          rec.milestones.push({
+            name: obj.milestone || '', amount: obj.amount || '',
+            status: obj.status || 'Pending', date: obj.date_received || ''
+          });
+        }
+      }
+      else if (section === 'officers') {
+        // officers table is human-readable; signers object rebuilt loosely by role
+        if (obj.role && obj.name) {
+          var rk = String(obj.role).toLowerCase();
+          var key = rk.indexOf('dfo') >= 0 ? 'dfo' :
+                    rk.indexOf('magistrate (dm') >= 0 ? 'dm' :
+                    rk.indexOf('sdm') >= 0 ? 'sdm' :
+                    rk.indexOf('tehsildar') >= 0 ? 'tehsildar' :
+                    rk.indexOf('range') >= 0 ? 'ro' : null;
+          if (key) rec.signers[key] = { name: obj.name, designation: obj.designation || '', office: obj.office || '' };
+        }
+      }
+      else if (section === 'altalign') {
+        var f = String(obj.field || '').toLowerCase();
+        var val = obj.value || '';
+        if (f.indexOf('area') >= 0)      rec.altAlignment.area = val;
+        else if (f.indexOf('trees') >= 0)  rec.altAlignment.trees = val;
+        else if (f.indexOf('length') >= 0) rec.altAlignment.length = val;
+        else if (f.indexOf('reason') >= 0) rec.altAlignment.reason = val;
+      }
       else if (section === 'hp_trees') {
         const bendName = obj.bend_name; delete obj.bend_name;
         const b = rec.hpBends.find(function(bb) { return bb.name === bendName; });
@@ -24534,7 +24833,7 @@ function doDelete_(uuid) {
   const r = readMaster_().find(function(x) { return x.uuid === uuid; });
   if (!r) return reply_({ ok: false, error: 'Not found' });
   if (r.sheet_name) {
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
     const ps = ss.getSheetByName(r.sheet_name);
     if (ps) try { ss.deleteSheet(ps); } catch (e) {}
   }
@@ -24570,7 +24869,7 @@ function reply_(obj) {
 }
 
 function getLogSheet_() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
   let sh = ss.getSheetByName(LOG_SHEET_NAME);
   if (!sh) {
     sh = ss.insertSheet(LOG_SHEET_NAME);
@@ -24605,7 +24904,7 @@ function rebuildDashboard() {
 }
 
 function testSetup() {
-  Logger.log('Spreadsheet: ' + SpreadsheetApp.getActiveSpreadsheet().getName());
+  Logger.log('Spreadsheet: ' + SpreadsheetApp.openById(SPREADSHEET_ID).getName());
   Logger.log('Master sheet: ' + getMasterSheet_().getName() + ' rows=' + getMasterSheet_().getLastRow());
   Logger.log('Script version: ' + SCRIPT_VERSION);
   Logger.log('Secret key status: ' + (SECRET_KEY === 'CHANGE_ME_TO_A_LONG_RANDOM_STRING' ? 'NEEDS CHANGE!' : 'OK'));
@@ -26436,8 +26735,8 @@ window.loadTrash = loadTrash;
 /* ─── SAMPLE ROAD PROJECT LOADER ────────────────────────────────────────
    Loads a realistic 4 km Uttarakhand hill road project as a saved record.
    Only fields that are actually collected by the form are populated.
-   Sample mimics Andargadhi-Tarsali style: Rudraprayag district, PWD
-   Ukhimath user agency, mixed forest/nap/civil land, ~30 trees, 60+ GPS
+   A realistic sample hill-road project, PWD
+   PWD user agency, mixed forest/nap/civil land, ~30 trees, 60+ GPS
    points along selected alignment + 20 on rejected alternative, 4 muck
    disposal yards (selected) + 1 (rejected), full signers directory.
    ───────────────────────────────────────────────────────────────────── */
@@ -26462,22 +26761,22 @@ function _buildSampleRecord() {
     return points;
   }
 
-  // ---- Selected alignment: Jaichaura → Etta → Pawannagar → Thapli → Bhangar → Kamsaal (~4 km) ----
+  // ---- Selected alignment: start village → Etta → midpoint → Thapli → Bhangar → end village (~4 km) ----
   const selWaypoints = [
-    { lat: 30.40247, lon: 79.06924, elev: 1820, name: 'KM 0+000 (Start — Jaichaura)' },
+    { lat: 30.40247, lon: 79.06924, elev: 1820, name: 'KM 0+000 (Start — Devgaon)' },
     { lat: 30.40266, lon: 79.06808, elev: 1845 },
     { lat: 30.40278, lon: 79.06690, elev: 1872 },
     { lat: 30.40285, lon: 79.06570, elev: 1898 },
     { lat: 30.40280, lon: 79.06435, elev: 1925, name: 'KM 1+000 (Etta)' },
     { lat: 30.40264, lon: 79.06312, elev: 1948 },
     { lat: 30.40240, lon: 79.06180, elev: 1972 },
-    { lat: 30.40224, lon: 79.06048, elev: 1995, name: 'KM 2+000 (Pawannagar)' },
+    { lat: 30.40224, lon: 79.06048, elev: 1995, name: 'KM 2+000 (Hill Point)' },
     { lat: 30.40192, lon: 79.05920, elev: 2018 },
     { lat: 30.40160, lon: 79.05790, elev: 2042 },
     { lat: 30.40128, lon: 79.05665, elev: 2068, name: 'KM 3+000 (Thapli–Bhangar)' },
     { lat: 30.40090, lon: 79.05540, elev: 2092 },
     { lat: 30.40050, lon: 79.05410, elev: 2115 },
-    { lat: 30.40010, lon: 79.05285, elev: 2138, name: 'KM 4+000 (End — Kamsaal)' }
+    { lat: 30.40010, lon: 79.05285, elev: 2138, name: 'KM 4+000 (End — Suremal)' }
   ];
   const selCoords = [];
   for (let i = 0; i < selWaypoints.length - 1; i++) {
@@ -26532,17 +26831,17 @@ function _buildSampleRecord() {
 
   // ---- Trees: 28 affected (selected) + 4 surveyed (rejected) ----
   // Distribute trees realistically along the alignment:
-  //   km 0.00–0.40 Jaichaura (Civil-Soyam)        : 3 trees (low density — village edge)
+  //   km 0.00–0.40 start village (Civil-Soyam)        : 3 trees (low density — village edge)
   //   km 0.40–0.75 Forest patch 1                  : 5 trees (RF, high density)
   //   km 0.75–1.05 Etta Nap                        : 2 trees
   //   km 1.05–1.25 Etta Van Panchayat              : 1 tree
   //   km 1.25–1.65 Forest patch 2                  : 5 trees (RF, high density)
-  //   km 1.65–2.15 Pawannagar Civil                : 2 trees
+  //   km 1.65–2.15 midpoint Civil                : 2 trees
   //   km 2.15–2.50 Forest patch 3                  : 4 trees (RF, high density)
   //   km 2.50–2.80 Thapli Nap                      : 1 tree
   //   km 2.80–3.10 Bhangar VP                      : 1 tree
   //   km 3.10–3.50 Forest patch 4                  : 3 trees (RF, high density)
-  //   km 3.50–4.00 Kamsaal Civil                   : 1 tree
+  //   km 3.50–4.00 end village Civil                   : 1 tree
   // Total selected: 28. Plus 4 rejected on alt alignment for comparison.
   const treeSpecies = [
     { en: 'Banj Oak',          hi: 'बांज',    local: 'Banj',    sci: 'Quercus leucotrichophora', cat: 'broad-leaf' },
@@ -26555,45 +26854,45 @@ function _buildSampleRecord() {
   // Map each tree to its segment (village + land type)
   // [chainageFrac, village, landType, speciesIndex, dbhIndex]
   const treePlan = [
-    // Jaichaura Civil (3 trees, sparse — village edge)
-    [0.05, 'Jaichaura',     'सिविल/सोयम भूमि',     3, 1],  // Chir 20-30
-    [0.10, 'Jaichaura',     'सिविल/सोयम भूमि',     2, 2],  // Kafal 30-40
-    [0.13, 'Jaichaura',     'सिविल/सोयम भूमि',     3, 0],  // Chir 10-20
+    // start village Civil (3 trees, sparse — village edge)
+    [0.05, 'Devgaon',     'सिविल/सोयम भूमि',     3, 1],  // Chir 20-30
+    [0.10, 'Devgaon',     'सिविल/सोयम भूमि',     2, 2],  // Kafal 30-40
+    [0.13, 'Devgaon',     'सिविल/सोयम भूमि',     3, 0],  // Chir 10-20
     // Forest patch 1 (5 trees, RF dense)
-    [0.16, 'RF — Jaichaura side', 'आरक्षित वन भूमि', 0, 3],  // Banj 40-50
-    [0.18, 'RF — Jaichaura side', 'आरक्षित वन भूमि', 0, 4],  // Banj 50-60
-    [0.20, 'RF — Jaichaura side', 'आरक्षित वन भूमि', 1, 2],  // Buransh 30-40
-    [0.22, 'RF — Jaichaura side', 'आरक्षित वन भूमि', 0, 5],  // Banj 60-70
-    [0.25, 'RF — Jaichaura side', 'आरक्षित वन भूमि', 1, 1],  // Buransh 20-30
+    [0.16, 'RF — Devgaon side', 'आरक्षित वन भूमि', 0, 3],  // Banj 40-50
+    [0.18, 'RF — Devgaon side', 'आरक्षित वन भूमि', 0, 4],  // Banj 50-60
+    [0.20, 'RF — Devgaon side', 'आरक्षित वन भूमि', 1, 2],  // Buransh 30-40
+    [0.22, 'RF — Devgaon side', 'आरक्षित वन भूमि', 0, 5],  // Banj 60-70
+    [0.25, 'RF — Devgaon side', 'आरक्षित वन भूमि', 1, 1],  // Buransh 20-30
     // Etta Nap (2 trees)
     [0.27, 'Etta',          'नाप भूमि',           4, 3],  // Deodar 40-50
     [0.30, 'Etta',          'नाप भूमि',           2, 1],  // Kafal 20-30
     // Etta Van Panchayat (1 tree)
     [0.32, 'Etta',          'वन पंचायत भूमि',     5, 2],  // Utis 30-40
     // Forest patch 2 (5 trees)
-    [0.34, 'RF — Etta-Pawannagar', 'आरक्षित वन भूमि', 0, 4],  // Banj
-    [0.36, 'RF — Etta-Pawannagar', 'आरक्षित वन भूमि', 1, 3],  // Buransh
-    [0.39, 'RF — Etta-Pawannagar', 'आरक्षित वन भूमि', 0, 6],  // Banj 70-80
-    [0.41, 'RF — Etta-Pawannagar', 'आरक्षित वन भूमि', 1, 4],  // Buransh
-    [0.43, 'RF — Etta-Pawannagar', 'आरक्षित वन भूमि', 0, 2],  // Banj 30-40
-    // Pawannagar Civil (2 trees)
-    [0.47, 'Pawannagar',    'सिविल/सोयम भूमि',     3, 3],  // Chir 40-50
-    [0.51, 'Pawannagar',    'सिविल/सोयम भूमि',     3, 2],  // Chir 30-40
+    [0.34, 'RF — Etta-Hill Point', 'आरक्षित वन भूमि', 0, 4],  // Banj
+    [0.36, 'RF — Etta-Hill Point', 'आरक्षित वन भूमि', 1, 3],  // Buransh
+    [0.39, 'RF — Etta-Hill Point', 'आरक्षित वन भूमि', 0, 6],  // Banj 70-80
+    [0.41, 'RF — Etta-Hill Point', 'आरक्षित वन भूमि', 1, 4],  // Buransh
+    [0.43, 'RF — Etta-Hill Point', 'आरक्षित वन भूमि', 0, 2],  // Banj 30-40
+    // midpoint Civil (2 trees)
+    [0.47, 'Hill Point',    'सिविल/सोयम भूमि',     3, 3],  // Chir 40-50
+    [0.51, 'Hill Point',    'सिविल/सोयम भूमि',     3, 2],  // Chir 30-40
     // Forest patch 3 (4 trees)
-    [0.55, 'RF — Pawannagar-Thapli', 'आरक्षित वन भूमि', 0, 5],
-    [0.58, 'RF — Pawannagar-Thapli', 'आरक्षित वन भूमि', 1, 3],
-    [0.60, 'RF — Pawannagar-Thapli', 'आरक्षित वन भूमि', 0, 4],
-    [0.62, 'RF — Pawannagar-Thapli', 'आरक्षित वन भूमि', 0, 3],
+    [0.55, 'RF — Hill Point-Thapli', 'आरक्षित वन भूमि', 0, 5],
+    [0.58, 'RF — Hill Point-Thapli', 'आरक्षित वन भूमि', 1, 3],
+    [0.60, 'RF — Hill Point-Thapli', 'आरक्षित वन भूमि', 0, 4],
+    [0.62, 'RF — Hill Point-Thapli', 'आरक्षित वन भूमि', 0, 3],
     // Thapli Nap (1 tree)
     [0.66, 'Thapli',        'नाप भूमि',           4, 4],  // Deodar 50-60
     // Bhangar VP (1 tree)
     [0.72, 'Bhangar',       'वन पंचायत भूमि',     5, 3],  // Utis
     // Forest patch 4 (3 trees)
-    [0.79, 'RF — Bhangar-Kamsaal', 'आरक्षित वन भूमि', 0, 5],
-    [0.82, 'RF — Bhangar-Kamsaal', 'आरक्षित वन भूमि', 1, 2],
-    [0.85, 'RF — Bhangar-Kamsaal', 'आरक्षित वन भूमि', 0, 4],
-    // Kamsaal Civil (1 tree)
-    [0.96, 'Kamsaal',       'सिविल/सोयम भूमि',     3, 1]   // Chir 20-30
+    [0.79, 'RF — Bhangar-Suremal', 'आरक्षित वन भूमि', 0, 5],
+    [0.82, 'RF — Bhangar-Suremal', 'आरक्षित वन भूमि', 1, 2],
+    [0.85, 'RF — Bhangar-Suremal', 'आरक्षित वन भूमि', 0, 4],
+    // end village Civil (1 tree)
+    [0.96, 'Suremal',       'सिविल/सोयम भूमि',     3, 1]   // Chir 20-30
   ];
 
   const dbhClasses = ['10-20', '20-30', '30-40', '40-50', '50-60', '60-70', '70-80', '80-90'];
@@ -26654,14 +26953,14 @@ function _buildSampleRecord() {
 
   // ---- Muck disposal points ----
   // Each yard is placed on civil-soyam or nap land NEAR a village (not in forest patches).
-  // This matches PWD-Ukhimath practice: dump on village commons with Pradhan NOC.
+  // This matches PWD-the area practice: dump on village commons with Pradhan NOC.
   // 5 yards chosen so total capacity (~10,462 cum) > expected surplus (~10,176 cum) → safe.
   // chainage = distance (m) from start of road; treesOnYard = trees on the yard site that
   // need cutting at the disposal site (separate from main alignment trees).
   const muckPoints = [
-    { uuid: _genSampleUuid(), name: 'Yard 1 — Jaichaura (km 0.2)',  length: 15, width: 25, depth: 3.5, volume: 15 * 25 * 3.5,
+    { uuid: _genSampleUuid(), name: 'Yard 1 — Devgaon (km 0.2)',  length: 15, width: 25, depth: 3.5, volume: 15 * 25 * 3.5,
       landType: 'सिविल/सोयम भूमि', branch: 'selected', chainage: 200,
-      remarks: 'Stable terrace below road near Jaichaura — pradhan NOC obtained',
+      remarks: 'Stable terrace below road near Devgaon — pradhan NOC obtained',
       lat: 30.40259, lon: 79.06880, elevation: 1830, accuracy: 4, created_at: new Date().toISOString(),
       treesOnYard: [
         { sno: 1, species_en: 'Chir Pine', name: 'Chir Pine', species_hi: 'चीड़',  dia: '20-30', condition: 'Sound / Healthy' },
@@ -26672,7 +26971,7 @@ function _buildSampleRecord() {
       remarks: 'Existing depression on Etta nap land — vegetative checkdams to be built',
       lat: 30.40279, lon: 79.06570, elevation: 1900, accuracy: 5, created_at: new Date().toISOString(),
       treesOnYard: [] },
-    { uuid: _genSampleUuid(), name: 'Yard 3 — Pawannagar (km 1.9)', length: 20, width: 30, depth: 4, volume: 20 * 30 * 4,
+    { uuid: _genSampleUuid(), name: 'Yard 3 — Hill Point (km 1.9)', length: 20, width: 30, depth: 4, volume: 20 * 30 * 4,
       landType: 'सिविल/सोयम भूमि', branch: 'selected', chainage: 1900,
       remarks: 'Wide flat below road, retaining wall planned (RR Dry)',
       lat: 30.40220, lon: 79.05990, elevation: 1995, accuracy: 4, created_at: new Date().toISOString(),
@@ -26688,7 +26987,7 @@ function _buildSampleRecord() {
         { sno: 2, species_en: 'Burans / Rhododendron', name: 'Buransh', species_hi: 'बुरांश', dia: '20-30', condition: 'Sound / Healthy' },
         { sno: 3, species_en: 'Kafal',     name: 'Kafal',     species_hi: 'काफल', dia: '10-20', condition: 'Diseased' }
       ] },
-    { uuid: _genSampleUuid(), name: 'Yard 5 — Kamsaal end (km 3.7)', length: 15, width: 30, depth: 3, volume: 15 * 30 * 3,
+    { uuid: _genSampleUuid(), name: 'Yard 5 — Suremal end (km 3.7)', length: 15, width: 30, depth: 3, volume: 15 * 30 * 3,
       landType: 'सिविल/सोयम भूमि', branch: 'selected', chainage: 3700,
       remarks: 'Crate-wire checkdams + plantation at downstream end',
       lat: 30.40020, lon: 79.05320, elevation: 2125, accuracy: 6, created_at: new Date().toISOString(),
@@ -26708,17 +27007,17 @@ function _buildSampleRecord() {
   // Sample places 6 bends on selected alignment (4 km road) + 4 on rejected route.
   const hpBends = [
     // Selected alignment — 6 bends along ascending hill
-    { uuid: _genSampleUuid(), name: 'HP-1 (Jaichaura climb)',         branch: 'selected',
+    { uuid: _genSampleUuid(), name: 'HP-1 (Devgaon climb)',         branch: 'selected',
       chainage: 350,  distFromStart: 350,  radius: 12, elevation: 1860, gradient: '8.5%',
       lat: 30.40278, lon: 79.06690, accuracy: 4,
-      remarks: 'First bend after start; steep approach from Jaichaura village',
+      remarks: 'First bend after start; steep approach from Devgaon village',
       created_at: new Date().toISOString() },
     { uuid: _genSampleUuid(), name: 'HP-2 (Etta upper)',              branch: 'selected',
       chainage: 1100, distFromStart: 1100, radius: 10, elevation: 1925, gradient: '9.2%',
       lat: 30.40285, lon: 79.06570, accuracy: 5,
       remarks: 'Sharp bend after Etta village; widening to 6m needed',
       created_at: new Date().toISOString() },
-    { uuid: _genSampleUuid(), name: 'HP-3 (Pawannagar approach)',     branch: 'selected',
+    { uuid: _genSampleUuid(), name: 'HP-3 (Hill Point approach)',     branch: 'selected',
       chainage: 1750, distFromStart: 1750, radius: 13, elevation: 1985, gradient: '7.8%',
       lat: 30.40240, lon: 79.06180, accuracy: 4,
       remarks: 'Moderate bend with rock cutting needed on inner side',
@@ -26733,10 +27032,10 @@ function _buildSampleRecord() {
       lat: 30.40090, lon: 79.05540, accuracy: 4,
       remarks: 'Adjacent to Yard 4 (muck disposal); cable parapet planned',
       created_at: new Date().toISOString() },
-    { uuid: _genSampleUuid(), name: 'HP-6 (Kamsaal approach)',        branch: 'selected',
+    { uuid: _genSampleUuid(), name: 'HP-6 (Suremal approach)',        branch: 'selected',
       chainage: 3750, distFromStart: 3750, radius: 10, elevation: 2130, gradient: '7.2%',
       lat: 30.40020, lon: 79.05320, accuracy: 5,
-      remarks: 'Final bend before Kamsaal; tight radius — speed restriction sign needed',
+      remarks: 'Final bend before Suremal; tight radius — speed restriction sign needed',
       created_at: new Date().toISOString() },
     // Rejected alternative — 4 bends on steeper ridge route
     { uuid: _genSampleUuid(), name: 'Alt-HP-1 (Ridge start)',         branch: 'rejected',
@@ -26772,7 +27071,7 @@ function _buildSampleRecord() {
     uuid: _genSampleUuid(),
     created_at: new Date().toISOString(),
     code: 'SAMPLE-RDR-' + today.getFullYear() + '-001',
-    title: 'मा0 मुख्यमंत्री घोषणा 363/2022 — Jaichaura–Kamsaal Motor Road (4 km) [SAMPLE]',
+    title: 'मा0 मुख्यमंत्री घोषणा 363/2022 — Devgaon–Suremal Motor Road (4 km) [SAMPLE]',
     project: 'मा0 मुख्यमंत्री घोषणा संख्या 363/2022 के अन्तर्गत जनपद रुद्रप्रयाग के विधानसभा क्षेत्र केदारनाथ के विकासखण्ड ऊखीमठ में अन्दरगढी—तरसाली मोटर मार्ग के जयचौरा से ऐटा पवननगर—थापली—भंगर—कमसाल तक 04 कि0मी0 मोटर मार्ग का निर्माण कार्य हेतु वन भूमि हस्तान्तरण।',
     date: dmy,
     // Inspection team
@@ -26783,12 +27082,12 @@ function _buildSampleRecord() {
     rep1: 'श्री हरीश नेगी',
     rep2: 'श्री मुकेश रावत',
     // Location
-    district: 'Rudraprayag',
+    district: 'Sample District',
     division: 'Kedarnath',
-    range: 'Ukhimath',
+    range: 'Sample Block',
     villageName: 'Tarsali',
-    tehsil: 'Ukhimath',
-    block: 'Ukhimath',
+    tehsil: 'Sample Block',
+    block: 'Sample Block',
     pradhan: 'श्रीमती सुनीता देवी',
     population: '486',
     // Project
@@ -26797,8 +27096,8 @@ function _buildSampleRecord() {
     width: '4',
     area: '1.6',
     chainage: 'Ch. 0+000 to 4+000',
-    compartment: 'Ukhimath Compartment 7',
-    forestBlock: 'Ukhimath Forest Block',
+    compartment: 'Sample Compartment 7',
+    forestBlock: 'Sample Forest Block',
     altArea: '1.76',
     inspectionParty: 'श्री राकेश सिंह नेगी, वनक्षेत्राधिकारी ऊखीमठ; श्री विजय कुमार, पटवारी; श्री अनिल बिष्ट, JE PWD',
     estimatedTrees: 32,
@@ -26822,7 +27121,7 @@ function _buildSampleRecord() {
     npDistance: '8.5',          // km to nearest national park (for prof19)
     // CA site
     caSite: 'CA site identified at Ransi Reserve Forest Compartment 4, ~6 km from project site',
-    plantationSite: 'Ransi Reserve Forest, Compartment 4, Block Ukhimath',  // for prof35/37/39/40
+    plantationSite: 'Sample Reserve Forest, Compartment 4',  // for prof35/37/39/40
     plantationArea: '1.6',
     // Sanction
     sanctionNo: 'GO-PWD/RDR/2024/1187',
@@ -26845,7 +27144,7 @@ function _buildSampleRecord() {
     leaseExpiryDate: '2054-08-11',
     leaseRenewalYears: '15',
     // Highway / Railway nearest (proforma2)
-    nearestHighway: 'NH-107 (Rudraprayag–Gaurikund), 12 km',
+    nearestHighway: 'Sample NH, 12 km',
     nearestRailway: 'Rishikesh railway station, ~155 km',
     // Ecology details (proforma2_1)
     ecoClass: 'II',
@@ -26855,14 +27154,14 @@ function _buildSampleRecord() {
     fraSocialWelfareOfficer: 'श्री महेश चन्द्र, सहायक समाज कल्याण अधिकारी',
     fraBDCMember: 'श्री किशन सिंह, बी0डी0सी0 क्षेत्र सदस्य',
     // Client (this is a Govt road project so client is PWD itself)
-    clientName: 'C.D. PWD Ukhimath',
+    clientName: 'C.D. PWD',
     clientPhone: '01364-263XXX',
     clientEmail: 'cdpwdukhimath@uk.gov.in',
     status: 'surveyed',
     fee: 0,
     notes: 'Sample record for testing the full proposal pipeline. Mixed Forest/Nap/Civil land split: 480m forest, 1700m Nap, 1820m Civil-Soyam. Both Selected and Rejected alignments captured with GPS, trees and muck points.',
     // PWD office overrides for प्रारुप / प्रपत्र—41.1 signatures
-    pwdOffice: 'Ukhimath',
+    pwdOffice: 'Sample Block',
     pwdOfficeHi: 'ऊखीमठ',
     // Contacts
     pwdAE: 'श्री राजेश कुमार, सहायक अभियन्ता',
@@ -26872,8 +27171,8 @@ function _buildSampleRecord() {
     pradhanContact: 'श्रीमती सुनीता देवी, ग्राम प्रधान तरसाली · 94XXX-XXXX',
     urgency: 'Normal',
     // Survey direction & chainage
-    chainageStart: 'Ch. 0+000 (Jaichaura)',
-    chainageEnd: 'Ch. 4+000 (Kamsaal)',
+    chainageStart: 'Ch. 0+000 (Devgaon)',
+    chainageEnd: 'Ch. 4+000 (Suremal)',
     surveyDirection: 'forward',
     // Alt alignment (for प्रपत्र-9 comparison)
     altAlignment: {
@@ -26888,13 +27187,13 @@ function _buildSampleRecord() {
     leaseRentPct:   '2',
     leaseYears:     '30',
     // Beneficiary villages
-    beneficiaryVillages: 'Jaichaura | 120 | 18\nEtta | 96 | 16\nPawannagar | 78 | 14\nThapli | 110 | 19\nBhangar–Kamsaal | 82 | 13',
+    beneficiaryVillages: 'Devgaon | 120 | 18\nEtta | 96 | 16\nHill Point | 78 | 14\nThapli | 110 | 19\nBhangar–Suremal | 82 | 13',
     beneficiaryVillagesArr: [
-      { name: 'Jaichaura', population: '120', families: '18' },
+      { name: 'Devgaon', population: '120', families: '18' },
       { name: 'Etta', population: '96', families: '16' },
-      { name: 'Pawannagar', population: '78', families: '14' },
+      { name: 'Hill Point', population: '78', families: '14' },
       { name: 'Thapli', population: '110', families: '19' },
-      { name: 'Bhangar–Kamsaal', population: '82', families: '13' }
+      { name: 'Bhangar–Suremal', population: '82', families: '13' }
     ],
     // Signatories directory
     signers: {
@@ -26970,7 +27269,7 @@ function _buildSampleRecord() {
     //  parcels cluster NEAR village settlements.
     //  Forest total : 1500m (37.5%, 0.600 ha) — 4 reserved-forest patches
     //  Nap total    :  600m (15.0%, 0.240 ha) — 2 nap parcels (Etta + Thapli)
-    //  Civil-Soyam  : 1400m (35.0%, 0.560 ha) — 3 parcels (Jaichaura + Pawannagar + Kamsaal)
+    //  Civil-Soyam  : 1400m (35.0%, 0.560 ha) — 3 parcels (start village + midpoint + end village)
     //  Van Panchayat:  500m (12.5%, 0.200 ha) — 2 parcels (Etta + Bhangar)
     //  Grand total  : 4000m (100%, 1.600 ha)
     landSchedule: {
@@ -26980,27 +27279,27 @@ function _buildSampleRecord() {
       civilSoyam:   { length: 1400, width: 4, area: 0.560 }
     },
     landScheduleRows: [
-      // Jaichaura village (start, km 0.0–0.4) — civil-soyam at village periphery
-      { type: 'civilSoyam',   tahsil: 'Ukhimath', block: 'Ukhimath', khasra: '120/3 (जयचौरा)',  rakba: 0.160, length:  400, width: 4, area: 0.160, village: 'Jaichaura' },
-      // Forest patch 1 (km 0.4–0.75) — leaving Jaichaura, reserved forest
-      { type: 'forest',       tahsil: 'Ukhimath', block: 'Ukhimath', khasra: 'RF-Comp-12/A',     rakba: 0.140, length:  350, width: 4, area: 0.140, village: 'RF — Jaichaura side' },
+      // start village village (start, km 0.0–0.4) — civil-soyam at village periphery
+      { type: 'civilSoyam',   tahsil: 'Sample Block', block: 'Sample Block', khasra: '120/3 (जयचौरा)',  rakba: 0.160, length:  400, width: 4, area: 0.160, village: 'Devgaon' },
+      // Forest patch 1 (km 0.4–0.75) — leaving start village, reserved forest
+      { type: 'forest',       tahsil: 'Sample Block', block: 'Sample Block', khasra: 'RF-Comp-12/A',     rakba: 0.140, length:  350, width: 4, area: 0.140, village: 'RF — Devgaon side' },
       // Etta village (km 0.75–1.25) — nap + van-panchayat at periphery
-      { type: 'nap',          tahsil: 'Ukhimath', block: 'Ukhimath', khasra: '215/1 (ऐटा)',      rakba: 0.120, length:  300, width: 4, area: 0.120, village: 'Etta' },
-      { type: 'vanPanchayat', tahsil: 'Ukhimath', block: 'Ukhimath', khasra: '275/4 (ऐटा वनप)',  rakba: 0.080, length:  200, width: 4, area: 0.080, village: 'Etta' },
-      // Forest patch 2 (km 1.25–1.65) — between Etta and Pawannagar
-      { type: 'forest',       tahsil: 'Ukhimath', block: 'Ukhimath', khasra: 'RF-Comp-12/B',     rakba: 0.160, length:  400, width: 4, area: 0.160, village: 'RF — Etta-Pawannagar' },
-      // Pawannagar (km 1.65–2.15) — civil-soyam
-      { type: 'civilSoyam',   tahsil: 'Ukhimath', block: 'Ukhimath', khasra: '340/2 (पवननगर)',   rakba: 0.200, length:  500, width: 4, area: 0.200, village: 'Pawannagar' },
-      // Forest patch 3 (km 2.15–2.50) — between Pawannagar and Thapli
-      { type: 'forest',       tahsil: 'Ukhimath', block: 'Ukhimath', khasra: 'RF-Comp-13/A',     rakba: 0.140, length:  350, width: 4, area: 0.140, village: 'RF — Pawannagar-Thapli' },
+      { type: 'nap',          tahsil: 'Sample Block', block: 'Sample Block', khasra: '215/1 (ऐटा)',      rakba: 0.120, length:  300, width: 4, area: 0.120, village: 'Etta' },
+      { type: 'vanPanchayat', tahsil: 'Sample Block', block: 'Sample Block', khasra: '275/4 (ऐटा वनप)',  rakba: 0.080, length:  200, width: 4, area: 0.080, village: 'Etta' },
+      // Forest patch 2 (km 1.25–1.65) — between Etta and midpoint
+      { type: 'forest',       tahsil: 'Sample Block', block: 'Sample Block', khasra: 'RF-Comp-12/B',     rakba: 0.160, length:  400, width: 4, area: 0.160, village: 'RF — Etta-Hill Point' },
+      // midpoint (km 1.65–2.15) — civil-soyam
+      { type: 'civilSoyam',   tahsil: 'Sample Block', block: 'Sample Block', khasra: '340/2 (पवननगर)',   rakba: 0.200, length:  500, width: 4, area: 0.200, village: 'Hill Point' },
+      // Forest patch 3 (km 2.15–2.50) — between midpoint and Thapli
+      { type: 'forest',       tahsil: 'Sample Block', block: 'Sample Block', khasra: 'RF-Comp-13/A',     rakba: 0.140, length:  350, width: 4, area: 0.140, village: 'RF — Hill Point-Thapli' },
       // Thapli (km 2.50–2.80) — nap
-      { type: 'nap',          tahsil: 'Ukhimath', block: 'Ukhimath', khasra: '418/7 (थापली)',    rakba: 0.120, length:  300, width: 4, area: 0.120, village: 'Thapli' },
+      { type: 'nap',          tahsil: 'Sample Block', block: 'Sample Block', khasra: '418/7 (थापली)',    rakba: 0.120, length:  300, width: 4, area: 0.120, village: 'Thapli' },
       // Bhangar (km 2.80–3.10) — van-panchayat
-      { type: 'vanPanchayat', tahsil: 'Ukhimath', block: 'Ukhimath', khasra: '472/3 (भंगर वनप)', rakba: 0.120, length:  300, width: 4, area: 0.120, village: 'Bhangar' },
-      // Forest patch 4 (km 3.10–3.50) — between Bhangar and Kamsaal
-      { type: 'forest',       tahsil: 'Ukhimath', block: 'Ukhimath', khasra: 'RF-Comp-13/B',     rakba: 0.160, length:  400, width: 4, area: 0.160, village: 'RF — Bhangar-Kamsaal' },
-      // Kamsaal (km 3.50–4.00) — civil-soyam (end)
-      { type: 'civilSoyam',   tahsil: 'Ukhimath', block: 'Ukhimath', khasra: '536/9 (कमसाल)',    rakba: 0.200, length:  500, width: 4, area: 0.200, village: 'Kamsaal' }
+      { type: 'vanPanchayat', tahsil: 'Sample Block', block: 'Sample Block', khasra: '472/3 (भंगर वनप)', rakba: 0.120, length:  300, width: 4, area: 0.120, village: 'Bhangar' },
+      // Forest patch 4 (km 3.10–3.50) — between Bhangar and end village
+      { type: 'forest',       tahsil: 'Sample Block', block: 'Sample Block', khasra: 'RF-Comp-13/B',     rakba: 0.160, length:  400, width: 4, area: 0.160, village: 'RF — Bhangar-Suremal' },
+      // end village (km 3.50–4.00) — civil-soyam (end)
+      { type: 'civilSoyam',   tahsil: 'Sample Block', block: 'Sample Block', khasra: '536/9 (कमसाल)',    rakba: 0.200, length:  500, width: 4, area: 0.200, village: 'Suremal' }
     ],
     // GPS coords + trees + muck + HP bends (assembled above)
     coords: selCoords.concat(rejCoords),
@@ -27025,17 +27324,17 @@ function _buildBigSample(variantId) {
     {
       id: 1,
       code: 'SAMPLE-BIG-RDR-001',
-      title: 'Rudraprayag Block — Jaichaura ↔ Kalimath ridge road (10 km)',
+      title: 'Sample Block — village ridge road (10 km)',
       project: 'जनपद रुद्रप्रयाग के विकासखण्ड ऊखीमठ में जयचौरा से कालीमठ तक 10 कि0मी0 ग्रामीण सम्पर्क मार्ग — दो वैकल्पिक संरेखण के साथ बृहत् वन भूमि हस्तान्तरण प्रस्ताव',
-      villages: ['Jaichaura', 'Pawannagar', 'Kalimath'],
+      villages: ['Devgaon', 'Hill Point', 'Kalimath'],
       villagesHi: ['जयचौरा', 'पवननगर', 'कालीमठ'],
-      district: 'Rudraprayag', tehsil: 'Ukhimath', block: 'Ukhimath', division: 'Kedarnath', range: 'Ukhimath',
+      district: 'Sample District', tehsil: 'Sample Block', block: 'Sample Block', division: 'Kedarnath', range: 'Sample Block',
       population: '1240',
       // Selected: curving ridge route 10 km E→W. Rejected: parallel valley route ~10 km
-      selStart: { lat: 30.40247, lon: 79.06924, elev: 1820, name: 'Ch. 0+000 (Jaichaura)' },
+      selStart: { lat: 30.40247, lon: 79.06924, elev: 1820, name: 'Ch. 0+000 (Devgaon)' },
       selEnd:   { lat: 30.46180, lon: 78.99650, elev: 2280, name: 'Ch. 10+000 (Kalimath)' },
       selCurve: 0.04,  // curvature factor
-      rejStart: { lat: 30.40247, lon: 79.06924, elev: 1820, name: 'Alt 0+000 (Jaichaura)' },
+      rejStart: { lat: 30.40247, lon: 79.06924, elev: 1820, name: 'Alt 0+000 (Devgaon)' },
       rejEnd:   { lat: 30.46180, lon: 78.99650, elev: 2280, name: 'Alt 10+000 (Kalimath)' },
       rejCurve: -0.05,
       bearing: 320  // approximate compass bearing of selected route
@@ -27060,17 +27359,17 @@ function _buildBigSample(variantId) {
     {
       id: 3,
       code: 'SAMPLE-BIG-RDR-003',
-      title: 'Uttarkashi — Maneri → Bhatwari motor road (12 km)',
+      title: 'Sample District — village motor road (12 km)',
       project: 'जनपद उत्तरकाशी के विकासखण्ड भटवाड़ी में मनेरी से भटवाड़ी तक 12 कि0मी0 मोटर मार्ग का चौड़ीकरण एवं नवीनीकरण — दो वैकल्पिक संरेखण के साथ वन भूमि हस्तान्तरण प्रस्ताव',
-      villages: ['Maneri', 'Bhukki', 'Bhatwari'],
+      villages: ['Village A', 'Village B', 'Village C'],
       villagesHi: ['मनेरी', 'भुक्की', 'भटवाड़ी'],
-      district: 'Uttarkashi', tehsil: 'Bhatwari', block: 'Bhatwari', division: 'Uttarkashi', range: 'Bhatwari',
+      district: 'Sample District', tehsil: 'Sample Tehsil', block: 'Sample Block', division: 'Sample Division', range: 'Sample Range',
       population: '2100',
-      selStart: { lat: 30.81200, lon: 78.60500, elev: 1450, name: 'Ch. 0+000 (Maneri)' },
-      selEnd:   { lat: 30.84850, lon: 78.51400, elev: 1880, name: 'Ch. 12+000 (Bhatwari)' },
+      selStart: { lat: 30.81200, lon: 78.60500, elev: 1450, name: 'Ch. 0+000 (Start)' },
+      selEnd:   { lat: 30.84850, lon: 78.51400, elev: 1880, name: 'Ch. 12+000 (End)' },
       selCurve: 0.06,
-      rejStart: { lat: 30.81200, lon: 78.60500, elev: 1450, name: 'Alt 0+000 (Maneri)' },
-      rejEnd:   { lat: 30.84850, lon: 78.51400, elev: 1880, name: 'Alt 12+000 (Bhatwari)' },
+      rejStart: { lat: 30.81200, lon: 78.60500, elev: 1450, name: 'Alt 0+000 (Start)' },
+      rejEnd:   { lat: 30.84850, lon: 78.51400, elev: 1880, name: 'Alt 12+000 (End)' },
       rejCurve: -0.07,
       bearing: 295
     }
@@ -27450,7 +27749,7 @@ window._buildBigSample = _buildBigSample;
 function loadAllBigSamples() {
   customConfirm(
     'Load all 3 big samples?',
-    'Three large sample road projects (Rudraprayag · Chamoli · Uttarkashi) will be added — each with ~620 trees, 160 GPS points, 20 HP bends, 10 muck disposal yards across 3 villages. Useful for scale/comparison testing. You can delete them via the 🗑 Trash button.',
+    'Three large sample road projects will be added — each with ~620 trees, 160 GPS points, 20 HP bends, 10 muck disposal yards across 3 villages. Useful for scale/comparison testing. You can delete them via the 🗑 Trash button.',
     function() {
       try {
         const all = loadRecords();
@@ -27478,10 +27777,59 @@ function loadAllBigSamples() {
 }
 window.loadAllBigSamples = loadAllBigSamples;
 
+/* Delete all demo/sample projects from this device.
+   Matches the SAMPLE-* codes (incl. SAMPLE-BIG-*) and the Town demo. */
+function removeSampleData() {
+  const all = (typeof loadRecords === 'function') ? loadRecords() : [];
+  const isSample = r => {
+    const c = String(r.code || '');
+    return c.indexOf('SAMPLE') === 0 || c.indexOf('SAMPLE-BIG-') === 0 ||
+           r.isSample === true || r.isBigSample === true;
+  };
+  const samples = all.filter(isSample);
+  if (samples.length === 0) {
+    if (typeof toast === 'function') toast('No sample data found');
+    return;
+  }
+  const doRemove = () => {
+    const kept = all.filter(r => !isSample(r));
+    if (typeof saveRecords === 'function') saveRecords(kept);
+    else localStorage.setItem(STORE_KEY, JSON.stringify(kept));
+    if (typeof renderRecords === 'function') renderRecords();
+    if (typeof renderDashboard === 'function') renderDashboard();
+    if (typeof notifySuccess === 'function')
+      notifySuccess('Removed ' + samples.length + ' sample project' + (samples.length > 1 ? 's' : ''), { title: 'Cleaned up' });
+  };
+  if (typeof customConfirm === 'function') {
+    customConfirm('Remove sample data?',
+      'This deletes ' + samples.length + ' demo project' + (samples.length > 1 ? 's' : '') +
+      ' from this device. Your real projects are not touched.', doRemove);
+  } else { doRemove(); }
+}
+window.removeSampleData = removeSampleData;
+
+/* One-time automatic purge of any leftover sample/demo records.
+   Runs once per device; sets a flag so it never deletes again. */
+(function autoPurgeSamplesOnce() {
+  try {
+    if (localStorage.getItem('samples_purged_v1') === '1') return;
+    const all = JSON.parse(localStorage.getItem(STORE_KEY) || '[]');
+    const kept = all.filter(r => {
+      const c = String(r.code || '');
+      return !(c.indexOf('SAMPLE') === 0 || r.isSample === true || r.isBigSample === true);
+    });
+    if (kept.length !== all.length) {
+      localStorage.setItem(STORE_KEY, JSON.stringify(kept));
+    }
+    localStorage.setItem('samples_purged_v1', '1');
+  } catch (e) {}
+})();
+
+
 function loadSampleRoadProject() {
   customConfirm(
     'Load sample road project?',
-    'A realistic 4 km Uttarakhand hill-road sample (Jaichaura–Kamsaal) will be added to your records. Useful for testing the proposal pipeline. You can delete it via the 🗑 Trash button if not needed.',
+    'A realistic 4 km Uttarakhand hill-road sample (Devgaon–Suremal) will be added to your records. Useful for testing the proposal pipeline. You can delete it via the 🗑 Trash button if not needed.',
     function() {
       try {
         const sample = _buildSampleRecord();
@@ -29014,7 +29362,7 @@ textarea:focus, select:focus {
     } else if (rec.beneficiaryVillages) {
       // Old pipe-text format — parse each line
       rec.beneficiaryVillages.split(/\r?\n/).forEach((line, idx) => {
-        const parts = line.split('|').map(s => s.trim());
+        const parts = line.split(/[;|]/).map(s => s.trim());
         if (!parts[0]) return;
         addRow({
           name: parts[0],
@@ -29763,6 +30111,8 @@ window.parseGoogleMapsCoords = function(text) {
             // Re-render lists
             if (typeof renderCoordList === 'function') try { renderCoordList(); } catch (e) {}
             if (typeof renderTreeList  === 'function') try { renderTreeList();  } catch (e) {}
+            // Reset payment tracker to default milestones
+            if (typeof renderMilestones === 'function') try { renderMilestones(null); } catch (e) {}
             // Clear edit-mode banner if present
             window.__editingUuid = null;
             if (typeof hideEditBanner === 'function') try { hideEditBanner(); } catch (e) {}
@@ -29810,5 +30160,354 @@ window.parseGoogleMapsCoords = function(text) {
 })();
 </script>
 
-</body>
+<script>
+/* ══════════════════════════════════════════════════════════════════
+   CONSULTANCY PAYMENT TRACKER
+   Per-project milestone-based payment tracking. Milestones are flexible
+   (add / rename / delete). Default set is pre-filled on a blank project.
+   ────────────────────────────────────────────────────────────────── */
+const PAYMENT_MS_STATUSES = ['Pending', 'Invoiced', 'Received'];
+const DEFAULT_MILESTONES = [
+  { name: 'Advance',        amount: '', status: 'Pending', date: '' },
+  { name: 'On Submission',  amount: '', status: 'Pending', date: '' },
+  { name: 'On Approval',    amount: '', status: 'Pending', date: '' }
+];
+
+/* Render one milestone row */
+function milestoneRowHtml(m, i) {
+  const opts = PAYMENT_MS_STATUSES.map(s =>
+    `<option value="${s}"${m.status === s ? ' selected' : ''}>${s}</option>`).join('');
+  return `
+    <div class="milestone-row" data-idx="${i}" style="display:grid; grid-template-columns: 1fr 90px; gap:6px; align-items:start; margin-bottom:8px; padding:8px; background:#fff; border:1px solid var(--line); border-radius:8px;">
+      <div style="display:flex; flex-direction:column; gap:5px;">
+        <input type="text" class="ms-name" value="${escapeHtml(m.name || '')}" placeholder="Milestone name"
+          style="font-size:13px; padding:6px 8px; font-weight:600;">
+        <div style="display:flex; gap:5px;">
+          <input type="number" class="ms-amount" value="${escapeHtml(String(m.amount || ''))}" placeholder="₹ amount" min="0" step="1"
+            style="font-size:13px; padding:6px 8px; flex:1;" oninput="recalcPayments()">
+          <select class="ms-status" style="font-size:12px; padding:6px 4px;" onchange="recalcPayments()">${opts}</select>
+        </div>
+        <input type="date" class="ms-date" value="${escapeHtml(m.date || '')}"
+          style="font-size:12px; padding:6px 8px;" title="Date received">
+      </div>
+      <button type="button" class="btn btn-ghost ms-del" style="font-size:11px; padding:6px 4px; color:#ad2e15; height:fit-content;">✕ Remove</button>
+    </div>`;
+}
+
+/* Read all milestone rows from the DOM into an array */
+function collectMilestones() {
+  const rows = document.querySelectorAll('#milestone-list .milestone-row');
+  return Array.from(rows).map(row => ({
+    name:   row.querySelector('.ms-name')?.value.trim() || '',
+    amount: row.querySelector('.ms-amount')?.value.trim() || '',
+    status: row.querySelector('.ms-status')?.value || 'Pending',
+    date:   row.querySelector('.ms-date')?.value || ''
+  })).filter(m => m.name || m.amount);
+}
+
+/* Paint the milestone list from an array */
+function renderMilestones(list) {
+  const wrap = document.getElementById('milestone-list');
+  if (!wrap) return;
+  const arr = (list && list.length) ? list : DEFAULT_MILESTONES.map(m => ({ ...m }));
+  wrap.innerHTML = arr.map((m, i) => milestoneRowHtml(m, i)).join('');
+  wrap.querySelectorAll('.ms-del').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.closest('.milestone-row').remove();
+      recalcPayments();
+    });
+  });
+  recalcPayments();
+}
+
+/* Recompute received / balance / percent */
+function recalcPayments() {
+  const fee = parseFloat(document.getElementById('f-fee-total')?.value || '0') || 0;
+  let received = 0;
+  document.querySelectorAll('#milestone-list .milestone-row').forEach(row => {
+    const amt = parseFloat(row.querySelector('.ms-amount')?.value || '0') || 0;
+    const st = row.querySelector('.ms-status')?.value;
+    if (st === 'Received') received += amt;
+  });
+  const balance = Math.max(0, fee - received);
+  const pct = fee > 0 ? Math.round((received / fee) * 100) : 0;
+  const fmt = n => '₹' + Math.round(n).toLocaleString('en-IN');
+  const elR = document.getElementById('pay-received');
+  const elB = document.getElementById('pay-balance');
+  const elP = document.getElementById('pay-pct');
+  if (elR) elR.textContent = fmt(received);
+  if (elB) elB.textContent = fmt(balance);
+  if (elP) elP.textContent = pct + '%';
+}
+window.recalcPayments = recalcPayments;
+
+/* Add-milestone button */
+document.addEventListener('click', e => {
+  if (e.target && e.target.id === 'btn-add-milestone') {
+    const wrap = document.getElementById('milestone-list');
+    if (!wrap) return;
+    const i = wrap.querySelectorAll('.milestone-row').length;
+    wrap.insertAdjacentHTML('beforeend', milestoneRowHtml({ name: '', amount: '', status: 'Pending', date: '' }, i));
+    const newRow = wrap.lastElementChild;
+    newRow.querySelector('.ms-del').addEventListener('click', () => { newRow.remove(); recalcPayments(); });
+    recalcPayments();
+  }
+});
+
+/* Initialise with defaults once the form is present */
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    const wrap = document.getElementById('milestone-list');
+    if (wrap && !wrap.children.length) renderMilestones(null);
+  }, 600);
+});
+</script>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════
+   SYNC MODE UI + CLOUD PROJECTS BROWSER
+   ────────────────────────────────────────────────────────────────── */
+function refreshSyncModeUI() {
+  // Keep the sync-frequency dropdown in step with the saved value
+  const sel = document.getElementById('sync-interval-select');
+  if (sel && typeof getBatchSyncInterval === 'function') {
+    sel.value = String(getBatchSyncInterval());
+  }
+  const mode = (typeof getSyncMode === 'function') ? getSyncMode() : 'office';
+  const off = document.getElementById('btn-mode-office');
+  const fld = document.getElementById('btn-mode-field');
+  const hint = document.getElementById('mode-hint');
+  const cloudBtn = document.getElementById('btn-cloud-projects');
+  if (!off || !fld) return;
+  const active = '2px solid #2f7857', activeBg = '#e8f3ed';
+  const idle = '2px solid var(--line)', idleBg = '#fff';
+  off.style.border = mode === 'office' ? active : idle;
+  off.style.background = mode === 'office' ? activeBg : idleBg;
+  fld.style.border = mode === 'field' ? active : idle;
+  fld.style.background = mode === 'field' ? activeBg : idleBg;
+  if (hint) {
+    hint.textContent = mode === 'office'
+      ? 'Office Mode: every project in the cloud syncs to this device. Best for your office PC.'
+      : 'Field Mode: only the projects you pick sync here. Your new projects auto-subscribe. Best for the field phone.';
+  }
+  if (cloudBtn) cloudBtn.style.display = mode === 'field' ? 'block' : 'none';
+}
+
+function applySyncMode(mode) {
+  if (typeof setSyncMode === 'function') setSyncMode(mode);
+  if (mode === 'field') {
+    const local = (typeof loadRecords === 'function') ? loadRecords() : [];
+    const s = (typeof getSubscribedUuids === 'function') ? getSubscribedUuids() : new Set();
+    local.forEach(r => s.add(r.uuid));
+    if (typeof setSubscribedUuids === 'function') setSubscribedUuids(s);
+  }
+  refreshSyncModeUI();
+  if (typeof toast === 'function') {
+    toast(mode === 'office' ? '🏢 Office Mode — all projects sync' : '🥾 Field Mode — selective sync on');
+  }
+}
+window.applySyncMode = applySyncMode;
+
+async function openCloudProjectsBrowser() {
+  if (typeof CloudSync === 'undefined' || !CloudSync.isConfigured()) {
+    if (typeof toast === 'function') toast('Set up Cloud Sync first');
+    return;
+  }
+  let bd = document.getElementById('cloud-proj-backdrop');
+  if (bd) bd.remove();
+  bd = document.createElement('div');
+  bd.id = 'cloud-proj-backdrop';
+  bd.style.cssText = 'position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:9000; display:flex; align-items:center; justify-content:center; padding:14px;';
+  bd.innerHTML = `
+    <div style="background:#fff; border-radius:12px; max-width:520px; width:100%; max-height:85vh; display:flex; flex-direction:column; overflow:hidden;">
+      <div style="background:#1d4434; color:#fff; padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
+        <strong style="font-size:14px;">&#9729; Cloud Projects</strong>
+        <button onclick="document.getElementById('cloud-proj-backdrop').remove()" style="background:rgba(255,255,255,0.2); color:#fff; border:none; border-radius:6px; width:30px; height:30px; cursor:pointer; font-size:16px;">&#10005;</button>
+      </div>
+      <input type="text" id="cloud-proj-search" placeholder="Search projects..."
+        style="margin:10px 12px 4px; padding:9px 11px; border:1px solid var(--line); border-radius:7px; font-size:13px;">
+      <div id="cloud-proj-list" style="flex:1; overflow-y:auto; padding:6px 12px;">
+        <div style="text-align:center; color:#888; padding:30px;">Loading cloud projects...</div>
+      </div>
+      <div style="padding:10px 12px; border-top:1px solid var(--line); display:flex; gap:8px;">
+        <button onclick="document.getElementById('cloud-proj-backdrop').remove()"
+          style="flex:1; padding:10px; border:1px solid var(--line); background:#fff; border-radius:8px; cursor:pointer; font-size:13px;">Close</button>
+        <button id="cloud-proj-apply"
+          style="flex:1; padding:10px; border:none; background:#2f7857; color:#fff; border-radius:8px; cursor:pointer; font-size:13px; font-weight:600;">Download Selected</button>
+      </div>
+    </div>`;
+  document.body.appendChild(bd);
+
+  let remote = [];
+  try {
+    remote = await CloudSync.downloadAll();
+  } catch (e) {
+    document.getElementById('cloud-proj-list').innerHTML =
+      '<div style="text-align:center; color:#ad2e15; padding:30px;">Failed to load: ' + e.message + '</div>';
+    return;
+  }
+  const subs = (typeof getSubscribedUuids === 'function') ? getSubscribedUuids() : new Set();
+  const localUuids = new Set(((typeof loadRecords === 'function') ? loadRecords() : []).map(r => r.uuid));
+
+  function paint(filter) {
+    const list = document.getElementById('cloud-proj-list');
+    if (!list) return;
+    const f = (filter || '').toLowerCase();
+    const shown = remote.filter(r => {
+      if (!f) return true;
+      return (String(r.project || '') + ' ' + String(r.code || '') + ' ' + String(r.district || '')).toLowerCase().includes(f);
+    });
+    if (shown.length === 0) {
+      list.innerHTML = '<div style="text-align:center; color:#888; padding:24px;">No projects found</div>';
+      return;
+    }
+    list.innerHTML = shown.map(r => {
+      const on = subs.has(r.uuid) || localUuids.has(r.uuid);
+      return `<label style="display:flex; gap:9px; align-items:flex-start; padding:9px 6px; border-bottom:1px solid #f0f0f0; cursor:pointer;">
+        <input type="checkbox" class="cloud-proj-cb" data-uuid="${r.uuid}" ${on ? 'checked' : ''} style="width:17px; height:17px; margin-top:2px; flex-shrink:0;">
+        <span style="flex:1; min-width:0;">
+          <span style="font-weight:600; font-size:13px; color:var(--forest); display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHtml(r.project || 'Untitled')}</span>
+          <span style="font-size:11px; color:#888;">${escapeHtml(r.code || '-')} &middot; ${escapeHtml(r.district || '-')}</span>
+        </span>
+      </label>`;
+    }).join('');
+  }
+  paint('');
+  document.getElementById('cloud-proj-search').addEventListener('input', e => paint(e.target.value));
+
+  document.getElementById('cloud-proj-apply').addEventListener('click', () => {
+    const newSubs = new Set();
+    document.querySelectorAll('.cloud-proj-cb').forEach(cb => {
+      if (cb.checked) newSubs.add(cb.dataset.uuid);
+    });
+    subs.forEach(u => {
+      const cb = document.querySelector('.cloud-proj-cb[data-uuid="' + u + '"]');
+      if (!cb) newSubs.add(u);
+    });
+    if (typeof setSubscribedUuids === 'function') setSubscribedUuids(newSubs);
+    const keep = remote.filter(r => newSubs.has(r.uuid));
+    if (typeof saveRecords === 'function') saveRecords(keep);
+    else localStorage.setItem(STORE_KEY, JSON.stringify(keep));
+    document.getElementById('cloud-proj-backdrop').remove();
+    if (typeof renderRecords === 'function') renderRecords();
+    if (typeof renderDashboard === 'function') renderDashboard();
+    if (typeof toast === 'function') toast('✓ ' + keep.length + ' project' + (keep.length !== 1 ? 's' : '') + ' on this device');
+  });
+}
+window.openCloudProjectsBrowser = openCloudProjectsBrowser;
+
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(refreshSyncModeUI, 700);
+});
+</script>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════
+   ALL-PROJECTS PORTFOLIO REPORT (PDF)
+   One row per project: code, name, district, area, trees, stage,
+   fee / received / balance. Plus a totals summary. Opens in the
+   print-preview modal — tap "Save as PDF".
+   ────────────────────────────────────────────────────────────────── */
+function generatePortfolioReport() {
+  const recs = (typeof loadRecords === 'function') ? loadRecords() : [];
+  if (!recs.length) {
+    if (typeof toast === 'function') toast('No projects to report');
+    return;
+  }
+  const esc = (typeof escapeHtml === 'function') ? escapeHtml : (s => String(s == null ? '' : s));
+  const inr = n => '₹' + Math.round(Number(n) || 0).toLocaleString('en-IN');
+  const today = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+
+  // Per-project payment maths
+  let totFee = 0, totRcv = 0, totArea = 0, totTrees = 0;
+  const rows = recs.map((r, i) => {
+    const fee = parseFloat(r.feeTotal || '0') || 0;
+    let rcv = 0;
+    (r.milestones || []).forEach(m => { if (m.status === 'Received') rcv += parseFloat(m.amount || '0') || 0; });
+    const bal = Math.max(0, fee - rcv);
+    const area = parseFloat(r.area || '0') || 0;
+    const trees = (r.trees || []).length;
+    totFee += fee; totRcv += rcv; totArea += area; totTrees += trees;
+    const payCell = fee > 0
+      ? inr(rcv) + ' / ' + inr(fee) + (bal > 0 ? '<br><span style="color:#b56516;">' + inr(bal) + ' due</span>' : '<br><span style="color:#2f7857;">paid</span>')
+      : '—';
+    return `<tr>
+      <td class="num">${i + 1}</td>
+      <td>${esc(r.code || '—')}</td>
+      <td>${esc(r.project || 'Untitled')}</td>
+      <td>${esc(r.district || '—')}</td>
+      <td class="num">${area ? area.toFixed(2) : '—'}</td>
+      <td class="num">${trees || '—'}</td>
+      <td>${esc(r.status || '—')}</td>
+      <td class="num">${payCell}</td>
+    </tr>`;
+  }).join('');
+
+  const totBal = Math.max(0, totFee - totRcv);
+  const html = `<!DOCTYPE html><html><head><meta charset="utf-8">
+<title>Projects Portfolio Report</title>
+<style>
+  @page { size: A4 landscape; margin: 14mm; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; color: #1a1a1a; font-size: 11pt; }
+  h1 { color: #1d4434; font-size: 17pt; margin: 0 0 2pt; }
+  .sub { color: #666; font-size: 9.5pt; margin-bottom: 12pt; }
+  table { border-collapse: collapse; width: 100%; table-layout: fixed; }
+  th, td { border: 1px solid #999; padding: 5pt 6pt; font-size: 9.5pt; vertical-align: top;
+           word-wrap: break-word; overflow-wrap: anywhere; }
+  th { background: #1d4434; color: #fff; text-align: left; font-size: 9pt; }
+  td.num { text-align: center; }
+  tr:nth-child(even) td { background: #f5f3ec; }
+  tr.total td { background: #f0e8d0; font-weight: bold; }
+  .summary { margin: 14pt 0; display: flex; gap: 10pt; flex-wrap: wrap; }
+  .card { border: 1px solid #ccc; border-radius: 6pt; padding: 8pt 14pt; background: #f8f6f0; }
+  .card .v { font-size: 14pt; font-weight: bold; color: #1d4434; }
+  .card .l { font-size: 8.5pt; color: #777; }
+  .foot { margin-top: 14pt; color: #999; font-size: 8pt; text-align: center; }
+  .print-btn { background: #1d4434; color: #fff; border: none; padding: 9pt 18pt;
+               border-radius: 6pt; font-size: 11pt; cursor: pointer; margin-bottom: 12pt; }
+  @media print { .print-btn { display: none; } }
+</style></head><body>
+  <button class="print-btn" onclick="window.print()">🖨 Save as PDF</button>
+  <h1>Forest Diversion Proposals — Portfolio Report</h1>
+  <div class="sub">Generated ${today} · ${recs.length} project${recs.length !== 1 ? 's' : ''}</div>
+
+  <div class="summary">
+    <div class="card"><div class="v">${recs.length}</div><div class="l">Total Projects</div></div>
+    <div class="card"><div class="v">${totArea.toFixed(2)} ha</div><div class="l">Total Forest Area</div></div>
+    <div class="card"><div class="v">${totTrees}</div><div class="l">Total Trees Affected</div></div>
+    <div class="card"><div class="v">${inr(totFee)}</div><div class="l">Total Consultancy Fee</div></div>
+    <div class="card"><div class="v" style="color:#2f7857;">${inr(totRcv)}</div><div class="l">Received</div></div>
+    <div class="card"><div class="v" style="color:#b56516;">${inr(totBal)}</div><div class="l">Balance Due</div></div>
+  </div>
+
+  <table>
+    <colgroup>
+      <col style="width:4%"><col style="width:13%"><col style="width:30%"><col style="width:12%">
+      <col style="width:8%"><col style="width:7%"><col style="width:12%"><col style="width:14%">
+    </colgroup>
+    <thead><tr>
+      <th>#</th><th>Project Code</th><th>Project Name</th><th>District</th>
+      <th>Area (ha)</th><th>Trees</th><th>Stage</th><th>Payment (recd / fee)</th>
+    </tr></thead>
+    <tbody>
+      ${rows}
+      <tr class="total">
+        <td class="num">—</td><td colspan="2">TOTAL — ${recs.length} projects</td><td></td>
+        <td class="num">${totArea.toFixed(2)}</td><td class="num">${totTrees}</td><td></td>
+        <td class="num">${inr(totRcv)} / ${inr(totFee)}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="foot">Forest Inspector — Portfolio Report · ${today}</div>
+</body></html>`;
+
+  if (typeof openInNewTabOrBlob === 'function') {
+    openInNewTabOrBlob(html, 'Portfolio-Report-' + new Date().toISOString().slice(0, 10) + '.html');
+  }
+}
+window.generatePortfolioReport = generatePortfolioReport;
+</script>
+
+
 </html>
