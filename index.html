@@ -1066,14 +1066,14 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <!-- ════════ PAYMENT TRACKER ════════ -->
-    <div class="divider-label" style="margin-top:18px;">💵 Consultancy Payment Tracker</div>
-    <div class="field">
+    <div class="divider-label" data-fp-page="1" style="margin-top:18px;">💵 Consultancy Payment Tracker</div>
+    <div class="field" data-fp-page="1">
       <label>Total Consultancy Fee (₹) — what the client pays you</label>
       <input type="number" id="f-fee-total" placeholder="e.g. 75000" min="0" step="1" oninput="recalcPayments()">
     </div>
-    <div id="milestone-list" style="margin:8px 0;"></div>
-    <button type="button" class="btn btn-ghost" id="btn-add-milestone" style="font-size:13px; padding:8px 12px;">+ Add Milestone</button>
-    <div id="payment-summary" style="margin-top:10px; padding:10px 12px; background:#f0f6f0; border:1px solid #cde0cd; border-radius:8px; font-size:13px;">
+    <div id="milestone-list" data-fp-page="1" style="margin:8px 0;"></div>
+    <button type="button" class="btn btn-ghost" id="btn-add-milestone" data-fp-page="1" style="font-size:13px; padding:8px 12px;">+ Add Milestone</button>
+    <div id="payment-summary" data-fp-page="1" style="margin-top:10px; padding:10px 12px; background:#f0f6f0; border:1px solid #cde0cd; border-radius:8px; font-size:13px;">
       <div style="display:flex; justify-content:space-between; margin-bottom:3px;">
         <span>Total received</span><strong id="pay-received" style="color:#2f7857;">₹0</strong>
       </div>
@@ -2079,7 +2079,32 @@ window.toggleAuditSaveBar = toggleAuditSaveBar;
 
     <div class="field">
       <label>🌳 Trees on this yard <span style="color:#888;">— optional, will be cut at disposal site</span></label>
-      <textarea id="mk-trees-on-yard" rows="3" placeholder="One tree per line — format: Species ; DBH (cm) ; Condition&#10;e.g.&#10;Banj Oak ; 30-40 ; Sound&#10;Chir Pine ; 50-60 ; Diseased"></textarea>
+      <div style="background:#fafaf5; border:1px solid var(--line); border-radius:8px; padding:10px;">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+          <input type="text" id="yt-species" placeholder="Species (e.g. Banj Oak)" style="font-size:13px; padding:7px 9px; grid-column:span 2;">
+          <select id="yt-dia" style="font-size:13px; padding:7px 6px;">
+            <option value="">DBH class…</option>
+            <option value="10-20">10–20 cm</option>
+            <option value="20-30">20–30 cm</option>
+            <option value="30-40">30–40 cm</option>
+            <option value="40-50">40–50 cm</option>
+            <option value="50-60">50–60 cm</option>
+            <option value="60-70">60–70 cm</option>
+            <option value="70-80">70–80 cm</option>
+            <option value="80-90">80–90 cm</option>
+            <option value="90+">90+ cm (mature)</option>
+          </select>
+          <select id="yt-cond" style="font-size:13px; padding:7px 6px;">
+            <option value="green standing">Green standing</option>
+            <option value="dry standing">Dry standing</option>
+            <option value="fallen">Fallen</option>
+            <option value="damaged">Damaged</option>
+            <option value="stump">Stump</option>
+          </select>
+        </div>
+        <button type="button" id="yt-add" style="margin-top:7px; width:100%; padding:8px; border:1px solid var(--forest); background:#e8f3ed; color:var(--forest); border-radius:6px; font-size:13px; font-weight:600; cursor:pointer;">+ Add Tree to Yard</button>
+        <div id="yt-list" style="margin-top:7px;"></div>
+      </div>
       <div class="hint">Trees standing on the muck disposal site that may need cutting. Listed separately from main alignment trees.</div>
     </div>
 
@@ -21107,7 +21132,7 @@ document.getElementById('btn-add-muck')?.addEventListener('click', () => {
   document.getElementById('mk-remarks').value = '';
   document.getElementById('mk-coord-display').value = '';
   if (document.getElementById('mk-chainage')) document.getElementById('mk-chainage').value = '';
-  if (document.getElementById('mk-trees-on-yard')) document.getElementById('mk-trees-on-yard').value = '';
+  if (typeof window !== 'undefined') { window._yardTrees = []; if (typeof renderYardTrees === 'function') renderYardTrees(); }
   // Auto-inherit branch from active alignment session (so user doesn't have to keep switching)
   // Falls back to 'selected' if no active session
   const brSel = document.getElementById('mk-branch');
@@ -21250,19 +21275,8 @@ document.getElementById('btn-mk-save')?.addEventListener('click', () => {
   if (!name) { notifyError('Name required', {title:'Error'}); return; }
   if (length <= 0 || width <= 0 || depth <= 0) { notifyError('All three dimensions required', {title:'Error'}); return; }
 
-  // Parse trees-on-yard textarea — one tree per line, "Species | DBH | Condition"
-  const treesText = (document.getElementById('mk-trees-on-yard')?.value || '').trim();
-  const treesOnYard = treesText ? treesText.split('\n').map((line, idx) => {
-    const parts = line.split(/[;|]/).map(s => s.trim()).filter(Boolean);
-    if (parts.length === 0) return null;
-    return {
-      sno: idx + 1,
-      species_en: parts[0] || '',
-      name: parts[0] || '',
-      dia: parts[1] || '',
-      condition: parts[2] || 'Sound / Healthy'
-    };
-  }).filter(Boolean) : [];
+  // Trees on yard — from the structured add-row list
+  const treesOnYard = (typeof collectYardTrees === 'function') ? collectYardTrees() : [];
 
   const chainageRaw = document.getElementById('mk-chainage')?.value;
   const chainage = (chainageRaw !== '' && chainageRaw != null) ? parseFloat(chainageRaw) : null;
@@ -30429,6 +30443,76 @@ window.openCloudProjectsBrowser = openCloudProjectsBrowser;
 
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(refreshSyncModeUI, 700);
+});
+</script>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════
+   TREES-ON-YARD — structured entry (replaces the old textarea).
+   Same dropdown style as the main tree collection.
+   ────────────────────────────────────────────────────────────────── */
+window._yardTrees = window._yardTrees || [];
+
+function renderYardTrees() {
+  const list = document.getElementById('yt-list');
+  if (!list) return;
+  if (!window._yardTrees.length) { list.innerHTML = ''; return; }
+  list.innerHTML = window._yardTrees.map((t, i) =>
+    `<div style="display:flex; align-items:center; gap:6px; padding:6px 8px; background:#fff; border:1px solid var(--line); border-radius:6px; margin-top:5px; font-size:12px;">
+      <span style="flex:1;"><strong>${escapeHtml(t.species_en || '')}</strong> · ${escapeHtml(t.dia || '?')} cm · ${escapeHtml(t.condition || '')}</span>
+      <button type="button" data-yt-del="${i}" style="background:#fff0f0; color:#ad2e15; border:1px solid #fcc; border-radius:4px; padding:3px 8px; font-size:11px; cursor:pointer;">✕</button>
+    </div>`).join('');
+  list.querySelectorAll('[data-yt-del]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      window._yardTrees.splice(parseInt(btn.dataset.ytDel, 10), 1);
+      renderYardTrees();
+    });
+  });
+}
+window.renderYardTrees = renderYardTrees;
+
+/* Read the yard-tree list — used when saving a muck point */
+function collectYardTrees() {
+  return window._yardTrees.map((t, idx) => ({
+    sno: idx + 1,
+    species_en: t.species_en || '',
+    name: t.species_en || '',
+    dia: t.dia || '',
+    condition: t.condition || 'green standing'
+  }));
+}
+window.collectYardTrees = collectYardTrees;
+
+/* Load existing yard trees into the editor (when editing a muck point) */
+function loadYardTrees(arr) {
+  window._yardTrees = Array.isArray(arr) ? arr.map(t => ({
+    species_en: t.species_en || t.name || '',
+    dia: t.dia || '',
+    condition: t.condition || 'green standing'
+  })) : [];
+  renderYardTrees();
+}
+window.loadYardTrees = loadYardTrees;
+
+document.addEventListener('click', e => {
+  if (e.target && e.target.id === 'yt-add') {
+    const sp = document.getElementById('yt-species');
+    const dia = document.getElementById('yt-dia');
+    const cond = document.getElementById('yt-cond');
+    const species = (sp?.value || '').trim();
+    if (!species) {
+      if (typeof toast === 'function') toast('Enter a species name');
+      return;
+    }
+    window._yardTrees.push({
+      species_en: species,
+      dia: dia?.value || '',
+      condition: cond?.value || 'green standing'
+    });
+    if (sp) sp.value = '';
+    if (dia) dia.value = '';
+    renderYardTrees();
+  }
 });
 </script>
 
