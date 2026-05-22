@@ -917,25 +917,25 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="field">
       <label>District (जिला)</label>
       <select id="f-district-select" style="margin-bottom:6px;">
-        <option value="">— Select District —</option>
-        <optgroup label="Garhwal Division">
-          <option>Chamoli</option>
-          <option>Dehradun</option>
-          <option>Haridwar</option>
-          <option>Pauri Garhwal</option>
-          <option>Rudraprayag</option>
-          <option>Tehri Garhwal</option>
-          <option>Uttarkashi</option>
+        <option value="">— जिला चुनें / Select District —</option>
+        <optgroup label="गढ़वाल मण्डल / Garhwal">
+          <option value="Chamoli">चमोली / Chamoli</option>
+          <option value="Dehradun">देहरादून / Dehradun</option>
+          <option value="Haridwar">हरिद्वार / Haridwar</option>
+          <option value="Pauri Garhwal">पौड़ी गढ़वाल / Pauri Garhwal</option>
+          <option value="Rudraprayag">रुद्रप्रयाग / Rudraprayag</option>
+          <option value="Tehri Garhwal">टिहरी गढ़वाल / Tehri Garhwal</option>
+          <option value="Uttarkashi">उत्तरकाशी / Uttarkashi</option>
         </optgroup>
-        <optgroup label="Kumaon Division">
-          <option>Almora</option>
-          <option>Bageshwar</option>
-          <option>Champawat</option>
-          <option>Nainital</option>
-          <option>Pithoragarh</option>
-          <option>Udham Singh Nagar</option>
+        <optgroup label="कुमाऊँ मण्डल / Kumaon">
+          <option value="Almora">अल्मोड़ा / Almora</option>
+          <option value="Bageshwar">बागेश्वर / Bageshwar</option>
+          <option value="Champawat">चम्पावत / Champawat</option>
+          <option value="Nainital">नैनीताल / Nainital</option>
+          <option value="Pithoragarh">पिथौरागढ़ / Pithoragarh</option>
+          <option value="Udham Singh Nagar">ऊधम सिंह नगर / Udham Singh Nagar</option>
         </optgroup>
-        <option value="__custom">Other / Custom…</option>
+        <option value="__custom">अन्य / Other / Custom…</option>
       </select>
       <input type="text" id="f-district" placeholder="e.g. District name" style="display:none;">
     </div>
@@ -1064,27 +1064,6 @@ document.addEventListener('DOMContentLoaded', () => {
       <label>Total Project Cost (₹ in lakhs)</label>
       <input type="number" id="f-cost" placeholder="e.g. 85.50" min="0" step="0.01">
     </div>
-
-    <!-- ════════ PAYMENT TRACKER ════════ -->
-    <div class="divider-label" data-fp-page="1" style="margin-top:18px;">💵 Consultancy Payment Tracker</div>
-    <div class="field" data-fp-page="1">
-      <label>Total Consultancy Fee (₹) — what the client pays you</label>
-      <input type="number" id="f-fee-total" placeholder="e.g. 75000" min="0" step="1" oninput="recalcPayments()">
-    </div>
-    <div id="milestone-list" data-fp-page="1" style="margin:8px 0;"></div>
-    <button type="button" class="btn btn-ghost" id="btn-add-milestone" data-fp-page="1" style="font-size:13px; padding:8px 12px;">+ Add Milestone</button>
-    <div id="payment-summary" data-fp-page="1" style="margin-top:10px; padding:10px 12px; background:#f0f6f0; border:1px solid #cde0cd; border-radius:8px; font-size:13px;">
-      <div style="display:flex; justify-content:space-between; margin-bottom:3px;">
-        <span>Total received</span><strong id="pay-received" style="color:#2f7857;">₹0</strong>
-      </div>
-      <div style="display:flex; justify-content:space-between; margin-bottom:3px;">
-        <span>Balance due</span><strong id="pay-balance" style="color:#b56516;">₹0</strong>
-      </div>
-      <div style="display:flex; justify-content:space-between;">
-        <span>Collected</span><strong id="pay-pct" style="color:#1d4434;">0%</strong>
-      </div>
-    </div>
-    <!-- ════════ END PAYMENT TRACKER ════════ -->
 
     <div class="field">
       <label>NPV Estimate (₹) — for alignment comparison</label>
@@ -1372,6 +1351,28 @@ document.addEventListener('DOMContentLoaded', () => {
       <!-- Hidden textarea — kept for back-compat with save / proforma 33 rendering -->
       <textarea id="f-beneficiary-villages" style="display:none;" rows="3"></textarea>
       </div><!-- /data-fp-page=4 (beneficiary villages) -->
+
+    <!-- ════════ PAYMENT TRACKER — last section of page 1 ════════ -->
+    <div class="divider-label" data-fp-page="1" style="margin-top:22px; color:#2f7857;">💵 Consultancy Payment Tracker</div>
+    <div class="field" data-fp-page="1">
+      <label>Total Consultancy Fee (₹) — what the client pays you</label>
+      <input type="number" id="f-fee-total" placeholder="e.g. 75000" min="0" step="1" oninput="recalcPayments()">
+    </div>
+    <div id="milestone-list" data-fp-page="1" style="margin:8px 0;"></div>
+    <button type="button" class="btn btn-ghost" id="btn-add-milestone" data-fp-page="1" style="font-size:13px; padding:8px 12px;">+ Add Milestone</button>
+    <div id="payment-summary" data-fp-page="1" style="margin-top:10px; padding:10px 12px; background:#f0f6f0; border:1px solid #cde0cd; border-radius:8px; font-size:13px;">
+      <div style="display:flex; justify-content:space-between; margin-bottom:3px;">
+        <span>Total received</span><strong id="pay-received" style="color:#2f7857;">₹0</strong>
+      </div>
+      <div style="display:flex; justify-content:space-between; margin-bottom:3px;">
+        <span>Balance due</span><strong id="pay-balance" style="color:#b56516;">₹0</strong>
+      </div>
+      <div style="display:flex; justify-content:space-between;">
+        <span>Collected</span><strong id="pay-pct" style="color:#1d4434;">0%</strong>
+      </div>
+    </div>
+    <!-- ════════ END PAYMENT TRACKER ════════ -->
+
 
       <div data-fp-page="2">
       <div class="divider-label" style="margin-top:14px;">🖋️ Signatories / Officers Directory (प्रपत्रों के हस्ताक्षरकर्ता)</div>
@@ -3734,15 +3735,15 @@ const SIGNER_ROLES = [
 
   { key: 'dm',            label: 'DM — जिलाधिकारी',
     designation: 'जिलाधिकारी',
-    officeFn: r => 'जिलाधिकारी कार्यालय' + (r.district ? ', ' + r.district : '') },
+    officeFn: r => 'जिलाधिकारी कार्यालय' + (r.district ? ', ' + districtHi(r.district) : '') },
 
   { key: 'sdm',           label: 'SDM — उप जिलाधिकारी',
     designation: 'उप जिलाधिकारी',
-    officeFn: r => 'उप जिलाधिकारी कार्यालय' + (r.tehsil ? ', ' + r.tehsil : '') },
+    officeFn: r => 'उप जिलाधिकारी कार्यालय' + (r.tehsil ? ', ' + hiPart(r.tehsil) : '') },
 
   { key: 'tahsildar',     label: 'Tahsildar — तहसीलदार',
     designation: 'तहसीलदार',
-    officeFn: r => 'तहसील कार्यालय' + (r.tehsil ? ', ' + r.tehsil : '') },
+    officeFn: r => 'तहसील कार्यालय' + (r.tehsil ? ', ' + hiPart(r.tehsil) : '') },
 
   { key: 'ro',            label: 'Range Officer — वनक्षेत्राधिकारी',
     designation: 'वनक्षेत्राधिकारी',
@@ -3758,7 +3759,7 @@ const SIGNER_ROLES = [
 
   { key: 'patwari',       label: 'Patwari — पटवारी',
     designation: 'पटवारी',
-    officeFn: r => 'पटवारी' + (r.tehsil ? ', तहसील ' + r.tehsil : '') },
+    officeFn: r => 'पटवारी' + (r.tehsil ? ', तहसील ' + hiPart(r.tehsil) : '') },
 
   { key: 'conservator',   label: 'Conservator — वन संरक्षक',
     designation: 'वन संरक्षक',
@@ -3786,7 +3787,7 @@ const SIGNER_ROLES = [
 
   { key: 'revenueRep',    label: 'Revenue Dept rep — राजस्व विभाग प्रतिनिधि',
     designation: 'राजस्व विभाग प्रतिनिधि',
-    officeFn: r => 'राजस्व विभाग' + (r.tehsil ? ', तहसील ' + r.tehsil : '') },
+    officeFn: r => 'राजस्व विभाग' + (r.tehsil ? ', तहसील ' + hiPart(r.tehsil) : '') },
 
   { key: 'forestRep',     label: 'Forest Dept rep — वन विभाग प्रतिनिधि',
     designation: 'वन विभाग प्रतिनिधि',
@@ -4211,71 +4212,100 @@ function toast(msg, err) {
 }
 
 
+/* English district name → Hindi, for printing in proformas/JIR.
+   The form keeps English values internally (so the UK_ADMIN cascade and
+   project codes work), but documents show Hindi via this map. */
+const DISTRICT_HI = {
+  'Almora': 'अल्मोड़ा', 'Bageshwar': 'बागेश्वर', 'Chamoli': 'चमोली',
+  'Champawat': 'चम्पावत', 'Dehradun': 'देहरादून', 'Haridwar': 'हरिद्वार',
+  'Nainital': 'नैनीताल', 'Pauri Garhwal': 'पौड़ी गढ़वाल', 'Pithoragarh': 'पिथौरागढ़',
+  'Rudraprayag': 'रुद्रप्रयाग', 'Tehri Garhwal': 'टिहरी गढ़वाल',
+  'Udham Singh Nagar': 'ऊधम सिंह नगर', 'Uttarkashi': 'उत्तरकाशी'
+};
+/* Return the Hindi name for a district; falls back to the original
+   text if it's already Hindi or a custom value. */
+function districtHi(name) {
+  if (!name) return '';
+  return DISTRICT_HI[name] || name;
+}
+window.districtHi = districtHi;
+
+/* Tehsil/block/division values are stored as "हिन्दी / English".
+   hiPart() extracts just the Hindi half for printing in proformas.
+   If there's no " / " separator, the value is returned unchanged. */
+function hiPart(val) {
+  if (!val) return '';
+  var s = String(val);
+  var i = s.indexOf(' / ');
+  return i > 0 ? s.slice(0, i).trim() : s;
+}
+window.hiPart = hiPart;
+
 const UK_ADMIN = {
   'Almora': {
-    tehsils: ['Almora', 'Bhainsiyachhana', 'Bhikiyasain', 'Chaukhutia', 'Dhaula Devi', 'Dwarahat', 'Jaiinti', 'Lamgara', 'Ranikhet', 'Sult', 'Syalde'],
-    blocks: ['Bhainsiyachhana', 'Bhikiyasain', 'Chaukhutia', 'Dhauladevi', 'Dwarahat', 'Hawalbagh', 'Lamgara', 'Salt', 'Syalde', 'Tadikhet', 'Takula'],
-    divisions: ['Almora Forest Division', 'Civil Soyam Division Almora']
+    tehsils: ['अल्मोड़ा / Almora', 'भैंसियाछाना / Bhainsiyachhana', 'भिकियासैंण / Bhikiyasain', 'चौखुटिया / Chaukhutia', 'धौलादेवी / Dhaula Devi', 'द्वाराहाट / Dwarahat', 'जैंती / Jaiinti', 'लमगड़ा / Lamgara', 'रानीखेत / Ranikhet', 'सल्ट / Sult', 'स्याल्दे / Syalde'],
+    blocks: ['भैंसियाछाना / Bhainsiyachhana', 'भिकियासैंण / Bhikiyasain', 'चौखुटिया / Chaukhutia', 'धौलादेवी / Dhauladevi', 'द्वाराहाट / Dwarahat', 'हवालबाग / Hawalbagh', 'लमगड़ा / Lamgara', 'सल्ट / Salt', 'स्याल्दे / Syalde', 'ताड़ीखेत / Tadikhet', 'ताकुला / Takula'],
+    divisions: ['अल्मोड़ा वन प्रभाग / Almora Forest Division', 'अल्मोड़ा सिविल सोयम प्रभाग / Civil Soyam Division Almora']
   },
   'Bageshwar': {
-    tehsils: ['Bageshwar', 'Garur', 'Kapkot', 'Kanda', 'Dugnakuri'],
-    blocks: ['Bageshwar', 'Garur', 'Kapkot'],
-    divisions: ['Bageshwar Forest Division']
+    tehsils: ['बागेश्वर / Bageshwar', 'गरुड़ / Garur', 'कपकोट / Kapkot', 'कांडा / Kanda', 'दुगनाकुरी / Dugnakuri'],
+    blocks: ['बागेश्वर / Bageshwar', 'गरुड़ / Garur', 'कपकोट / Kapkot'],
+    divisions: ['बागेश्वर वन प्रभाग / Bageshwar Forest Division']
   },
   'Chamoli': {
-    tehsils: ['Chamoli', 'Gairsain', 'Gopeshwar', 'Joshimath', 'Karnaprayag', 'Pokhari', 'Tharali', 'Adibadri', 'Ghat', 'Nandanagar', 'Narayanbagar', 'Deval'],
-    blocks: ['Dasholi', 'Deval', 'Gairsain', 'Ghat', 'Joshimath', 'Karnaprayag', 'Narayanbagar', 'Pokhari', 'Tharali'],
-    divisions: ['Badrinath Forest Division', 'Kedarnath Wildlife Division', 'Nanda Devi National Park', 'Alaknanda Forest Division']
+    tehsils: ['चमोली / Chamoli', 'गैरसैंण / Gairsain', 'गोपेश्वर / Gopeshwar', 'जोशीमठ / Joshimath', 'कर्णप्रयाग / Karnaprayag', 'पोखरी / Pokhari', 'थराली / Tharali', 'आदिबद्री / Adibadri', 'घाट / Ghat', 'नंदानगर / Nandanagar', 'नारायणबगड़ / Narayanbagar', 'देवाल / Deval'],
+    blocks: ['दशोली / Dasholi', 'देवाल / Deval', 'गैरसैंण / Gairsain', 'घाट / Ghat', 'जोशीमठ / Joshimath', 'कर्णप्रयाग / Karnaprayag', 'नारायणबगड़ / Narayanbagar', 'पोखरी / Pokhari', 'थराली / Tharali'],
+    divisions: ['बद्रीनाथ वन प्रभाग / Badrinath Forest Division', 'केदारनाथ वन्यजीव प्रभाग / Kedarnath Wildlife Division', 'नंदा देवी राष्ट्रीय उद्यान / Nanda Devi National Park', 'अलकनंदा वन प्रभाग / Alaknanda Forest Division']
   },
   'Champawat': {
-    tehsils: ['Champawat', 'Lohaghat', 'Pati', 'Banbasa', 'Barakot', 'Pullabanbasa', 'Pullabanbasa/Tanakpur'],
-    blocks: ['Barakot', 'Champawat', 'Lohaghat', 'Pati'],
-    divisions: ['Champawat Forest Division', 'Tanakpur Forest Division']
+    tehsils: ['चम्पावत / Champawat', 'लोहाघाट / Lohaghat', 'पाटी / Pati', 'बनबसा / Banbasa', 'बाराकोट / Barakot', 'पुल्लाबनबसा / Pullabanbasa', 'पुल्लाबनबसा/टनकपुर / Pullabanbasa/Tanakpur'],
+    blocks: ['बाराकोट / Barakot', 'चम्पावत / Champawat', 'लोहाघाट / Lohaghat', 'पाटी / Pati'],
+    divisions: ['चम्पावत वन प्रभाग / Champawat Forest Division', 'Tanakpur वन प्रभाग / Tanakpur Forest Division']
   },
   'Dehradun': {
-    tehsils: ['Dehradun', 'Chakrata', 'Doiwala', 'Kalsi', 'Rishikesh', 'Tyuni', 'Vikasnagar'],
-    blocks: ['Chakrata', 'Doiwala', 'Kalsi', 'Raipur', 'Sahaspur', 'Vikasnagar'],
-    divisions: ['Dehradun Forest Division', 'Mussoorie Forest Division', 'Rajaji National Park', 'Chakrata Forest Division']
+    tehsils: ['देहरादून / Dehradun', 'चकराता / Chakrata', 'डोईवाला / Doiwala', 'कालसी / Kalsi', 'ऋषिकेश / Rishikesh', 'त्यूणी / Tyuni', 'विकासनगर / Vikasnagar'],
+    blocks: ['चकराता / Chakrata', 'डोईवाला / Doiwala', 'कालसी / Kalsi', 'रायपुर / Raipur', 'सहसपुर / Sahaspur', 'विकासनगर / Vikasnagar'],
+    divisions: ['देहरादून वन प्रभाग / Dehradun Forest Division', 'मसूरी वन प्रभाग / Mussoorie Forest Division', 'राजाजी राष्ट्रीय उद्यान / Rajaji National Park', 'चकराता वन प्रभाग / Chakrata Forest Division']
   },
   'Haridwar': {
-    tehsils: ['Haridwar', 'Bhagwanpur', 'Laksar', 'Roorkee'],
-    blocks: ['Bahadrabad', 'Bhagwanpur', 'Khanpur', 'Laksar', 'Narsan', 'Roorkee'],
-    divisions: ['Haridwar Forest Division', 'Rajaji National Park']
+    tehsils: ['हरिद्वार / Haridwar', 'भगवानपुर / Bhagwanpur', 'लक्सर / Laksar', 'रुड़की / Roorkee'],
+    blocks: ['बहादराबाद / Bahadrabad', 'भगवानपुर / Bhagwanpur', 'खानपुर / Khanpur', 'लक्सर / Laksar', 'नारसन / Narsan', 'रुड़की / Roorkee'],
+    divisions: ['हरिद्वार वन प्रभाग / Haridwar Forest Division', 'राजाजी राष्ट्रीय उद्यान / Rajaji National Park']
   },
   'Nainital': {
-    tehsils: ['Nainital', 'Haldwani', 'Kaladhungi', 'Kosya Kutauli', 'Lalkuan', 'Ramnagar', 'Dhari'],
-    blocks: ['Betalghat', 'Bhimtal', 'Dhari', 'Haldwani', 'Kotabagh', 'Okhalkanda', 'Ramgarh', 'Ramnagar'],
-    divisions: ['Nainital Forest Division', 'Ramnagar Forest Division', 'Corbett Tiger Reserve', 'Terai West Division', 'Terai East Division']
+    tehsils: ['नैनीताल / Nainital', 'हल्द्वानी / Haldwani', 'कालाढूंगी / Kaladhungi', 'कोश्या कुटौली / Kosya Kutauli', 'लालकुआँ / Lalkuan', 'रामनगर / Ramnagar', 'धारी / Dhari'],
+    blocks: ['बेतालघाट / Betalghat', 'भीमताल / Bhimtal', 'धारी / Dhari', 'हल्द्वानी / Haldwani', 'कोटाबाग / Kotabagh', 'ओखलकांडा / Okhalkanda', 'रामगढ़ / Ramgarh', 'रामनगर / Ramnagar'],
+    divisions: ['नैनीताल वन प्रभाग / Nainital Forest Division', 'रामनगर वन प्रभाग / Ramnagar Forest Division', 'कॉर्बेट टाइगर रिजर्व / Corbett Tiger Reserve', 'तराई पश्चिम प्रभाग / Terai West Division', 'तराई पूर्व प्रभाग / Terai East Division']
   },
   'Pauri Garhwal': {
-    tehsils: ['Pauri', 'Kotdwara', 'Lansdowne', 'Satpuli', 'Srinagar', 'Thalisain', 'Yamkeshwar', 'Dhumakot', 'Chaubattakhal', 'Rikhnikhal'],
-    blocks: ['Bironkhal', 'Dugadda', 'Dwarikhal', 'Ekeshwar', 'Jaiharikhal', 'Kaljikhal', 'Khirsu', 'Kot', 'Nainidanda', 'Pabau', 'Pauri', 'Pokhra', 'Rikhnikhal', 'Thalisain', 'Yamkeshwar'],
-    divisions: ['Garhwal Forest Division', 'Lansdowne Forest Division', 'Corbett Tiger Reserve', 'Kalagarh Tiger Reserve']
+    tehsils: ['पौड़ी / Pauri', 'कोटद्वार / Kotdwara', 'लैंसडौन / Lansdowne', 'सतपुली / Satpuli', 'श्रीनगर / Srinagar', 'थलीसैंण / Thalisain', 'यमकेश्वर / Yamkeshwar', 'धुमाकोट / Dhumakot', 'चौबट्टाखाल / Chaubattakhal', 'रिखणीखाल / Rikhnikhal'],
+    blocks: ['बीरोंखाल / Bironkhal', 'दुगड्डा / Dugadda', 'द्वारीखाल / Dwarikhal', 'एकेश्वर / Ekeshwar', 'जयहरीखाल / Jaiharikhal', 'कलजीखाल / Kaljikhal', 'खिर्सू / Khirsu', 'कोट / Kot', 'नैनीडांडा / Nainidanda', 'पाबौ / Pabau', 'पौड़ी / Pauri', 'पोखड़ा / Pokhra', 'रिखणीखाल / Rikhnikhal', 'थलीसैंण / Thalisain', 'यमकेश्वर / Yamkeshwar'],
+    divisions: ['Garhwal वन प्रभाग / Garhwal Forest Division', 'लैंसडौन वन प्रभाग / Lansdowne Forest Division', 'कॉर्बेट टाइगर रिजर्व / Corbett Tiger Reserve', 'कालागढ़ टाइगर रिजर्व / Kalagarh Tiger Reserve']
   },
   'Pithoragarh': {
-    tehsils: ['Pithoragarh', 'Dharchula', 'Didihat', 'Gangolihat', 'Berinag', 'Munsyari', 'Kanalichhina', 'Munakot', 'Thal'],
-    blocks: ['Berinag', 'Dharchula', 'Didihat', 'Gangolihat', 'Kanalichhina', 'Munakot', 'Munsiari', 'Pithoragarh'],
-    divisions: ['Pithoragarh Forest Division', 'Askot Musk Deer Sanctuary']
+    tehsils: ['पिथौरागढ़ / Pithoragarh', 'धारचूला / Dharchula', 'डीडीहाट / Didihat', 'गंगोलीहाट / Gangolihat', 'बेरीनाग / Berinag', 'मुनस्यारी / Munsyari', 'कनालीछीना / Kanalichhina', 'मुनाकोट / Munakot', 'थल / Thal'],
+    blocks: ['बेरीनाग / Berinag', 'धारचूला / Dharchula', 'डीडीहाट / Didihat', 'गंगोलीहाट / Gangolihat', 'कनालीछीना / Kanalichhina', 'मुनाकोट / Munakot', 'मुनस्यारी / Munsiari', 'पिथौरागढ़ / Pithoragarh'],
+    divisions: ['पिथौरागढ़ वन प्रभाग / Pithoragarh Forest Division', 'अस्कोट कस्तूरी मृग अभयारण्य / Askot Musk Deer Sanctuary']
   },
   'Rudraprayag': {
-    tehsils: ['Rudraprayag', 'Ukhimath', 'Jakholi', 'Basukedar', 'Augustmuni'],
-    blocks: ['Agastmuni', 'Jakholi', 'Ukhimath'],
-    divisions: ['Rudraprayag Forest Division', 'Kedarnath Wildlife Division', 'Kedarnath Vanya Jeev Prabhag']
+    tehsils: ['रुद्रप्रयाग / Rudraprayag', 'ऊखीमठ / Ukhimath', 'जखोली / Jakholi', 'बसुकेदार / Basukedar', 'अगस्त्यमुनि / Augustmuni'],
+    blocks: ['अगस्त्यमुनि / Agastmuni', 'जखोली / Jakholi', 'ऊखीमठ / Ukhimath'],
+    divisions: ['रुद्रप्रयाग वन प्रभाग / Rudraprayag Forest Division', 'केदारनाथ वन्यजीव प्रभाग / Kedarnath Wildlife Division', 'केदारनाथ वन्य जीव प्रभाग / Kedarnath Vanya Jeev Prabhag']
   },
   'Tehri Garhwal': {
-    tehsils: ['Tehri', 'Devprayag', 'Ghansali', 'Narendranagar', 'Pratapnagar', 'Kirtinagar', 'Jakhnidhar'],
-    blocks: ['Bhilangna', 'Chamba', 'Devprayag', 'Jakhanidhar', 'Jaunpur', 'Kirtinagar', 'Narendranagar', 'Pratapnagar', 'Thauldhar'],
-    divisions: ['Tehri Forest Division', 'Narendranagar Forest Division', 'Mussoorie Forest Division']
+    tehsils: ['टिहरी / Tehri', 'देवप्रयाग / Devprayag', 'घनसाली / Ghansali', 'नरेन्द्रनगर / Narendranagar', 'प्रतापनगर / Pratapnagar', 'कीर्तिनगर / Kirtinagar', 'जाखणीधार / Jakhnidhar'],
+    blocks: ['भिलंगना / Bhilangna', 'चंबा / Chamba', 'देवप्रयाग / Devprayag', 'जाखणीधार / Jakhanidhar', 'जौनपुर / Jaunpur', 'कीर्तिनगर / Kirtinagar', 'नरेन्द्रनगर / Narendranagar', 'प्रतापनगर / Pratapnagar', 'थौलधार / Thauldhar'],
+    divisions: ['टिहरी वन प्रभाग / Tehri Forest Division', 'नरेन्द्रनगर वन प्रभाग / Narendranagar Forest Division', 'मसूरी वन प्रभाग / Mussoorie Forest Division']
   },
   'Udham Singh Nagar': {
-    tehsils: ['Rudrapur', 'Kashipur', 'Khatima', 'Kichha', 'Sitarganj', 'Jaspur', 'Bajpur', 'Gadarpur'],
-    blocks: ['Bajpur', 'Gadarpur', 'Jaspur', 'Kashipur', 'Khatima', 'Rudrapur', 'Sitarganj'],
-    divisions: ['Terai East Division', 'Terai West Division', 'Terai Central Division', 'Haldwani Forest Division']
+    tehsils: ['रुद्रपुर / Rudrapur', 'काशीपुर / Kashipur', 'खटीमा / Khatima', 'किच्छा / Kichha', 'सितारगंज / Sitarganj', 'जसपुर / Jaspur', 'बाजपुर / Bajpur', 'गदरपुर / Gadarpur'],
+    blocks: ['बाजपुर / Bajpur', 'गदरपुर / Gadarpur', 'जसपुर / Jaspur', 'काशीपुर / Kashipur', 'खटीमा / Khatima', 'रुद्रपुर / Rudrapur', 'सितारगंज / Sitarganj'],
+    divisions: ['तराई पूर्व प्रभाग / Terai East Division', 'तराई पश्चिम प्रभाग / Terai West Division', 'तराई मध्य प्रभाग / Terai Central Division', 'हल्द्वानी वन प्रभाग / Haldwani Forest Division']
   },
   'Uttarkashi': {
-    tehsils: ['Uttarkashi', 'Barkot', 'Bhatwari', 'Chinyalisaur', 'Dunda', 'Purola', 'Mori'],
-    blocks: ['Bhatwari', 'Chinyalisaur', 'Dunda', 'Mori', 'Naugaon', 'Purola'],
-    divisions: ['Uttarkashi Forest Division', 'Gangotri National Park', 'Govind National Park']
+    tehsils: ['उत्तरकाशी / Uttarkashi', 'बड़कोट / Barkot', 'भटवाड़ी / Bhatwari', 'चिन्यालीसौड़ / Chinyalisaur', 'धौंतरी / Dhauntari', 'डुंडा / Dunda', 'जोशियाड़ा / Joshiyara', 'पुरोला / Purola', 'मोरी / Mori'],
+    blocks: ['भटवाड़ी / Bhatwari', 'चिन्यालीसौड़ / Chinyalisaur', 'डुंडा / Dunda', 'मोरी / Mori', 'नौगांव / Naugaon', 'पुरोला / Purola'],
+    divisions: ['उत्तरकाशी वन प्रभाग / Uttarkashi Forest Division', 'गंगोत्री राष्ट्रीय उद्यान / Gangotri National Park', 'गोविन्द राष्ट्रीय उद्यान / Govind National Park']
   }
 };
 
@@ -4312,7 +4342,7 @@ function setupAdminDropdowns() {
   function fillOpts(sel, inp, list, placeholder) {
     sel.innerHTML = `<option value="">— ${placeholder} —</option>` +
       list.map(x => `<option>${x}</option>`).join('') +
-      '<option value="__custom">Other / Custom…</option>';
+      '<option value="__custom">✏️ अन्य — नाम टाइप करें / Other — type name…</option>';
     inp.style.display = 'none';
   }
 
@@ -8734,7 +8764,7 @@ function coverPage(r) {
 
   <div class="cover-box">
     <table>
-      <tr><td class="hindi">जिला</td><td>${escProp(r.district)}</td></tr>
+      <tr><td class="hindi">जिला</td><td>${escProp(districtHi(r.district))}</td></tr>
       <tr><td class="hindi">वन प्रभाग</td><td>${escProp(r.division)}</td></tr>
       <tr><td class="hindi">वन राजि / ब्लाक</td><td>${escProp(r.range)}</td></tr>
       <tr><td class="hindi">ग्राम</td><td>${escProp(r.villageName)}</td></tr>
@@ -8860,7 +8890,7 @@ function fieldSignatureSheet(r) {
   <table class="data">
     <tr><td style="width: 30%"><strong>Project / परियोजना</strong></td><td>${escProp(r.project)}</td></tr>
     <tr><td><strong>Date of Inspection / निरीक्षण दिनांक</strong></td><td>${fmtDateHi(r.date)}</td></tr>
-    <tr><td><strong>District / जिला</strong></td><td>${escProp(r.district)}</td></tr>
+    <tr><td><strong>District / जिला</strong></td><td>${escProp(districtHi(r.district))}</td></tr>
     <tr><td><strong>Forest Division / वन प्रभाग</strong></td><td>${escProp(r.division)}</td></tr>
     <tr><td><strong>Range / Block / वन राजि / ब्लाक</strong></td><td>${escProp(r.range)}</td></tr>
     <tr><td><strong>Village / ग्राम</strong></td><td>${escProp(r.villageName)}</td></tr>
@@ -9047,7 +9077,7 @@ function proforma11(r) {
   const hasForest = (forestEntry.treeCount || 0) > 0 || (forestEntry.areaHa || 0) > 0 || (forestEntry.lengthM || 0) > 0;
 
   const row = hasForest ? `<tr>
-    <td class="hindi">${escProp(r.district || '—')}</td>
+    <td class="hindi">${escProp(districtHi(r.district) || '—')}</td>
     <td class="hindi">${escProp(r.division || '—')}</td>
     <td class="hindi">${escProp(r.range || '—')}</td>
     <td class="hindi">${escProp(r.compartment || r.forestBlock || '—')}</td>
@@ -9055,7 +9085,7 @@ function proforma11(r) {
     <td class="num">${FIX(forestEntry.widthM, 2) || '—'}</td>
     <td class="num">${FIX(forestEntry.areaHa, 4) || '—'}</td>
   </tr>` : `<tr>
-    <td class="hindi">${escProp(r.district || '—')}</td>
+    <td class="hindi">${escProp(districtHi(r.district) || '—')}</td>
     <td class="hindi">${escProp(r.division || '—')}</td>
     <td class="hindi">${escProp(r.range || '—')}</td>
     <td class="hindi">${escProp(r.compartment || '—')}</td>
@@ -9129,8 +9159,8 @@ function proforma11_1(r) {
     }
     const rows = scheduleRows.length > 0
       ? scheduleRows.map(s => `<tr>
-          <td class="hindi">${escProp(r.district || '—')}</td>
-          <td class="hindi">${escProp(s.tahsil || r.tehsil || '—')}</td>
+          <td class="hindi">${escProp(districtHi(r.district) || '—')}</td>
+          <td class="hindi">${escProp(hiPart(s.tahsil || r.tehsil) || '—')}</td>
           <td class="hindi">${escProp(s.block || r.block || '—')}</td>
           <td>${escProp(s.khasra || '—')}</td>
           <td class="num">${(s.rakba > 0 ? FIX(s.rakba, 4) : (FIX(s.totalRakba, 4) || (s.area > 0 ? FIX(s.area, 4) : '—')))}</td>
@@ -9139,9 +9169,9 @@ function proforma11_1(r) {
           <td class="num">${FIX(s.area || s.areaHa, 4) || '—'}</td>
         </tr>`).join('')
       : `<tr>
-          <td class="hindi">${escProp(r.district || '—')}</td>
-          <td class="hindi">${escProp(r.tehsil || '—')}</td>
-          <td class="hindi">${escProp(r.block || '—')}</td>
+          <td class="hindi">${escProp(districtHi(r.district) || '—')}</td>
+          <td class="hindi">${escProp(hiPart(r.tehsil) || '—')}</td>
+          <td class="hindi">${escProp(hiPart(r.block) || '—')}</td>
           <td class="hindi" style="color:#999;">—<br><small>(enter in Land Schedule)</small></td>
           <td style="color:#999;">—</td>
           <td class="num">${FIX(d.lengthM, 1) || '—'}</td>
@@ -9349,10 +9379,10 @@ function proforma1(r) {
   <p><strong>सेवा में,</strong><br>
      प्रभागीय वनाधिकारी,<br>
      ${escProp(r.division)},<br>
-     ${escProp(r.district)}, उत्तराखण्ड।</p>
+     ${escProp(districtHi(r.district))}, उत्तराखण्ड।</p>
   <p class="bold hindi" style="margin-top: 12pt;">विषय : "${escProp(r.project)}" के निर्माण हेतु <span class="fill">${escProp(r.area)}</span> हे0 वन भूमि के प्रत्यावर्तन/हस्तान्तरण हेतु प्रस्ताव प्रेषण।</p>
   <p class="hindi" style="margin-top: 12pt;">महोदय,</p>
-  <p class="hindi">उपरोक्त विषय के संबंध में अवगत कराना है कि ${escProp(r.agency)} द्वारा जनहित की परियोजना "${escProp(r.project)}" का निर्माण ${escProp(r.villageName)} ग्राम, तहसील ${escProp(r.tehsil)}, जिला ${escProp(r.district)} में प्रस्तावित है। परियोजना का अनुमानित लागत ${escProp(costInWords(r.cost) || '_________')} है तथा निर्माण से ${escProp(r.population)} जनसंख्या लाभान्वित होगी।</p>
+  <p class="hindi">उपरोक्त विषय के संबंध में अवगत कराना है कि ${escProp(r.agency)} द्वारा जनहित की परियोजना "${escProp(r.project)}" का निर्माण ${escProp(r.villageName)} ग्राम, तहसील ${escProp(hiPart(r.tehsil))}, जिला ${escProp(districtHi(r.district))} में प्रस्तावित है। परियोजना का अनुमानित लागत ${escProp(costInWords(r.cost) || '_________')} है तथा निर्माण से ${escProp(r.population)} जनसंख्या लाभान्वित होगी।</p>
   <p class="hindi">उक्त परियोजना के निर्माण हेतु कुल <span class="fill">${escProp(r.area)}</span> हे0 वन भूमि (लम्बाई <span class="fill">${escProp(r.length)}</span> मी × चौड़ाई <span class="fill">${escProp(r.width)}</span> मी) आवश्यक है। परियोजना हेतु वैकल्पिक गैर-वन भूमि उपलब्ध नहीं है, अतः वन (संरक्षण) अधिनियम, 1980 के अंतर्गत केन्द्र सरकार, पर्यावरण एवं वन मंत्रालय की स्वीकृति हेतु प्रस्ताव निर्धारित प्रपत्रों में तैयार कर प्रेषित किया जा रहा है।</p>
   <p class="hindi">प्रस्ताव के साथ आवश्यक सभी प्रपत्र, मानचित्र, प्रमाण-पत्र व अनापत्ति प्रमाण-पत्र तीन प्रतियों में संलग्न हैं।</p>
   <p class="hindi">कृपया प्रस्ताव की संस्तुति सहित उच्च स्तर पर शीघ्र प्रेषण करने की कृपा करें।</p>
@@ -9379,9 +9409,9 @@ function proforma2(r) {
   <table class="data" style="margin-top: 10pt;">
     <tr><td style="width:5%" class="num">1</td><td style="width:45%" class="hindi">परियोजना का नाम</td><td>${escProp(r.project)}</td></tr>
     <tr><td class="num">2</td><td class="hindi">राज्य</td><td>उत्तराखण्ड</td></tr>
-    <tr><td class="num">3</td><td class="hindi">जिला</td><td>${escProp(r.district)}</td></tr>
-    <tr><td class="num">4</td><td class="hindi">तहसील</td><td>${escProp(r.tehsil)}</td></tr>
-    <tr><td class="num">5</td><td class="hindi">विकास खण्ड</td><td>${escProp(r.block)}</td></tr>
+    <tr><td class="num">3</td><td class="hindi">जिला</td><td>${escProp(districtHi(r.district))}</td></tr>
+    <tr><td class="num">4</td><td class="hindi">तहसील</td><td>${escProp(hiPart(r.tehsil))}</td></tr>
+    <tr><td class="num">5</td><td class="hindi">विकास खण्ड</td><td>${escProp(hiPart(r.block))}</td></tr>
     <tr><td class="num">6</td><td class="hindi">ग्राम</td><td>${escProp(r.villageName)}</td></tr>
     <tr><td class="num">7</td><td class="hindi">वन प्रभाग</td><td>${escProp(r.division)}</td></tr>
     <tr><td class="num">8</td><td class="hindi">वन राजि / ब्लाक</td><td>${escProp(r.range)}</td></tr>
@@ -9626,14 +9656,32 @@ function proforma13(r) {
 
   const endKmLabel = totalM > 0 ? `${Math.floor(totalM/1000)}+${String(Math.round(totalM%1000)).padStart(3,'0')}` : '____';
 
-  // Determine tick interval based on total length
-  const tickInterval = totalM > 3000 ? 500 : (totalM > 1000 ? 200 : 100);
-  const numTicks = totalM > 0 ? Math.floor(totalM / tickInterval) + 1 : 5;
+  // Tick interval — chosen so labels never overlap. Aim for ~8-12 ticks
+  // across the whole bar regardless of road length, rounded to a sensible
+  // step (100/200/500/1000 m). Labels are shown in km, written vertically.
+  function niceTickInterval(total) {
+    if (total <= 0) return 100;
+    const target = total / 10;            // aim for ~10 ticks
+    const steps = [100, 200, 250, 500, 1000, 2000, 5000];
+    for (const s of steps) { if (s >= target) return s; }
+    return 5000;
+  }
+  const tickInterval = niceTickInterval(totalM);
+  const numTicks = totalM > 0 ? Math.floor(totalM / tickInterval) : 4;
   // Percentage positions (for CSS): each tick at (tick_position / totalM) * 100%
   const ticks = [];
   for (let i = 0; i <= numTicks; i++) {
     const pos = Math.min(i * tickInterval, totalM);
     ticks.push({ pos, pct: totalM > 0 ? (pos / totalM * 100) : (i * 100 / numTicks) });
+  }
+  // Always include the exact end point as the last tick
+  if (totalM > 0 && ticks[ticks.length - 1].pos < totalM) {
+    ticks.push({ pos: totalM, pct: 100 });
+  }
+  // Format a metre position as a km label, e.g. 1500 -> "1.5", 800 -> "0.8"
+  function kmLabel(m) {
+    const km = m / 1000;
+    return (km % 1 === 0) ? km.toFixed(0) : km.toFixed(km < 1 ? 2 : 1);
   }
 
   // Build segments proportional to real lengths (fall back to equal quarters if no data)
@@ -9664,12 +9712,12 @@ function proforma13(r) {
 
   <!-- Scale indicator -->
   <p class="centered small" style="margin-top:16pt; color:#555;">
-    स्केल (Scale): 1 इकाई = ${tickInterval} मी0 &nbsp;|&nbsp; कुल लम्बाई: ${totalM > 0 ? totalM.toFixed(0) + ' मी0' : '____ मी0'}
+    स्केल (Scale): 1 खण्ड = ${tickInterval} मी0 &nbsp;|&nbsp; कुल लम्बाई: ${totalM > 0 ? (totalM/1000).toFixed(3) + ' कि0मी0' : '____ कि0मी0'}
   </p>
 
-  <!-- Top km markers -->
-  <div style="position:relative; margin-top:14pt; height:14pt; font-size:9pt; font-family:monospace;">
-    ${ticks.map(t => `<span style="position:absolute; left:${t.pct}%; transform:translateX(-50%); white-space:nowrap;">${t.pos}</span>`).join('')}
+  <!-- Top km markers — written vertically so they never overlap -->
+  <div style="position:relative; margin-top:14pt; height:34pt; font-size:8pt; font-family:monospace;">
+    ${ticks.map(t => `<span style="position:absolute; left:${t.pct}%; bottom:0; transform:translateX(-50%) rotate(-90deg); transform-origin:center bottom; white-space:nowrap;">${kmLabel(t.pos)} कि0मी0</span>`).join('')}
   </div>
 
   <!-- Bar chart grid (2 rows, split by land type — proportional to lengths) -->
@@ -9834,7 +9882,7 @@ function proforma22(r) {
   <h2 class="centered" style="margin-top:20pt; text-decoration:underline;">Cost Benefit Ratio Chart</h2>
 
   <p style="margin-top:16pt;"><strong>Name of Project</strong> – ${escProp(r.project)}</p>
-  <p><strong>Block:-</strong> <span class="fill">${escProp(r.block)}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>District:-</strong> <span class="fill">${escProp(r.district)}</span></p>
+  <p><strong>Block:-</strong> <span class="fill">${escProp(hiPart(r.block))}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>District:-</strong> <span class="fill">${escProp(districtHi(r.district))}</span></p>
 
   <table class="data" style="margin-top:14pt; font-size:10.5pt;">
     <thead>
@@ -9956,11 +10004,11 @@ function proforma23(r) {
   <h2 class="hindi centered" style="margin-top:22pt; text-decoration:underline;">वन अधिकार अधिनियम, 2006 के अन्तर्गत अनापत्ति प्रमाण-पत्र</h2>
 
   <p class="hindi centered" style="margin-top:18pt;">ग्राम पंचायत का नाम <span class="fill">${escProp(r.villageName)}</span><br>
-  तहसील <span class="fill">${escProp(r.tehsil)}</span>, जिला <span class="fill">${escProp(r.district)}</span></p>
+  तहसील <span class="fill">${escProp(hiPart(r.tehsil))}</span>, जिला <span class="fill">${escProp(districtHi(r.district))}</span></p>
 
   <h3 class="hindi centered" style="margin-top:16pt; text-decoration:underline;">अनापत्ति प्रमाण पत्र</h3>
 
-  <p class="hindi" style="margin-top:14pt; line-height:1.9;">उत्तराखण्ड में जनपद <span class="fill">${escProp(r.district)}</span> के अन्तर्गत <span class="fill-long">${escProp(r.project)}</span> परियोजना के निर्माण हेतु (<span class="fill">${forestA}</span> हे0 आरक्षित वन भूमि, <span class="fill">${civilA}</span> हे0 सिविल सोयम भूमि, <span class="fill">${vpA}</span> हे0 वन पंचायत भूमि) अर्थात कुल <span class="fill">${totalA}</span> हे0 वन भूमि <span class="fill">${escProp(r.agency)}</span> विभाग/संस्था के पक्ष में भारत सरकार, पर्यावरण एवं वन मंत्रालय द्वारा प्रत्यावर्तित करने हेतु आवेदन प्रस्तुत किया गया।</p>
+  <p class="hindi" style="margin-top:14pt; line-height:1.9;">उत्तराखण्ड में जनपद <span class="fill">${escProp(districtHi(r.district))}</span> के अन्तर्गत <span class="fill-long">${escProp(r.project)}</span> परियोजना के निर्माण हेतु (<span class="fill">${forestA}</span> हे0 आरक्षित वन भूमि, <span class="fill">${civilA}</span> हे0 सिविल सोयम भूमि, <span class="fill">${vpA}</span> हे0 वन पंचायत भूमि) अर्थात कुल <span class="fill">${totalA}</span> हे0 वन भूमि <span class="fill">${escProp(r.agency)}</span> विभाग/संस्था के पक्ष में भारत सरकार, पर्यावरण एवं वन मंत्रालय द्वारा प्रत्यावर्तित करने हेतु आवेदन प्रस्तुत किया गया।</p>
 
   <p class="hindi" style="line-height:1.9;">उक्त प्रकरण के विषय में ग्राम पंचायत <span class="fill">${escProp(r.villageName)}</span> द्वारा दिनांक <span class="fill">${fmtDateHi(r.date)}</span> को सम्पन्न ग्राम सभा/ग्राम पंचायत की बैठक में प्रयोक्ता एजेन्सी द्वारा आवेदित वन भूमि के सम्बंध में अनापत्ति प्रमाण पत्र निर्गत करने हेतु विस्तृत चर्चा की गई। यह कि वन अधिकार अधिनियम, 2006 के प्राविधानों के तहत् आवेदित वन भूमि में आदिवासी अथवा किसी गैर आदिवासी का कब्जा/कृषि कार्य है अथवा नहीं। * उपस्थित सभी ग्रामवासियों द्वारा स्पष्ट किया गया कि उक्त वन भूमि में किसी भी आदिवासी अथवा गैर आदिवासी का कब्जा/कृषि कार्य नहीं किया जा रहा है। इसके अतिरिक्त परियोजना के निर्माण हेतु आवेदित वन भूमि पर ग्रामवासियों के परम्परागत अधिकारों का हनन नहीं हो रहा है।</p>
 
@@ -10188,7 +10236,7 @@ function proforma2_1(r) {
     <table class="data">
       <tr><td style="width:5%" class="num">7</td><td style="width:45%" class="hindi">परियोजना/स्कीम का स्थान</td><td>${escProp(r.project)}</td></tr>
       <tr><td class="num">i</td><td class="hindi">राज्य / संघ शासित क्षेत्र</td><td>उत्तराखण्ड</td></tr>
-      <tr><td class="num">ii</td><td class="hindi">जिला</td><td>${escProp(r.district)}</td></tr>
+      <tr><td class="num">ii</td><td class="hindi">जिला</td><td>${escProp(districtHi(r.district))}</td></tr>
       <tr><td class="num">iii</td><td class="hindi">वन प्रभाग</td><td>${escProp(r.division)}</td></tr>
       <tr><td class="num">iv</td><td class="hindi">वनेतर प्रयोग हेतु प्रस्तावित वन भूमि (हे0)</td><td>${escProp(r.area)}</td></tr>
       <tr><td class="num">v</td><td class="hindi">वन की कानूनी स्थिति</td><td>राज्य वन भूमि</td></tr>
@@ -10211,7 +10259,7 @@ function proforma2_2(r) {
       <tr><td class="num">15</td><td class="hindi">क्या भाग II में दी गई सूचना व उप वन संरक्षक की संस्तुति से सहमत हैं?</td><td>हाँ</td></tr>
       <tr><td class="num">16</td><td class="hindi">प्रस्ताव की स्वीकृति हेतु सम्बन्धित वन संरक्षक की विशेष सिफारिशें</td><td>प्रस्ताव संस्तुत है।</td></tr>
     </table>
-    <p class="hindi" style="margin-top:12pt;">दिनांक :— ${fmtDateHi(r.date)}<br>स्थान :— ${escProp(r.district)}</p>`, r, 'forest');
+    <p class="hindi" style="margin-top:12pt;">दिनांक :— ${fmtDateHi(r.date)}<br>स्थान :— ${escProp(districtHi(r.district))}</p>`, r, 'forest');
 }
 
 function proforma2_3(r) {
@@ -10339,11 +10387,18 @@ function proforma9(r) {
   const selLen  = escProp(r.length);
   // संरेखण-2 (निरस्त) = the alternative route — filled in manually by the user
   // (in the app or via the Google Sheet). Not field-surveyed.
+  // When a value is missing, show a writable blank line rather than an empty
+  // cell, so the printed form reads as "to be filled" not broken.
   const alt = r.altAlignment || {};
-  const altArea = alt.area || '';
-  const altTrees = (alt.trees != null && alt.trees !== '') ? alt.trees : '';
-  const altLen = alt.length || '';
+  const blank = '<span style="color:#999;">__________</span>';
+  const altArea = (alt.area != null && alt.area !== '') ? alt.area : blank;
+  const altTrees = (alt.trees != null && alt.trees !== '') ? alt.trees : blank;
+  const altLen = (alt.length != null && alt.length !== '') ? alt.length : blank;
   const altReason = alt.reason || 'अधिक वन भूमि प्रभावित एवं अधिक वृक्षों का पातन';
+  // Selected-side blanks too, if somehow missing
+  const selAreaV = (r.area != null && String(r.area).trim() !== '') ? escProp(r.area) : blank;
+  const selLenV  = (r.length != null && String(r.length).trim() !== '') ? escProp(r.length) : blank;
+  const selTreesV = selTreesDisplay || blank;
 
   const row = (label, area, trees, len, reason) => `<tr>
     <td class="hindi centered">${label}</td>
@@ -10371,7 +10426,7 @@ function proforma9(r) {
       </tr>
     </thead>
     <tbody>
-      ${row('संरेखण—1<br><span class="small">(चयनित)</span>', selArea, selTreesDisplay, selLen, 'कम वन भूमि प्रभावित एवं कम वृक्षों का पातन')}
+      ${row('संरेखण—1<br><span class="small">(चयनित)</span>', selAreaV, selTreesV, selLenV, 'कम वन भूमि प्रभावित एवं कम वृक्षों का पातन')}
       ${row('संरेखण—2<br><span class="small">(निरस्त)</span>', altArea, altTrees, altLen, altReason)}
     </tbody>
   </table>
@@ -10848,10 +10903,10 @@ function proforma23_2(r) {
 
   <p class="bold hindi" style="margin-top:14pt;">परियोजना का नाम :— <span class="fill-long">${escProp(r.project)}</span></p>
 
-  <p class="hindi centered" style="margin-top:16pt; font-size:12pt;"><strong>कार्यालय उप जिलाधिकारी, <span class="fill">${escProp(r.tehsil)}</span></strong></p>
-  <p class="hindi centered" style="line-height:1.8;"><strong>अनुसूचित जनजाति और परम्परागत वनवासी अधिनियम 2006 के तहत<br>प्रमाण—पत्र<br>उपखण्ड स्तरीय समिति, <span class="fill">${escProp(r.tehsil)}</span></strong></p>
+  <p class="hindi centered" style="margin-top:16pt; font-size:12pt;"><strong>कार्यालय उप जिलाधिकारी, <span class="fill">${escProp(hiPart(r.tehsil))}</span></strong></p>
+  <p class="hindi centered" style="line-height:1.8;"><strong>अनुसूचित जनजाति और परम्परागत वनवासी अधिनियम 2006 के तहत<br>प्रमाण—पत्र<br>उपखण्ड स्तरीय समिति, <span class="fill">${escProp(hiPart(r.tehsil))}</span></strong></p>
 
-  <p class="hindi" style="margin-top:16pt; text-indent:20pt; line-height:2;">उपखण्ड <span class="fill">${escProp(r.tehsil)}</span> परिक्षेत्र के अन्तर्गत <span class="fill-long">${escProp(r.project)}</span> (<span class="fill">${forestA}</span> हे0 आरक्षित वन भूमि, <span class="fill">${civilA}</span> हे0 सिविल एवं सोयम वन भूमि, <span class="fill">${vpA}</span> हे0 वन पंचायत भूमि, अर्थात कुल <span class="fill">${totalA}</span> हे0 वन भूमि) का <span class="fill">${escProp(r.agency)}</span> प्रयोक्ता एजेन्सी के पक्ष में हस्तान्तरित किये जाने हेतु अनुसूचित जनजाति और अन्य परम्परागत वनवासी (वन अधिकारों की मान्यता) अधिनियम, 2006 के अन्तर्गत उपखण्ड स्तरीय समिति, (तहसील <span class="fill">${escProp(r.tehsil)}</span>) की दिनांक <span class="fill">${fmtDateHi(r.date)}</span> को सम्पन्न बैठक की कार्यवाही का विवरणः-</p>
+  <p class="hindi" style="margin-top:16pt; text-indent:20pt; line-height:2;">उपखण्ड <span class="fill">${escProp(hiPart(r.tehsil))}</span> परिक्षेत्र के अन्तर्गत <span class="fill-long">${escProp(r.project)}</span> (<span class="fill">${forestA}</span> हे0 आरक्षित वन भूमि, <span class="fill">${civilA}</span> हे0 सिविल एवं सोयम वन भूमि, <span class="fill">${vpA}</span> हे0 वन पंचायत भूमि, अर्थात कुल <span class="fill">${totalA}</span> हे0 वन भूमि) का <span class="fill">${escProp(r.agency)}</span> प्रयोक्ता एजेन्सी के पक्ष में हस्तान्तरित किये जाने हेतु अनुसूचित जनजाति और अन्य परम्परागत वनवासी (वन अधिकारों की मान्यता) अधिनियम, 2006 के अन्तर्गत उपखण्ड स्तरीय समिति, (तहसील <span class="fill">${escProp(hiPart(r.tehsil))}</span>) की दिनांक <span class="fill">${fmtDateHi(r.date)}</span> को सम्पन्न बैठक की कार्यवाही का विवरणः-</p>
 
   <p class="hindi" style="margin-top:14pt; text-indent:20pt; line-height:2;">अनुसूचित जनजाति और अन्य परम्परागत वन निवासी (वन अधिकारों की मान्यता) अधिनियम 2006 एवं नियम 2008 के अन्तर्गत उपखण्ड स्तरीय वन अधिकार समिति की बैठक श्री <span class="fill">${escProp(r.fraSDM || (r.signers && r.signers.sdm && r.signers.sdm.name) || "")}</span>, उप जिलाधिकारी एवं अध्यक्ष उपखण्ड स्तरीय वन अधिकार समिति की अध्यक्षता में आयोजित की गयी। बैठक में माननीय सदस्यों की उपस्थिति निम्नानुसार है।</p>
 
@@ -10868,21 +10923,21 @@ function proforma23_2(r) {
 </div>
 
 <div class="page">
-  <p class="hindi" style="margin-top:14pt; text-indent:20pt; line-height:1.9;">बैठक में सर्वसम्मति से उपखण्ड <span class="fill">${escProp(r.tehsil)}</span> परिक्षेत्र के अन्तर्गत <span class="fill-long">${escProp(r.project)}</span> परियोजना के निर्माण हेतु <span class="fill">${totalA}</span> हे0 वन भूमि <span class="fill">${escProp(r.agency)}</span> प्रयोक्ता एजेन्सी को जनहित में सक्षम प्राधिकारी से अनुमति प्राप्त कर प्रत्यावर्तित किये जाने पर सहमति व्यक्त की गयी।</p>
+  <p class="hindi" style="margin-top:14pt; text-indent:20pt; line-height:1.9;">बैठक में सर्वसम्मति से उपखण्ड <span class="fill">${escProp(hiPart(r.tehsil))}</span> परिक्षेत्र के अन्तर्गत <span class="fill-long">${escProp(r.project)}</span> परियोजना के निर्माण हेतु <span class="fill">${totalA}</span> हे0 वन भूमि <span class="fill">${escProp(r.agency)}</span> प्रयोक्ता एजेन्सी को जनहित में सक्षम प्राधिकारी से अनुमति प्राप्त कर प्रत्यावर्तित किये जाने पर सहमति व्यक्त की गयी।</p>
 
   <div class="sig-row" style="margin-top:30pt; justify-content:flex-end;">
     <div class="sig" style="max-width:55%; text-align:left;">
       <div style="border-top:1pt solid #333; margin-top:40pt;"></div>
-      <p class="hindi" style="margin-top:4pt;">उप जिलाधिकारी / अध्यक्ष<br>उपखण्ड स्तरीय वन अधिकार समिति<br>तहसील— <span class="fill">${escProp(r.tehsil)}</span><br>जनपद <span class="fill">${escProp(r.district)}</span></p>
+      <p class="hindi" style="margin-top:4pt;">उप जिलाधिकारी / अध्यक्ष<br>उपखण्ड स्तरीय वन अधिकार समिति<br>तहसील— <span class="fill">${escProp(hiPart(r.tehsil))}</span><br>जनपद <span class="fill">${escProp(districtHi(r.district))}</span></p>
     </div>
   </div>
 
-  <p class="hindi" style="margin-top:30pt;"><strong>प्रतिलिपि :</strong> जिलाधिकारी, <span class="fill">${escProp(r.district)}</span> को सूचनार्थ एवं आवश्यक कार्यवाही हेतु।</p>
+  <p class="hindi" style="margin-top:30pt;"><strong>प्रतिलिपि :</strong> जिलाधिकारी, <span class="fill">${escProp(districtHi(r.district))}</span> को सूचनार्थ एवं आवश्यक कार्यवाही हेतु।</p>
 
   <div class="sig-row" style="margin-top:30pt; justify-content:flex-end;">
     <div class="sig" style="max-width:55%; text-align:left;">
       <div style="border-top:1pt solid #333; margin-top:30pt;"></div>
-      <p class="hindi" style="margin-top:4pt;">उप जिलाधिकारी / अध्यक्ष<br>उपखण्ड स्तरीय वन अधिकार समिति<br>तहसील— <span class="fill">${escProp(r.tehsil)}</span><br>जनपद <span class="fill">${escProp(r.district)}</span></p>
+      <p class="hindi" style="margin-top:4pt;">उप जिलाधिकारी / अध्यक्ष<br>उपखण्ड स्तरीय वन अधिकार समिति<br>तहसील— <span class="fill">${escProp(hiPart(r.tehsil))}</span><br>जनपद <span class="fill">${escProp(districtHi(r.district))}</span></p>
     </div>
   </div>
 </div>`;
@@ -10911,7 +10966,7 @@ function proforma23_3(r) {
 
   <h2 class="hindi centered" style="margin-top:22pt;">जिलाधिकारी द्वारा प्रदत्त प्रमाण-पत्र</h2>
 
-  <p class="hindi" style="margin-top:22pt; text-indent:20pt; line-height:2;">जनपद— <span class="fill">${escProp(r.district)}</span> के अन्तर्गत वन भूमि पर प्रस्तावित <span class="fill-long">${escProp(r.project)}</span> परियोजना के निर्माण हेतु <span class="fill">${totalA}</span> हे0 वन भूमि <span class="fill">${escProp(r.agency)}</span> प्रयोक्ता एजेन्सी को प्रत्यावर्तित किये जाने हेतु उप जिलाधिकारी/अध्यक्ष, उपखण्ड स्तरीय वन अधिकार समिति <span class="fill">${escProp(r.tehsil)}</span> तथा सम्बन्धित ग्राम सभाओं द्वारा प्रदत्त अनापत्ति प्रमाण-पत्र निर्गत किये गये हैं। वन अधिकार अधिनियम, 2006 के तहत व संलग्न प्रमाण-पत्रों के अनुसार परियोजना के निर्माण में किसी अनुसूचित जनजाति व वनवासी की भूमि अधिग्रहित नहीं हो रही है व न ही किसी जनजाति/वनवासी के वनों पर अधिकार प्रभावित हो रहे हैं। परियोजना के निर्माण से प्रभावित होने वाली वन भूमि में कोई भी दावा लम्बित नहीं है।</p>
+  <p class="hindi" style="margin-top:22pt; text-indent:20pt; line-height:2;">जनपद— <span class="fill">${escProp(districtHi(r.district))}</span> के अन्तर्गत वन भूमि पर प्रस्तावित <span class="fill-long">${escProp(r.project)}</span> परियोजना के निर्माण हेतु <span class="fill">${totalA}</span> हे0 वन भूमि <span class="fill">${escProp(r.agency)}</span> प्रयोक्ता एजेन्सी को प्रत्यावर्तित किये जाने हेतु उप जिलाधिकारी/अध्यक्ष, उपखण्ड स्तरीय वन अधिकार समिति <span class="fill">${escProp(hiPart(r.tehsil))}</span> तथा सम्बन्धित ग्राम सभाओं द्वारा प्रदत्त अनापत्ति प्रमाण-पत्र निर्गत किये गये हैं। वन अधिकार अधिनियम, 2006 के तहत व संलग्न प्रमाण-पत्रों के अनुसार परियोजना के निर्माण में किसी अनुसूचित जनजाति व वनवासी की भूमि अधिग्रहित नहीं हो रही है व न ही किसी जनजाति/वनवासी के वनों पर अधिकार प्रभावित हो रहे हैं। परियोजना के निर्माण से प्रभावित होने वाली वन भूमि में कोई भी दावा लम्बित नहीं है।</p>
 
   <div class="sig-row" style="margin-top:50pt; justify-content:flex-end;">
     <div class="sig" style="max-width:40%;"><div class="sig-line">ह0/−</div><strong class="hindi">जिलाधिकारी</strong>${signerMeta(r, 'dm')}</div>
@@ -10941,7 +10996,7 @@ function proforma23_4(r) {
 
   <h2 class="hindi centered" style="margin-top:22pt;">जिलाधिकारी द्वारा प्रदत्त प्रमाण-पत्र</h2>
 
-  <p class="hindi" style="margin-top:22pt; text-indent:20pt; line-height:2;">जनपद <span class="fill">${escProp(r.district)}</span> के अन्तर्गत प्रस्तावित <span class="fill-long">${escProp(r.project)}</span> परियोजना के निर्माण हेतु <span class="fill">${totalA}</span> हे0 वन भूमि <span class="fill">${escProp(r.agency)}</span> (प्रयोक्ता एजेन्सी) को प्रत्यावर्तित किये जाने हेतु प्रस्ताव प्रस्तुत किया गया है। भारत सरकार, पर्यावरण एवं वन मंत्रालय, नई दिल्ली के पत्र संख्या 11-9/98-एफ0सी0 दिनांक 05-02-2013 के द्वारा रेखाकार (linear) प्रयोजनों यथा-सड़क, नहर, पारेषण लाईन, ओ0एफ0सी0 केबिल व पाईपलाईन बिछाने आदि के प्रकरणों को वन अधिकार अधिनियम, 2006 के प्राविधानों से मुक्त किया गया है। विषयगत परियोजना के निर्माण हेतु आवेदित वन व कृषि भूमि पर आदिकालीन जनजाति समूह (Primitive Tribal Groups) व आदिकालीन कृषि समुदाय (Pre Agricululral Tribal Groups) प्रभावित नही हो रहे हैं।</p>
+  <p class="hindi" style="margin-top:22pt; text-indent:20pt; line-height:2;">जनपद <span class="fill">${escProp(districtHi(r.district))}</span> के अन्तर्गत प्रस्तावित <span class="fill-long">${escProp(r.project)}</span> परियोजना के निर्माण हेतु <span class="fill">${totalA}</span> हे0 वन भूमि <span class="fill">${escProp(r.agency)}</span> (प्रयोक्ता एजेन्सी) को प्रत्यावर्तित किये जाने हेतु प्रस्ताव प्रस्तुत किया गया है। भारत सरकार, पर्यावरण एवं वन मंत्रालय, नई दिल्ली के पत्र संख्या 11-9/98-एफ0सी0 दिनांक 05-02-2013 के द्वारा रेखाकार (linear) प्रयोजनों यथा-सड़क, नहर, पारेषण लाईन, ओ0एफ0सी0 केबिल व पाईपलाईन बिछाने आदि के प्रकरणों को वन अधिकार अधिनियम, 2006 के प्राविधानों से मुक्त किया गया है। विषयगत परियोजना के निर्माण हेतु आवेदित वन व कृषि भूमि पर आदिकालीन जनजाति समूह (Primitive Tribal Groups) व आदिकालीन कृषि समुदाय (Pre Agricululral Tribal Groups) प्रभावित नही हो रहे हैं।</p>
 
   <div class="sig-row" style="margin-top:50pt; justify-content:flex-end;">
     <div class="sig" style="max-width:40%;"><div class="sig-line">ह0/−</div><strong class="hindi">जिलाधिकारी</strong>${signerMeta(r, 'dm')}</div>
@@ -14902,8 +14957,9 @@ function renderElevationProfilePage(r) {
   return `
 <div class="page landscape-page" style="padding: 12mm 14mm 14mm 14mm;">
   <h2 style="color:#1d4434; border-bottom:2pt solid #1d4434; padding-bottom:5pt; margin-bottom:10pt; text-align:center;">
-    ऊंचाई प्रोफ़ाइल / Elevation Profile
+    ऊंचाई प्रोफ़ाइल / Elevation Profile (GPS-based)
   </h2>
+  <p style="text-align:center; font-size:9pt; color:#777; margin:-4pt 0 8pt;">जी.पी.एस. निर्देशांक एवं ऊँचाई पर आधारित / Derived from GPS coordinates &amp; altitude captured during field survey</p>
   <div style="font-size:10pt; color:#555; margin-bottom:10pt; padding:5pt 10pt; background:#f8f6f0; border-radius:3pt;">
     <strong>${escapeHtml(r.project)}</strong>
     ${r.chainage ? ' · ' + escapeHtml(r.chainage) : ''}
@@ -17556,11 +17612,11 @@ const RATE_CARD = {
 // Fixed per-item charges (independent of length)
 const FIXED_ITEMS = {
   proformas: { desc: 'All 49 FC Act proformas (Hindi formatting)', amount: 15000 },
-  jir:       { desc: 'Joint Inspection Report — Selected + Rejected alignments', amount: 6000 },
-  lsection:  { desc: 'L-section + elevation profile (engineering drawing)', amount: 4000 },
-  cba:       { desc: 'Cost-Benefit Analysis + NPV documentation', amount: 5000 },
+  jir:       { desc: 'Joint Inspection Report (covers up to 2 alignments)', amount: 6000 },
+  lsection:  { desc: 'L-section + elevation profile (GPS-based) — longitudinal section and elevation profile drawn from GPS coordinates and altitude captured along the alignment during field survey', amount: 4000 },
+  cba:       { desc: 'Cost-Benefit Analysis (NPV figures subject to the rate notified by the Forest Department)', amount: 5000 },
   mapKml:    { desc: 'KML polygon generation for Forest Department', amount: 3000 },
-  tree:      { desc: 'Per-tree enumeration (species, DBH, GPS, photo)', ratePerTree: 15, minFee: 2000 }
+  tree:      { desc: 'Per-tree enumeration (species, DBH; GPS & photo where captured in the field)', ratePerTree: 15, minFee: 2000 }
 };
 
 // Extra charges — beyond-scope work
@@ -17636,11 +17692,43 @@ function buildLineItems(rec) {
   }
 
   // 3. Fixed items
+  // 3. Fixed items — each is included ONLY when the field data needed to
+  //    deliver it actually exists. This protects you: the quote never
+  //    promises a deliverable you can't produce from what you surveyed.
+  const coords = (rec.coords || []).length;
+  const hasElevation = (rec.coords || []).some(c => c.elevation !== undefined && c.elevation !== null && c.elevation !== '')
+                    || (rec.trees || []).some(t => t.elevation !== undefined && t.elevation !== null && t.elevation !== '');
+  const hasLand = (rec.landScheduleRows || []).length > 0
+               || (rec.landSchedule && Object.keys(rec.landSchedule).length > 0);
+
+  // Proformas — always deliverable (they're forms filled from project data)
   items.push({ desc: FIXED_ITEMS.proformas.desc, area: '', trees: '', qty: 1, rate: FIXED_ITEMS.proformas.amount, amount: FIXED_ITEMS.proformas.amount });
-  items.push({ desc: FIXED_ITEMS.jir.desc, area: '', trees: '', qty: 1, rate: FIXED_ITEMS.jir.amount, amount: FIXED_ITEMS.jir.amount });
-  items.push({ desc: FIXED_ITEMS.lsection.desc, area: '', trees: '', qty: 1, rate: FIXED_ITEMS.lsection.amount, amount: FIXED_ITEMS.lsection.amount });
-  items.push({ desc: FIXED_ITEMS.cba.desc, area: '', trees: '', qty: 1, rate: FIXED_ITEMS.cba.amount, amount: FIXED_ITEMS.cba.amount });
-  items.push({ desc: FIXED_ITEMS.mapKml.desc, area: '', trees: '', qty: 1, rate: FIXED_ITEMS.mapKml.amount, amount: FIXED_ITEMS.mapKml.amount });
+  // JIR — needs trees and/or coordinates from the field. Scope covers up
+  // to two alignments (the chosen one + one alternative for comparison).
+  if (trees > 0 || coords > 0) {
+    items.push({ desc: 'Joint Inspection Report (covers up to 2 alignments)', area: '', trees: '', qty: 1, rate: FIXED_ITEMS.jir.amount, amount: FIXED_ITEMS.jir.amount });
+  }
+  // L-section + elevation profile — ONLY if GPS elevation data was captured.
+  // Without altitude on the GPS points, this drawing cannot be produced.
+  if (hasElevation) {
+    items.push({ desc: FIXED_ITEMS.lsection.desc, area: '', trees: '', qty: 1, rate: FIXED_ITEMS.lsection.amount, amount: FIXED_ITEMS.lsection.amount });
+  }
+  // Cost-benefit analysis — needs area to compute against
+  if (area > 0) {
+    items.push({ desc: FIXED_ITEMS.cba.desc, area: '', trees: '', qty: 1, rate: FIXED_ITEMS.cba.amount, amount: FIXED_ITEMS.cba.amount });
+  }
+  // Map + KML — needs GPS coordinates
+  if (coords > 0) {
+    items.push({ desc: FIXED_ITEMS.mapKml.desc, area: '', trees: '', qty: 1, rate: FIXED_ITEMS.mapKml.amount, amount: FIXED_ITEMS.mapKml.amount });
+  }
+
+  // Note any deliverables that were SKIPPED because the data isn't there yet,
+  // so you can see what to capture (or add manually if you'll collect it later).
+  rec._quoteSkipped = [];
+  if (!hasElevation) rec._quoteSkipped.push('L-section / elevation profile (needs GPS altitude data)');
+  if (!(trees > 0 || coords > 0)) rec._quoteSkipped.push('Joint Inspection Report (needs trees or GPS points)');
+  if (!(area > 0)) rec._quoteSkipped.push('Cost-benefit analysis (needs forest area)');
+  if (coords === 0) rec._quoteSkipped.push('Map + KML (needs GPS coordinates)');
 
   return items;
 }
@@ -17650,9 +17738,10 @@ const TERMS_AND_CONDITIONS = [
   {
     title: 'Scope of Work & Deliverables',
     items: [
-      'Our responsibility is limited to: field survey (GPS alignment + tree enumeration), preparation of all 49 FC Act proformas, Joint Inspection Report, L-section + elevation profile, cost-benefit analysis, and KML file preparation.',
+      'Our responsibility is limited to: field survey (GPS alignment + tree enumeration), preparation of all 49 FC Act proformas, Joint Inspection Report, L-section + elevation profile <strong>(generated from GPS coordinates and altitude captured in the field — not from instrument levelling or contour-map survey)</strong>, cost-benefit analysis, and KML file preparation.',
       '<strong>Delivery is SOFT COPY ONLY</strong> (PDF + editable .doc + KML files) sent via WhatsApp / email / Drive link. Hard copy printing and binding is an optional extra (₹2,000 per set).',
-      'Our work ends at handover of the submission-ready soft copy. Follow-ups with DFO, DM, Tahsildar, GoI, or any other department are the client\'s (user department\'s) responsibility.'
+      'Our work ends at handover of the submission-ready soft copy. Follow-ups with DFO, DM, Tahsildar, GoI, or any other department are the client\'s (user department\'s) responsibility.',
+      'All measurements, areas, alignments and profiles are based on handheld GPS / device data collected in the field and are accurate to the limits of consumer-grade GPS (typically ±3–8 m). They are suitable for FC Act proposal documentation but are not a substitute for a licensed total-station / DGPS cadastral survey where one is legally required.'
     ]
   },
   {
@@ -17865,6 +17954,34 @@ function renderTermsPage(rec, docNum, docDate) {
 }
 
 function openInNewTabOrBlob(html, filename) {
+  // Ensure every generated document is pinch-zoomable on mobile.
+  // The main app disables zoom, but reports/JIR/proposals must be zoomable
+  // so they're readable on a phone. Inject a zoomable viewport meta.
+  try {
+    const zoomMeta = '<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">';
+    if (html.indexOf('name="viewport"') === -1) {
+      // no viewport at all — add one right after <head> (or at the top)
+      if (/<head[^>]*>/i.test(html)) {
+        html = html.replace(/<head[^>]*>/i, m => m + '\n' + zoomMeta);
+      } else if (/<html[^>]*>/i.test(html)) {
+        html = html.replace(/<html[^>]*>/i, m => m + '<head>' + zoomMeta + '</head>');
+      } else {
+        html = zoomMeta + html;
+      }
+    } else {
+      // a viewport exists — make sure it allows zoom
+      html = html.replace(/<meta[^>]*name="viewport"[^>]*>/i, zoomMeta);
+    }
+  } catch (e) { /* non-fatal — continue with original html */ }
+
+  // The preview modal has its own toolbar (Print / Save / Tab), so the
+  // document's own floating ".print-bar" is redundant and overlaps the
+  // content. Hide it inside the preview (it still works in a real new tab).
+  try {
+    html = html.replace(/<\/head>/i,
+      '<style>.print-bar{display:none !important;}</style></head>');
+  } catch (e) { /* non-fatal */ }
+
   // Strategy: show an in-page overlay with the HTML content rendered in an
   // iframe. We use a data: URL which works in every browser without needing
   // popup permissions, blob permissions, or network access.
@@ -17902,13 +18019,20 @@ function showPreviewModal(html, filename) {
   modal.style.cssText = 'position:fixed; inset:0; z-index:99999; background:#fff; display:flex; flex-direction:column;';
   modal.innerHTML = `
     <div style="background:#1d4434; color:#fff; padding:10px 14px; display:flex; align-items:center; gap:6px; flex-wrap:wrap; box-shadow:0 2px 8px rgba(0,0,0,0.2); flex-shrink:0;">
-      <span style="font-weight:600; font-size:13px; flex:1; min-width:80px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">👁 ${escapeHtml(filename || 'Preview')}</span>
-      <button id="pv-print" style="background:#b56516; color:#fff; border:none; padding:7px 10px; border-radius:5px; cursor:pointer; font-size:12px; font-weight:600;">🖨 Print</button>
-      <button id="pv-download" style="background:transparent; color:#fff; border:1px solid rgba(255,255,255,0.4); padding:7px 10px; border-radius:5px; cursor:pointer; font-size:12px;">💾 Save</button>
-      <button id="pv-newtab" style="background:transparent; color:#fff; border:1px solid rgba(255,255,255,0.4); padding:7px 10px; border-radius:5px; cursor:pointer; font-size:12px;">↗ Tab</button>
+      <span style="font-weight:600; font-size:13px; flex:1; min-width:70px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">👁 ${escapeHtml(filename || 'Preview')}</span>
+      <button id="pv-zoomout" style="background:rgba(255,255,255,0.15); color:#fff; border:1px solid rgba(255,255,255,0.4); width:32px; height:30px; border-radius:5px; cursor:pointer; font-size:17px; font-weight:700; padding:0;">−</button>
+      <span id="pv-zoomlabel" style="font-size:12px; min-width:46px; text-align:center; font-weight:600;">Fit</span>
+      <button id="pv-zoomin" style="background:rgba(255,255,255,0.15); color:#fff; border:1px solid rgba(255,255,255,0.4); width:32px; height:30px; border-radius:5px; cursor:pointer; font-size:17px; font-weight:700; padding:0;">+</button>
+      <button id="pv-print" style="background:#b56516; color:#fff; border:none; padding:7px 10px; border-radius:5px; cursor:pointer; font-size:12px; font-weight:600;">🖨</button>
+      <button id="pv-download" style="background:transparent; color:#fff; border:1px solid rgba(255,255,255,0.4); padding:7px 10px; border-radius:5px; cursor:pointer; font-size:12px;">💾</button>
+      <button id="pv-newtab" style="background:transparent; color:#fff; border:1px solid rgba(255,255,255,0.4); padding:7px 10px; border-radius:5px; cursor:pointer; font-size:12px;">↗</button>
       <button id="pv-close" style="background:transparent; color:#fff; border:none; font-size:22px; cursor:pointer; padding:2px 8px; line-height:1;">×</button>
     </div>
-    <iframe id="pv-iframe" style="flex:1; width:100%; border:none; background:#fff; display:block;"></iframe>
+    <div id="pv-scroll" style="flex:1; overflow:auto; background:#888; -webkit-overflow-scrolling:touch;">
+      <div id="pv-sizer" style="position:relative;">
+        <iframe id="pv-iframe" scrolling="no" style="width:100%; height:100%; border:none; background:#fff; display:block; transform-origin:0 0; position:absolute; top:0; left:0;"></iframe>
+      </div>
+    </div>
   `;
   document.body.appendChild(modal);
 
@@ -17917,6 +18041,7 @@ function showPreviewModal(html, filename) {
   // Try three strategies in order. Whichever renders first wins.
   // Strategy 1: write directly to iframe document (most reliable for same-origin iframe)
   let writeOk = false;
+  let pvBaseline = null;
   try {
     const idoc = iframe.contentDocument || iframe.contentWindow?.document;
     if (idoc) {
@@ -17924,8 +18049,54 @@ function showPreviewModal(html, filename) {
       idoc.write(html);
       idoc.close();
       writeOk = true;
+      // capture the original text immediately — this is the baseline for
+      // detecting whether the user edited anything before closing.
+      try { pvBaseline = idoc.body ? idoc.body.innerText : null; } catch (e) {}
     }
   } catch (e) { console.warn('iframe write failed:', e); }
+
+  /* Edit detection — the proforma docs have contenteditable cells. Edits
+     there are NOT auto-saved (the document is generated; no reverse-map to
+     record fields). We snapshot the original body text and, on close,
+     compare — reliable regardless of iframe event quirks. */
+  let pvEdited = false;
+  const snapshotDoc = () => {
+    try {
+      const idoc = iframe.contentDocument || iframe.contentWindow?.document;
+      return idoc && idoc.body ? idoc.body.innerText : null;
+    } catch (e) { return null; }
+  };
+  const markEdited = () => { pvEdited = true; };
+  const attachEditTracker = () => {
+    try {
+      const idoc = iframe.contentDocument || iframe.contentWindow?.document;
+      if (idoc) {
+        idoc.addEventListener('input', markEdited, true);
+        idoc.addEventListener('keyup', markEdited, true);
+      }
+    } catch (e) {}
+    if (pvBaseline === null) pvBaseline = snapshotDoc();
+  };
+  attachEditTracker();
+  setTimeout(attachEditTracker, 400);
+
+  // true if the user changed the document content
+  const docWasEdited = () => {
+    if (pvEdited) return true;
+    const now = snapshotDoc();
+    return (pvBaseline !== null && now !== null && now !== pvBaseline);
+  };
+
+  // Build the current (possibly edited) document HTML for saving
+  const currentEditedHtml = () => {
+    try {
+      const idoc = iframe.contentDocument || iframe.contentWindow?.document;
+      if (idoc && idoc.documentElement) {
+        return '<!DOCTYPE html>' + idoc.documentElement.outerHTML;
+      }
+    } catch (e) {}
+    return html;
+  };
 
   // Strategy 2: blob URL — if doc.write failed
   let blobUrl = null;
@@ -17940,11 +18111,122 @@ function showPreviewModal(html, filename) {
     }
   }
 
+  /* Edits in the preview are tracked above. On close, if the document
+     content changed, warn and offer to save the edited document. */
   const close = () => {
+    if (docWasEdited()) {
+      const msg = 'You edited text in this preview. These edits are NOT saved to the record automatically.\n\nSave the edited document as a file to keep your changes?';
+      if (typeof customConfirm === 'function') {
+        customConfirm('Unsaved preview edits',
+          'You edited text directly in this document. Those edits are not stored in the record. Save the edited document as a file so you keep your changes?',
+          () => {
+            // YES → download the edited document
+            try {
+              const blob = new Blob([currentEditedHtml()], { type: 'text/html;charset=utf-8' });
+              const a = document.createElement('a');
+              a.href = URL.createObjectURL(blob);
+              a.download = (filename || 'document').replace(/\.html?$/i, '') + '-edited.html';
+              document.body.appendChild(a); a.click(); document.body.removeChild(a);
+              if (typeof toast === 'function') toast('✓ Edited document saved as file');
+            } catch (e) {
+              if (typeof toast === 'function') toast('Save failed: ' + e.message, true);
+            }
+            try { modal.remove(); } catch (e) {}
+            if (blobUrl) setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+          },
+          () => {
+            // NO → close without saving
+            try { modal.remove(); } catch (e) {}
+            if (blobUrl) setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+          }
+        );
+        return;  // wait for the confirm choice
+      }
+    }
     try { modal.remove(); } catch (e) {}
     if (blobUrl) setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
   };
   modal.querySelector('#pv-close').onclick = close;
+
+  /* ── Zoom system ──────────────────────────────────────────────
+     The documents are A4-wide (~794px). On a phone that's wider than
+     the screen, so the preview opens at "fit width" — the whole page
+     width exactly fills the screen — then +/- adjust from there.   */
+  const pvScroll = modal.querySelector('#pv-scroll');
+  const A4_PX = 794;                 // A4 portrait width in CSS px
+  let fitScale = 1;                  // scale that makes A4 fill the view
+  let pvZoom = 1;                    // current zoom (1 = fit width)
+
+  function computeFit() {
+    const avail = (pvScroll ? pvScroll.clientWidth : window.innerWidth) || 380;
+    fitScale = Math.min(1, avail / A4_PX);
+  }
+
+  const applyZoom = () => {
+    const eff = fitScale * pvZoom;          // effective scale applied to the doc
+    const sizer = modal.querySelector('#pv-sizer');
+    // Measure the real content size inside the iframe.
+    let docW = A4_PX, docH = 0;
+    try {
+      const d = iframe.contentDocument;
+      if (d && d.body) {
+        docH = Math.max(
+          d.body.scrollHeight, d.body.offsetHeight,
+          d.documentElement ? d.documentElement.scrollHeight : 0,
+          d.documentElement ? d.documentElement.offsetHeight : 0
+        );
+        docW = Math.max(d.body.scrollWidth, A4_PX);
+      }
+    } catch (e) { /* cross-origin — fall back */ }
+
+    // The iframe holds the document at its natural (unscaled) size...
+    iframe.style.width = docW + 'px';
+    iframe.style.height = (docH > 0 ? docH : 1123) + 'px';
+    iframe.style.transformOrigin = '0 0';
+    iframe.style.transform = 'scale(' + eff + ')';
+
+    // ...and the sizer wrapper takes the SCALED size, so the scroll
+    // container scrolls exactly to the content end — no grey dead space,
+    // no clipping, whatever the document length.
+    if (sizer) {
+      sizer.style.width = (docW * eff) + 'px';
+      sizer.style.height = ((docH > 0 ? docH : 1123) * eff) + 'px';
+    }
+    const lbl = modal.querySelector('#pv-zoomlabel');
+    if (lbl) lbl.textContent = (pvZoom === 1 ? 'Fit' : Math.round(pvZoom * 100) + '%');
+  };
+
+  // initial fit — run after the iframe has laid out
+  computeFit();
+  setTimeout(() => { computeFit(); applyZoom(); }, 60);
+  setTimeout(() => { computeFit(); applyZoom(); }, 400);
+  iframe.addEventListener('load', () => {
+    computeFit(); applyZoom();
+    attachEditTracker();
+  });
+  window.addEventListener('resize', () => { computeFit(); applyZoom(); });
+
+  modal.querySelector('#pv-zoomin').onclick = () => {
+    pvZoom = Math.min(4, Math.round((pvZoom + 0.25) * 100) / 100);
+    applyZoom();
+  };
+  modal.querySelector('#pv-zoomout').onclick = () => {
+    pvZoom = Math.max(1, Math.round((pvZoom - 0.25) * 100) / 100);
+    applyZoom();
+  };
+  // double-tap toggles Fit ↔ 200%
+  if (pvScroll) {
+    let lastTap = 0;
+    pvScroll.addEventListener('touchend', () => {
+      const now = Date.now();
+      if (now - lastTap < 350) {
+        pvZoom = (pvZoom > 1.25) ? 1 : 2;
+        applyZoom();
+      }
+      lastTap = now;
+    });
+  }
+
   modal.querySelector('#pv-print').onclick = () => {
     try {
       const w = iframe.contentWindow;
@@ -18195,6 +18477,15 @@ function saveAsDoc() {
       </tr>`).join('')}
     </tbody>
   </table>
+
+  ${(isQuote && rec._quoteSkipped && rec._quoteSkipped.length) ? `
+  <div style="margin-top:14pt; padding:10pt 12pt; background:#fff8e8; border:1pt solid #e0c060; border-radius:6pt; font-size:9.5pt; color:#6a4c1e;">
+    <strong>Note — not included in this quote (field data not yet captured):</strong>
+    <ul style="margin:5pt 0 0; padding-left:18pt;">
+      ${rec._quoteSkipped.map(s => '<li>' + escapeHtml(s) + '</li>').join('')}
+    </ul>
+    <div style="margin-top:5pt; font-style:italic;">These deliverables are quoted only when the supporting survey data exists, so this estimate reflects exactly what can be delivered.</div>
+  </div>` : ''}
 
   <div class="totals">
     <table>
