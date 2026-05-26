@@ -24352,7 +24352,7 @@ const MASTER_SHEET = 'Records';
 const LOG_SHEET_NAME = 'SyncLog';
 const MAX_PHOTO_CHARS = 1000;
 const ENABLE_LOGGING = true;
-const SCRIPT_VERSION = '3.13-namevlookup';
+const SCRIPT_VERSION = '3.17-typefix';
 
 const SECTION = {
   META:       '════ PROJECT META ════',
@@ -24728,7 +24728,19 @@ function getSpeciesSheet_() {
     ['Other / Unknown (specify)', 'अन्य', '(custom input)']
   ];
   sh.getRange(2, 1, SPECIES.length, 3).setValues(SPECIES);
-  sh.setColumnWidth(1, 220); sh.setColumnWidth(2, 150); sh.setColumnWidth(3, 240);
+  // Column D = display name "English – हिन्दी – Scientific" — this is what
+  // the tree \`name\` dropdown uses, matching how the app stores tree names.
+  sh.getRange(1, 4).setValue('display')
+    .setFontWeight('bold').setFontColor('#fff').setBackground('#1d4434');
+  var displayCol = SPECIES.map(function(s) {
+    var parts = [s[0]];
+    if (s[1]) parts.push(s[1]);
+    if (s[2] && s[2].indexOf('(') !== 0) parts.push(s[2]);
+    return [parts.join(' – ')];
+  });
+  sh.getRange(2, 4, displayCol.length, 1).setValues(displayCol);
+  sh.setColumnWidth(1, 200); sh.setColumnWidth(2, 140);
+  sh.setColumnWidth(3, 220); sh.setColumnWidth(4, 360);
   sh.setFrozenRows(1);
   return sh;
 }
@@ -25111,19 +25123,26 @@ function writeProjectSheet_(rec) {
     setCalc('feeBalance','=IF(ISNUMBER(B'+idx['feeTotal']+'),ROUND(MAX(0,B'+idx['feeTotal']+'-B'+idx['feeReceived']+'),0),"")');
     // ...and lock the system fields.
     setLock('uuid'); setLock('updated_at'); setLock('feeReceived');
-    // dropdowns on key META fields so sheet edits stay valid
+    // dropdowns on key META fields — values MUST match the app exactly
     try {
       if (idx['status'] != null) {
         var stRule = SpreadsheetApp.newDataValidation()
-          .requireValueInList(['draft','data-collection','review','submitted','approved','rejected'], true)
+          .requireValueInList(['new','collecting','review','delivered','paid'], true)
           .setAllowInvalid(true).build();
         sh.getRange(idx['status'], 2).setDataValidation(stRule);
       }
       if (idx['projectType'] != null) {
         var ptRule = SpreadsheetApp.newDataValidation()
-          .requireValueInList(['Road','Transmission Line','Water Supply','Building','Other'], true)
+          .requireValueInList(['Road','Transmission Line','Water Supply','Irrigation',
+            'Hydroelectric','Building','Telecom Tower','Bridge','School/Hospital','Other'], true)
           .setAllowInvalid(true).build();
         sh.getRange(idx['projectType'], 2).setDataValidation(ptRule);
+      }
+      if (idx['canopyDensity'] != null) {
+        var cdRule = SpreadsheetApp.newDataValidation()
+          .requireValueInList(['Very Dense','Dense','Open'], true)
+          .setAllowInvalid(true).build();
+        sh.getRange(idx['canopyDensity'], 2).setDataValidation(cdRule);
       }
     } catch (e) {}
   })();
@@ -25205,8 +25224,8 @@ function writeProjectSheet_(rec) {
     'condition', 'selStatus', 'land', 'village', 'lat', 'lon', 'elevation (m)', 'accuracy (m)', 'branch', 'created_at', 'uuid'];
   writeHeaderRow(treeHeaders, '#f5dcc8');
   const treeRows = (rec.trees || []).map(function(t) {
-    // name is the lookup key — prefer species_en (clean), fall back to name
-    return [t.sno || '', t.species_en || t.name || '', t.species_en || '', t.species_hi || '',
+    // name = the full display string the app stores (e.g. "Sal – साल – Shorea robusta")
+    return [t.sno || '', t.name || '', t.species_en || '', t.species_hi || '',
       t.species_sci || '', t.dia || '', t.condition || '', t.selStatus || '',
       t.land || '', t.village || '', t.lat || '', t.lon || '', t.elevation || '',
       t.accuracy || '', t.branch || '', t.created_at || '', t.uuid || ''];
@@ -25219,22 +25238,23 @@ function writeProjectSheet_(rec) {
       .setBackground('#dbe9ff').setFontColor('#0000cc');
     for (var ti = 0; ti < treeRows.length; ti++) {
       var trw = treeStart + ti;
-      // name (col B=2) is the dropdown trigger. species_en/hi/sci (C/D/E)
-      // all auto-fill via VLOOKUP from the name in column B — green, do not edit.
+      // name (col B) is the dropdown trigger — the full display string.
+      // species_en/hi/sci (C/D/E) auto-fill via INDEX/MATCH against the
+      // Species sheet's display column D — green, do not edit.
       sh.getRange(trw, 3).setFormula(
-        '=IFERROR(VLOOKUP(B'+trw+',Species!$A$2:$C$400,1,FALSE),"")')
+        '=IFERROR(INDEX(Species!$A$2:$A$400,MATCH(B'+trw+',Species!$D$2:$D$400,0)),"")')
         .setBackground('#e2efda').setFontColor('#375623');
       sh.getRange(trw, 4).setFormula(
-        '=IFERROR(VLOOKUP(B'+trw+',Species!$A$2:$C$400,2,FALSE),"")')
+        '=IFERROR(INDEX(Species!$B$2:$B$400,MATCH(B'+trw+',Species!$D$2:$D$400,0)),"")')
         .setBackground('#e2efda').setFontColor('#375623');
       sh.getRange(trw, 5).setFormula(
-        '=IFERROR(VLOOKUP(B'+trw+',Species!$A$2:$C$400,3,FALSE),"")')
+        '=IFERROR(INDEX(Species!$C$2:$C$400,MATCH(B'+trw+',Species!$D$2:$D$400,0)),"")')
         .setBackground('#e2efda').setFontColor('#375623');
     }
-    // dropdowns: name (B) from Species list, condition (G), selStatus (H)
+    // dropdowns: name (B) from Species display column, condition (G), selStatus (H)
     try {
       var spRule = SpreadsheetApp.newDataValidation()
-        .requireValueInRange(getSpeciesSheet_().getRange('A2:A400'), true)
+        .requireValueInRange(getSpeciesSheet_().getRange('D2:D400'), true)
         .setAllowInvalid(true).build();
       sh.getRange(treeStart, 2, treeRows.length, 1).setDataValidation(spRule);
       var condRule = SpreadsheetApp.newDataValidation()
@@ -25315,12 +25335,12 @@ function writeProjectSheet_(rec) {
         .setBackground('#e2efda').setFontColor('#375623');
     }
     row += landRows.length;
-    // land-type dropdown so sheet edits use valid names the app recognises
+    // land-type dropdown — MUST use the exact key values that the app's
+    // landScheduleRows store (forest, protectedF, ...), so re-import matches.
     try {
       var ltRule = SpreadsheetApp.newDataValidation()
-        .requireValueInList(['आरक्षित वन भूमि / Reserved Forest',
-          'सिविल एवं सोयम भूमि / Civil & Soyam', 'वन पंचायत भूमि / Van Panchayat',
-          'नाप भूमि / Nap (Revenue)', 'निजी भूमि / Private Land'], true)
+        .requireValueInList(['forest', 'protectedF', 'vanPanchayat',
+          'civilSoyam', 'nap', 'private', 'other'], true)
         .setAllowInvalid(true).build();
       sh.getRange(landStart, 1, landRows.length, 1).setDataValidation(ltRule);
     } catch (e) {}
