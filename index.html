@@ -2210,12 +2210,6 @@ window.toggleAuditSaveBar = toggleAuditSaveBar;
     </div>
 
     <div class="field">
-      <label>🌳 Trees affected at this bend <span style="color:#888;">— optional</span></label>
-      <textarea id="hp-trees" rows="3" placeholder="One tree per line — format: Species ; DBH (cm) ; Condition&#10;e.g.&#10;Chir Pine ; 30-40 ; Sound&#10;Banj Oak ; 20-30 ; Sound"></textarea>
-      <div class="hint">Trees standing at/near this bend that may need cutting for widening. Listed separately from main alignment trees in JIR.</div>
-    </div>
-
-    <div class="field">
       <label>Remarks</label>
       <textarea id="hp-remarks" rows="2" placeholder="e.g. Steep approach from below, needs widening to 6m, retaining wall planned"></textarea>
     </div>
@@ -24358,7 +24352,7 @@ const MASTER_SHEET = 'Records';
 const LOG_SHEET_NAME = 'SyncLog';
 const MAX_PHOTO_CHARS = 1000;
 const ENABLE_LOGGING = true;
-const SCRIPT_VERSION = '3.11-fullspecies';
+const SCRIPT_VERSION = '3.12-dashfix';
 
 const SECTION = {
   META:       '════ PROJECT META ════',
@@ -24773,9 +24767,25 @@ function rebuildDashboard_() {
     totalMuck   += parseInt(r.muck_count)   || 0;
     if (r.status) statusCounts[r.status] = (statusCounts[r.status] || 0) + 1;
     if (r.district) districtCounts[r.district] = (districtCounts[r.district] || 0) + 1;
-    // pull financials from the project tab
+    // pull financials from the project tab — bulletproof lookup:
+    // (1) try sheet_name, (2) try the project code as a tab name,
+    // (3) last resort, scan every tab for one whose META uuid matches.
     try {
-      const pr = readProjectSheet_(r.sheet_name);
+      var pr = null;
+      if (r.sheet_name) pr = readProjectSheet_(r.sheet_name);
+      if ((!pr || (!pr.area && !pr.npvAmount)) && r.code) {
+        var byCode = readProjectSheet_(String(r.code));
+        if (byCode && byCode.uuid === r.uuid) pr = byCode;
+      }
+      if ((!pr || (!pr.area && !pr.npvAmount)) && r.uuid) {
+        var allSheets = SpreadsheetApp.openById(SPREADSHEET_ID).getSheets();
+        for (var s = 0; s < allSheets.length; s++) {
+          var nm = allSheets[s].getName();
+          if (nm === 'Dashboard' || nm === 'Records' || nm === 'SyncLog' || nm === 'Species') continue;
+          var cand = readProjectSheet_(nm);
+          if (cand && cand.uuid === r.uuid) { pr = cand; break; }
+        }
+      }
       if (pr) {
         const a  = parseFloat(pr.area) || 0;
         const np = parseFloat(pr.npvAmount) || (a * (parseFloat(pr.npvEstimate) || 0));
