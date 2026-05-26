@@ -24352,7 +24352,7 @@ const MASTER_SHEET = 'Records';
 const LOG_SHEET_NAME = 'SyncLog';
 const MAX_PHOTO_CHARS = 1000;
 const ENABLE_LOGGING = true;
-const SCRIPT_VERSION = '3.12-dashfix';
+const SCRIPT_VERSION = '3.13-namevlookup';
 
 const SECTION = {
   META:       '════ PROJECT META ════',
@@ -25063,6 +25063,26 @@ function writeProjectSheet_(rec) {
   // field-name column = grey/locked look
   sh.getRange(row, 1, metaFields.length, 1).setFontWeight('bold').setBackground('#f8f6f0');
 
+  // Units column (C) — shows the unit for each field. Read-only hint;
+  // the parser only reads columns A & B, so column C is purely informational.
+  (function(){
+    var UNITS = {
+      length: 'metre (m)', width: 'metre (m)', area: 'hectare (ha)',
+      altArea: 'hectare (ha)', estimatedTrees: 'count', cost: 'Rs lakh',
+      npvEstimate: 'Rs / hectare', npvAmount: 'Rs', caCost: 'Rs / hectare',
+      caAmount: 'Rs', fellingAmount: 'Rs', treeValuation: 'Rs',
+      landValuePerHa: 'Rs / hectare', leaseRentPct: 'percent (%)',
+      leaseYears: 'years', feeTotal: 'Rs', feeReceived: 'Rs', feeBalance: 'Rs',
+      population: 'persons', chainage: 'metre (m)'
+    };
+    var unitCol = [];
+    for (var i = 0; i < metaFields.length; i++) {
+      unitCol.push([UNITS[metaFields[i][0]] || '']);
+    }
+    sh.getRange(row, 3, metaFields.length, 1).setValues(unitCol)
+      .setFontColor('#999').setFontStyle('italic').setFontSize(9);
+  })();
+
   // Colour-code + formula the META value column (column B).
   // Calculated fields get a formula referencing other META rows, green.
   // Everything else is raw editable data, blue. uuid/updated_at stay locked.
@@ -25181,11 +25201,12 @@ function writeProjectSheet_(rec) {
   row += 2;
 
   marker(SECTION.TREES, '#a3491e');
-  const treeHeaders = ['sno', 'name', 'species_en', 'species_hi', 'species_sci', 'dia',
-    'condition', 'selStatus', 'land', 'village', 'lat', 'lon', 'elevation', 'accuracy', 'branch', 'created_at', 'uuid'];
+  const treeHeaders = ['sno', 'name', 'species_en', 'species_hi', 'species_sci', 'dia (cm)',
+    'condition', 'selStatus', 'land', 'village', 'lat', 'lon', 'elevation (m)', 'accuracy (m)', 'branch', 'created_at', 'uuid'];
   writeHeaderRow(treeHeaders, '#f5dcc8');
   const treeRows = (rec.trees || []).map(function(t) {
-    return [t.sno || '', t.name || '', t.species_en || '', t.species_hi || '',
+    // name is the lookup key — prefer species_en (clean), fall back to name
+    return [t.sno || '', t.species_en || t.name || '', t.species_en || '', t.species_hi || '',
       t.species_sci || '', t.dia || '', t.condition || '', t.selStatus || '',
       t.land || '', t.village || '', t.lat || '', t.lon || '', t.elevation || '',
       t.accuracy || '', t.branch || '', t.created_at || '', t.uuid || ''];
@@ -25193,25 +25214,29 @@ function writeProjectSheet_(rec) {
   if (treeRows.length > 0) {
     var treeStart = row;
     sh.getRange(row, 1, treeRows.length, treeHeaders.length).setValues(treeRows);
-    // editable columns blue; species_hi & species_sci become VLOOKUP (green)
+    // editable columns blue
     sh.getRange(treeStart, 1, treeRows.length, treeHeaders.length)
       .setBackground('#dbe9ff').setFontColor('#0000cc');
     for (var ti = 0; ti < treeRows.length; ti++) {
       var trw = treeStart + ti;
-      // species_hi (col D=4) and species_sci (col E=5) auto-fill from Species sheet
+      // name (col B=2) is the dropdown trigger. species_en/hi/sci (C/D/E)
+      // all auto-fill via VLOOKUP from the name in column B — green, do not edit.
+      sh.getRange(trw, 3).setFormula(
+        '=IFERROR(VLOOKUP(B'+trw+',Species!$A$2:$C$400,1,FALSE),"")')
+        .setBackground('#e2efda').setFontColor('#375623');
       sh.getRange(trw, 4).setFormula(
-        '=IFERROR(VLOOKUP(C'+trw+',Species!$A$2:$C$400,2,FALSE),"")')
+        '=IFERROR(VLOOKUP(B'+trw+',Species!$A$2:$C$400,2,FALSE),"")')
         .setBackground('#e2efda').setFontColor('#375623');
       sh.getRange(trw, 5).setFormula(
-        '=IFERROR(VLOOKUP(C'+trw+',Species!$A$2:$C$400,3,FALSE),"")')
+        '=IFERROR(VLOOKUP(B'+trw+',Species!$A$2:$C$400,3,FALSE),"")')
         .setBackground('#e2efda').setFontColor('#375623');
     }
-    // dropdowns: species_en (C) from Species list, condition (G), selStatus (H)
+    // dropdowns: name (B) from Species list, condition (G), selStatus (H)
     try {
       var spRule = SpreadsheetApp.newDataValidation()
         .requireValueInRange(getSpeciesSheet_().getRange('A2:A400'), true)
         .setAllowInvalid(true).build();
-      sh.getRange(treeStart, 3, treeRows.length, 1).setDataValidation(spRule);
+      sh.getRange(treeStart, 2, treeRows.length, 1).setDataValidation(spRule);
       var condRule = SpreadsheetApp.newDataValidation()
         .requireValueInList(['green standing','dry standing','fallen','damaged','stump'], true)
         .setAllowInvalid(true).build();
