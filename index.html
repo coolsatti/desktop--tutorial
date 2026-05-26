@@ -13809,11 +13809,11 @@ function buildJIRHTML(r, type, opts, forWord) {
     } else {
       // Page 1: Standard JIR page for the Selected alignment
       if (selRec) {
-        parts.push(renderJIRPage(selRec, 'selected', opts));
+        parts.push(renderJIRPage(selRec, 'selected', opts, forWord));
       }
       // Page 2: Standard JIR page for the Rejected alignment
       if (rejRec) {
-        parts.push(renderJIRPage(rejRec, 'rejected', opts));
+        parts.push(renderJIRPage(rejRec, 'rejected', opts, forWord));
       }
       // Page 3: Comparison table (separate page per requirement)
       parts.push(renderComparisonTable(selRec, rejRec, r));
@@ -13886,11 +13886,11 @@ function buildJIRHTML(r, type, opts, forWord) {
 
   if (type === 'selected' || type === 'both') {
     const rSel = filterByBranch(r, 'selected');
-    parts.push(renderJIRPage(rSel, 'selected', opts));
+    parts.push(renderJIRPage(rSel, 'selected', opts, forWord));
   }
   if (type === 'rejected' || type === 'both') {
     const rRej = filterByBranch(r, 'rejected');
-    parts.push(renderJIRPage(rRej, 'rejected', opts));
+    parts.push(renderJIRPage(rRej, 'rejected', opts, forWord));
   }
 
   // Append alignment map page(s) if there are GPS points (alignment or tree GPS)
@@ -15703,7 +15703,7 @@ ${(function() {
 }
 
 
-function renderJIRPage(r, variant, opts) {
+function renderJIRPage(r, variant, opts, forWord) {
   const isSelected = variant === 'selected';
   const ce = 'contenteditable="true"'; // shorthand
 
@@ -15878,6 +15878,15 @@ function renderJIRPage(r, variant, opts) {
 
   const stampClass = isSelected ? 'stamp selected' : 'stamp rejected';
   const stampText = isSelected ? 'SELECTED ✓' : 'REJECTED ✗';
+  // Word can't render position:absolute + rotate, so for .doc export the
+  // stamp is emitted as a normal inline badge that sits in the document flow.
+  const stampHTML = forWord
+    ? '<div style="display:inline-block; border:2pt solid ' +
+      (isSelected ? '#1a6a2a' : '#ad2e15') + '; color:' +
+      (isSelected ? '#1a6a2a' : '#ad2e15') +
+      '; padding:3pt 12pt; font-weight:bold; font-size:12pt; margin-bottom:8pt;">' +
+      stampText + '</div>'
+    : '<div class="' + stampClass + '">' + stampText + '</div>';
 
   // ── JIR signature block ──
   // Per user request: JIR is signed by people PHYSICALLY PRESENT at the
@@ -15979,7 +15988,7 @@ function renderJIRPage(r, variant, opts) {
 
   return `
 <div class="page">
-  <div class="${stampClass}">${stampText}</div>
+  ${stampHTML}
 
   <div class="tag-row">
     <span><strong>पत्र संख्या / Letter No. :</strong> <span ${ce}>${escapeHtml(opts.letterNum || '_______________')}</span></span>
@@ -24349,7 +24358,7 @@ const MASTER_SHEET = 'Records';
 const LOG_SHEET_NAME = 'SyncLog';
 const MAX_PHOTO_CHARS = 1000;
 const ENABLE_LOGGING = true;
-const SCRIPT_VERSION = '3.7-newdata';
+const SCRIPT_VERSION = '3.11-fullspecies';
 
 const SECTION = {
   META:       '════ PROJECT META ════',
@@ -24409,6 +24418,7 @@ function handle_(e, method) {
     if (action === 'upload')   return doUpload_(e.postData ? e.postData.contents : '', params);
     if (action === 'delete')   return doDelete_(params.uuid);
     if (action === 'rebuild')  return doRebuildDashboard_();
+    if (action === 'genuid')   return reply_({ ok: true, uuid: Utilities.getUuid() });
     return reply_({ ok: false, error: 'Unknown action: ' + action });
   } catch (err) {
     log_('ERROR', String(err));
@@ -24421,6 +24431,311 @@ function getDashboardSheet_() {
   let sh = ss.getSheetByName(DASHBOARD_SHEET);
   if (!sh) sh = ss.insertSheet(DASHBOARD_SHEET, 0);
   else { try { ss.setActiveSheet(sh); ss.moveActiveSheet(1); } catch (e) {} }
+  return sh;
+}
+
+/* Species master sheet — feeds the tree-name dropdown and the
+   species_hi / species_sci VLOOKUP. Holds the full species list from
+   the app (287 species). Created once; safe to edit/extend. */
+function getSpeciesSheet_() {
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  let sh = ss.getSheetByName('Species');
+  if (sh) return sh;
+  sh = ss.insertSheet('Species');
+  sh.getRange(1, 1, 1, 3).setValues([['species_en', 'species_hi', 'species_sci']])
+    .setFontWeight('bold').setFontColor('#fff').setBackground('#1d4434');
+  var SPECIES = [
+    ['Chir Pine', 'चीड़', 'Pinus roxburghii'],
+    ['Blue Pine / Kail', 'कैल', 'Pinus wallichiana'],
+    ['Deodar', 'देवदार', 'Cedrus deodara'],
+    ['Himalayan Cypress', 'सुरई', 'Cupressus torulosa'],
+    ['Silver Fir', 'रागा', 'Abies pindrow'],
+    ['West Himalayan Fir', 'मोरिन्डा', 'Abies spectabilis'],
+    ['West Himalayan Spruce', 'राई', 'Picea smithiana'],
+    ['Himalayan Hemlock', 'तुंग', 'Tsuga dumosa'],
+    ['Himalayan Yew', 'थुनेर', 'Taxus wallichiana'],
+    ['Common Juniper', 'पदम', 'Juniperus communis'],
+    ['Indian Juniper', 'धूप', 'Juniperus indica'],
+    ['Pencil Cedar', 'बिट्टल', 'Juniperus recurva'],
+    ['Banj Oak', 'बांज', 'Quercus leucotrichophora'],
+    ['Moru Oak', 'मोरु', 'Quercus floribunda'],
+    ['Tilonj Oak', 'तिलोंज', 'Quercus glauca'],
+    ['Kharsu Oak', 'खरसू', 'Quercus semecarpifolia'],
+    ['Phaliant Oak', 'फलियांट', 'Quercus lanata'],
+    ['Rianj Oak', 'रियांज', 'Quercus lanuginosa'],
+    ['Holm Oak', 'इलेक्स', 'Quercus ilex'],
+    ['Tree Rhododendron', 'बुरांश', 'Rhododendron arboreum'],
+    ['White Rhododendron', 'चिमूल', 'Rhododendron campanulatum'],
+    ['Cheuli Rhododendron', 'च्यूली', 'Rhododendron anthopogon'],
+    ['Lepidote Rhododendron', 'तलिश पत्र', 'Rhododendron lepidotum'],
+    ['Nepal Alder', 'उतीस', 'Alnus nepalensis'],
+    ['Himalayan Alder', 'कोसी', 'Alnus nitida'],
+    ['Himalayan Maple', 'कांसा', 'Acer caesium'],
+    ['Trident Maple', 'गुणला', 'Acer oblongum'],
+    ['Sycamore Maple', 'मंडर', 'Acer pseudoplatanus'],
+    ['Himalayan Sugar Maple', 'कंकर', 'Acer acuminatum'],
+    ['Large-leaved Maple', 'बैंस', 'Acer cappadocicum'],
+    ['Himalayan Birch', 'भोज पत्र', 'Betula utilis'],
+    ['Alder-leaved Birch', 'सौर', 'Betula alnoides'],
+    ['Indian Horse Chestnut', 'पांगर', 'Aesculus indica'],
+    ['Kanoor', 'कनोर', 'Aesculus punduana'],
+    ['Himalayan Toon', 'तून', 'Toona ciliata'],
+    ['Bhimal', 'भीमल', 'Grewia oppositifolia'],
+    ['Khadik', 'खड़िक', 'Celtis australis'],
+    ['Himalayan Elm', 'कंगू', 'Ulmus wallichiana'],
+    ['Tej Patta (Indian Bay Leaf)', 'तेजपत्ता', 'Cinnamomum tamala'],
+    ['Dalchini', 'दालचीनी', 'Cinnamomum verum'],
+    ['Mehal', 'मेहल', 'Pyrus pashia'],
+    ['Wild Cherry / Padam', 'पदम / पंय्या', 'Prunus cerasoides'],
+    ['Himalayan Ash', 'अंगू', 'Fraxinus micrantha'],
+    ['Himalayan Holly', 'कंडुआ', 'Ilex dipyrena'],
+    ['Himalayan Whitebeam', 'रांग', 'Sorbus cuspidata'],
+    ['Rowan (Himalayan)', 'माउंटेन ऐश', 'Sorbus lanata'],
+    ['Coral Tree', 'रुंगरा', 'Erythrina arborescens'],
+    ['Himalayan Dogwood', 'मेंडू', 'Cornus oblonga'],
+    ['Himalayan Basswood', 'चमरोड़', 'Tilia rubra'],
+    ['Peepal', 'पीपल', 'Ficus religiosa'],
+    ['Banyan', 'बरगद', 'Ficus benghalensis'],
+    ['Pilkhan', 'पिलखन', 'Ficus virens'],
+    ['Cluster Fig', 'गूलर', 'Ficus racemosa'],
+    ['White Fig', 'पाकड़', 'Ficus benjamina'],
+    ['Bedu Fig', 'बेडू', 'Ficus palmata'],
+    ['Timla Fig', 'तिमला', 'Ficus auriculata'],
+    ['Walnut', 'अखरोट', 'Juglans regia'],
+    ['Apricot', 'खुबानी', 'Prunus armeniaca'],
+    ['Peach', 'आडू', 'Prunus persica'],
+    ['Pear', 'नाशपाती', 'Pyrus communis'],
+    ['Apple', 'सेब', 'Malus domestica'],
+    ['Plum', 'आलू बुखारा', 'Prunus domestica'],
+    ['Wild Plum', 'जंगली आलूबुखारा', 'Prunus bokhariensis'],
+    ['Box Myrtle (Kaphal)', 'काफल', 'Myrica esculenta'],
+    ['Indian Gooseberry', 'आंवला', 'Phyllanthus emblica'],
+    ['Harad', 'हरड़', 'Terminalia chebula'],
+    ['Bahera', 'बहेड़ा', 'Terminalia bellirica'],
+    ['Jamun', 'जामुन', 'Syzygium cumini'],
+    ['Mango', 'आम', 'Mangifera indica'],
+    ['Jackfruit', 'कटहल', 'Artocarpus heterophyllus'],
+    ['Mulberry', 'शहतूत', 'Morus alba'],
+    ['Black Mulberry', 'काला शहतूत', 'Morus nigra'],
+    ['Guava', 'अमरूद', 'Psidium guajava'],
+    ['Pomegranate', 'अनार', 'Punica granatum'],
+    ['Lemon', 'नींबू', 'Citrus limon'],
+    ['Malta / Orange', 'माल्टा / संतरा', 'Citrus sinensis'],
+    ['Kinnow', 'किन्नू', 'Citrus reticulata'],
+    ['Citron', 'बिजौरा', 'Citrus medica'],
+    ['Kafal / Box Berry', 'कफल', 'Myrica nagi'],
+    ['Almond', 'बादाम', 'Prunus dulcis'],
+    ['Chestnut', 'चेस्टनट', 'Castanopsis tribuloides'],
+    ['Hazelnut', 'भुतिया', 'Corylus jacquemontii'],
+    ['Bael', 'बेल', 'Aegle marmelos'],
+    ['Curry Leaf', 'कड़ी पत्ता', 'Murraya koenigii'],
+    ['Sapphire Dragon', 'पावलोनिया', 'Paulownia tomentosa'],
+    ['Arjun', 'अर्जुन', 'Terminalia arjuna'],
+    ['Dhak / Palash', 'ढाक / पलाश', 'Butea monosperma'],
+    ['Satyanashi', 'सत्यानाशी', 'Argemone mexicana'],
+    ['Sal', 'साल', 'Shorea robusta'],
+    ['Sheesham', 'शीशम', 'Dalbergia sissoo'],
+    ['Khair', 'खैर', 'Senegalia catechu'],
+    ['Teak', 'सागौन', 'Tectona grandis'],
+    ['Semal (Silk Cotton)', 'सेमल', 'Bombax ceiba'],
+    ['Neem', 'नीम', 'Azadirachta indica'],
+    ['Siris (White)', 'सिरस (सफेद)', 'Albizia procera'],
+    ['Siris (Black)', 'सिरस (काला)', 'Albizia lebbeck'],
+    ['Kadam', 'कदम', 'Neolamarckia cadamba'],
+    ['Mahua', 'महुआ', 'Madhuca longifolia'],
+    ['Gulmohar', 'गुलमोहर', 'Delonix regia'],
+    ['Amaltas (Golden Shower)', 'अमलतास', 'Cassia fistula'],
+    ['Jacaranda', 'नीली गुलमोहर', 'Jacaranda mimosifolia'],
+    ['Rain Tree', 'वर्षा वृक्ष', 'Samanea saman'],
+    ['Drumstick (Moringa)', 'सहजन', 'Moringa oleifera'],
+    ['Kikar / Babul', 'बबूल / कीकर', 'Acacia nilotica'],
+    ['Reru', 'रेरू', 'Acacia leucophloea'],
+    ['Dhaura', 'धौरा', 'Anogeissus latifolia'],
+    ['Haldu', 'हल्दू', 'Haldina cordifolia'],
+    ['Tendu', 'तेंदू', 'Diospyros melanoxylon'],
+    ['Karanj', 'करंज', 'Pongamia pinnata'],
+    ['Rohini', 'रोहिणी', 'Mallotus philippensis'],
+    ['Bhog', 'भोग', 'Kydia calycina'],
+    ['Chilbil', 'चिलबिल', 'Holoptelea integrifolia'],
+    ['Eucalyptus', 'यूकेलिप्टस', 'Eucalyptus species'],
+    ['Himalayan Poplar', 'पॉपलर', 'Populus ciliata'],
+    ['Lombardy Poplar', 'लम्बार्डी पोपलर', 'Populus nigra'],
+    ['Willow', 'बैंस', 'Salix species'],
+    ['Weeping Willow', 'विलो', 'Salix babylonica'],
+    ['Silver Oak (exotic)', 'सिल्वर ओक', 'Grevillea robusta'],
+    ['Acacia', 'बबूल', 'Acacia auriculiformis'],
+    ['Subabul', 'सुबबूल', 'Leucaena leucocephala'],
+    ['Casuarina', 'कैसुआरीना', 'Casuarina equisetifolia'],
+    ['Bottlebrush', 'बॉटलब्रश', 'Callistemon citrinus'],
+    ['Pawlonia', 'पावलोनिया', 'Paulownia tomentosa'],
+    ['Ringal (Male)', 'रिंगाल (नर)', 'Drepanostachyum falcatum'],
+    ['Ringal (Female)', 'रिंगाल (मादा)', 'Thamnocalamus spathiflorus'],
+    ['Himalayan Bamboo', 'रिंगाल', 'Bambusa species'],
+    ['Solid Bamboo', 'बांस', 'Dendrocalamus strictus'],
+    ['Giant Bamboo', 'बड़ा बांस', 'Dendrocalamus hamiltonii'],
+    ['Moso Bamboo', 'बांस', 'Phyllostachys edulis'],
+    ['Kilmora (Barberry)', 'किल्मोड़ा', 'Berberis asiatica'],
+    ['Himalayan Barberry', 'कटबांज', 'Berberis lycium'],
+    ['Lantana', 'पंचफूली', 'Lantana camara'],
+    ['Himalayan Honeysuckle', 'घिंगारू', 'Leycesteria formosa'],
+    ['Girlu', 'गिरलू', 'Pittosporum species'],
+    ['Basingan', 'बसिंगन', 'Adhatoda vasica'],
+    ['Hisar', 'हिसार', 'Rubus ellipticus'],
+    ['Raspberry (wild)', 'जंगली रसभरी', 'Rubus niveus'],
+    ['Chamomile', 'बबूना', 'Matricaria chamomilla'],
+    ['Dholi Basuti', 'ढोली बसुती', 'Vitex negundo'],
+    ['Wild Rose', 'जंगली गुलाब', 'Rosa moschata'],
+    ['Buxus / Box', 'चिकरी', 'Buxus wallichiana'],
+    ['Himalayan Yellow Raspberry', 'आंचू', 'Rubus ellipticus'],
+    ['Cinquefoil', 'चोरा', 'Potentilla species'],
+    ['Hippophae (Sea Buckthorn)', 'लेह बेरी', 'Hippophae salicifolia'],
+    ['Cotoneaster', 'रुइंच', 'Cotoneaster species'],
+    ['Wild Olive', 'जंगली जैतून', 'Olea ferruginea'],
+    ['Oleander', 'कनेर', 'Nerium oleander'],
+    ['Bhutan Pine', 'भूटान चीड़', 'Pinus bhutanica'],
+    ['Chilgoza Pine', 'चिलगोजा', 'Pinus gerardiana'],
+    ['Hybrid Pine (Roxburghii x Wallichiana)', 'संकर चीड़', 'Pinus roxburghii × wallichiana'],
+    ['Drooping Juniper', 'बिट्टल', 'Juniperus recurva var. coxii'],
+    ['Black Juniper', 'काला धूप', 'Juniperus wallichiana'],
+    ['Larch (Himalayan)', 'डांगशिंग', 'Larix griffithii'],
+    ['Scrub Oak (Ban Garuri)', 'बन गरुरी', 'Quercus incana'],
+    ['Ring Cupped Oak', 'रिंगल बांज', 'Quercus glauca var. annulata'],
+    ['Lepcha Rhododendron', 'सफेद बुरांस', 'Rhododendron anthopogon'],
+    ['Sikkim Rhododendron', 'सिक्किम बुरांस', 'Rhododendron niveum'],
+    ['Campanulatum Rhododendron', 'चिमुल', 'Rhododendron campanulatum'],
+    ['Wallich Rhododendron', 'चांदनी', 'Rhododendron wallichii'],
+    ['Caucasian Maple', 'कांदर', 'Acer cappadocicum'],
+    ['Trewia Maple', 'मंडार', 'Acer oblongum'],
+    ['Himalayan Boxwood Maple', 'तिलांग', 'Acer sterculiaceum'],
+    ['Silver Birch (Himalayan)', 'भोजपत्र', 'Betula utilis'],
+    ['Dwarf Birch', 'भोजीज', 'Betula alnoides'],
+    ['Western Himalayan Alder', 'कोशी', 'Alnus nitida'],
+    ['Black Poplar (Pahari Safeda)', 'पहाड़ी सफेदा', 'Populus nigra'],
+    ['White Poplar', 'सफेदा', 'Populus alba'],
+    ['Hybrid Poplar', 'संकर पॉपुलर', 'Populus deltoides'],
+    ['Walnut (Black)', 'काला अखरोट', 'Juglans nigra'],
+    ['Chestnut (Indian Horse)', 'पांगर', 'Aesculus indica'],
+    ['Sweet Chestnut', 'चेस्टनट', 'Castanea sativa'],
+    ['Himalayan Hazel', 'गरखी', 'Corylus jacquemontii'],
+    ['Chirol (Small-leaf Elm)', 'चिरोल', 'Ulmus villosa'],
+    ['Crack Willow', 'कश्मीरी बेंत', 'Salix fragilis'],
+    ['White Willow', 'सफेद बेंत', 'Salix alba'],
+    ['Himalayan Willow', 'बेतनी', 'Salix tetrasperma'],
+    ['Goat Willow', 'बकरी विलो', 'Salix caprea'],
+    ['Bhima Willow', 'भीमा', 'Salix babylonica'],
+    ['Himalayan Buckthorn', 'अमेल', 'Hippophae tibetana'],
+    ['Himalayan Sea Buckthorn', 'अमेस', 'Hippophae rhamnoides'],
+    ['Viburnum Mullaha', 'मुल्हा', 'Viburnum mullaha'],
+    ['Cotoneaster Bacillaris', 'रुइंच', 'Cotoneaster bacillaris'],
+    ['Cotoneaster Frigidus', 'बड़ी रुइंच', 'Cotoneaster frigidus'],
+    ['Sissoo (Shisham)', 'शीशम', 'Dalbergia sissoo'],
+    ['Kusum', 'कुसुम', 'Schleichera oleosa'],
+    ['Harra (Chebulic Myrobalan)', 'हरड़', 'Terminalia chebula'],
+    ['Baheda (Belleric Myrobalan)', 'बहेड़ा', 'Terminalia bellirica'],
+    ['Mahuwa (Butter tree)', 'मधुका', 'Madhuca indica'],
+    ['Palash (Flame of the Forest)', 'पलाश', 'Butea monosperma'],
+    ['Indian Coral Tree', 'फराद', 'Erythrina variegata'],
+    ['Drumstick', 'सहजन', 'Moringa oleifera'],
+    ['Pakar (Pilkhan)', 'पाकर', 'Ficus virens'],
+    ['Gular (Cluster Fig)', 'गूलर', 'Ficus racemosa'],
+    ['Rock Fig', 'चट्टानी अंजीर', 'Ficus palmata'],
+    ['Common Fig', 'अंजीर', 'Ficus carica'],
+    ['Bargad (Goolar)', 'गूलर', 'Ficus hispida'],
+    ['Jamun (Black Plum)', 'जामुन', 'Syzygium cumini'],
+    ['Indian Butter Tree', 'चिउरा', 'Diploknema butyracea'],
+    ['Kharpat', 'खरपत', 'Garuga pinnata'],
+    ['Indian Lilac (Persian)', 'बकैन', 'Melia azedarach'],
+    ['Siris', 'सिरस', 'Albizia lebbeck'],
+    ['White Siris', 'सफेद सिरस', 'Albizia procera'],
+    ['Kachnar', 'कचनार', 'Bauhinia variegata'],
+    ['Mountain Ebony', 'कोयला', 'Bauhinia vahlii'],
+    ['Shahtoot (Mulberry)', 'शहतूत', 'Morus alba'],
+    ['Himalayan Mulberry', 'किमू', 'Morus serrata'],
+    ['Crab Apple', 'जंगली सेब', 'Malus baccata'],
+    ['Indian Wild Pear', 'मेहल', 'Pyrus pashia'],
+    ['Common Pear', 'नाशपाती', 'Pyrus communis'],
+    ['Sweet Cherry', 'चेरी', 'Prunus avium'],
+    ['Cherry Plum', 'आलूबुखारा चेरी', 'Prunus cerasifera'],
+    ['Himalayan Bird Cherry', 'पद्म', 'Prunus cornuta'],
+    ['Walnut (Common)', 'अखरोट', 'Juglans regia'],
+    ['Wild Pomegranate', 'दाड़िम', 'Punica granatum (wild)'],
+    ['Persimmon', 'तेंदू', 'Diospyros lotus'],
+    ['Loquat', 'लोकाट', 'Eriobotrya japonica'],
+    ['Kafal (Box Myrtle)', 'काफल', 'Myrica esculenta'],
+    ['Wild Strawberry', 'जंगली स्ट्रॉबेरी', 'Fragaria nubicola'],
+    ['Papaya', 'पपीता', 'Carica papaya'],
+    ['Litchi', 'लीची', 'Litchi chinensis'],
+    ['Ber (Indian Jujube)', 'बेर', 'Ziziphus mauritiana'],
+    ['Ringal (Himalayan Bamboo)', 'रिंगाल', 'Arundinaria racemosa'],
+    ['Thamna Ringal', 'थामना रिंगाल', 'Thamnocalamus spathiflorus'],
+    ['Deo Ringal', 'देव रिंगाल', 'Drepanostachyum falcatum'],
+    ['Spiny Bamboo', 'कांटेदार बांस', 'Bambusa bambos'],
+    ['Common Bamboo', 'बांस', 'Bambusa vulgaris'],
+    ['Male Bamboo', 'नर बांस', 'Dendrocalamus strictus'],
+    ['Indian Laurel', 'आसन', 'Terminalia tomentosa'],
+    ['Asna (Crocodile Bark)', 'आंजन', 'Terminalia alata'],
+    ['Kamala Tree', 'कमला', 'Mallotus philippensis'],
+    ['Kakra Dhamni', 'कड़ा', 'Flacourtia indica'],
+    ['Putranjiva', 'पुत्रजीवा', 'Putranjiva roxburghii'],
+    ['Mulberry Leaves', 'शहतूत पत्ती', 'Morus laevigata'],
+    ['White Thorn', 'कांटा बेर', 'Ziziphus nummularia'],
+    ['Mulberry Wild', 'जंगली शहतूत', 'Morus australis'],
+    ['Toon (Red Cedar)', 'तून', 'Toona ciliata'],
+    ['Mahogany Indian', 'महोगनी', 'Toona serrata'],
+    ['Kainth (Wild Pear)', 'काइंथ', 'Pyrus pashia'],
+    ['Amla (Indian Gooseberry)', 'आंवला', 'Phyllanthus emblica'],
+    ['Dhaman', 'धामन', 'Grewia oppositifolia'],
+    ['Lasoda (Indian Cherry)', 'लसोड़ा', 'Cordia dichotoma'],
+    ['Rohida', 'रोहिड़ा', 'Tecomella undulata'],
+    ['Indian Rosewood', 'तिमला', 'Dalbergia latifolia'],
+    ['Tun (Indian Mahogany)', 'टून', 'Toona ciliata'],
+    ['Silk Oak', 'सिल्वर ओक', 'Grevillea robusta'],
+    ['Ashok', 'अशोक', 'Saraca asoca'],
+    ['False Ashok', 'नकली अशोक', 'Polyalthia longifolia'],
+    ['Indian Beech', 'करंज', 'Millettia pinnata'],
+    ['Soapnut', 'रीठा', 'Sapindus mukorossi'],
+    ['Indian Elm', 'चिलबिल', 'Holoptelea integrifolia'],
+    ['Babool (Black Babool)', 'बबूल', 'Vachellia nilotica'],
+    ['Israeli Babool', 'विलायती बबूल', 'Prosopis juliflora'],
+    ['Acacia Mearnsii (Black Wattle)', 'अकेसिया', 'Acacia mearnsii'],
+    ['Australian Acacia', 'ऑस्ट्रेलियन बबूल', 'Acacia auriculiformis'],
+    ['Eucalyptus (Nilgiri)', 'सफेदा', 'Eucalyptus globulus'],
+    ['Eucalyptus Hybrid', 'संकर सफेदा', 'Eucalyptus hybrid'],
+    ['Eucalyptus Tereticornis', 'फ़ोरेस्ट रेड गम', 'Eucalyptus tereticornis'],
+    ['Eucalyptus Camaldulensis', 'नदी रेड गम', 'Eucalyptus camaldulensis'],
+    ['Lantana (Invasive)', 'लैंटाना', 'Lantana camara'],
+    ['Eupatorium (Crofton Weed)', 'कलाबांसा', 'Ageratina adenophora'],
+    ['Wild Rose (Chiyur)', 'चियुर', 'Rosa moschata'],
+    ['Wild Rose (Macrophylla)', 'बड़ा गुलाब', 'Rosa macrophylla'],
+    ['Blackberry (Himalayan)', 'हिसालू', 'Rubus niveus'],
+    ['Bramble Raspberry', 'हिसर', 'Rubus ellipticus'],
+    ['Yellow Raspberry', 'पीला हिसालू', 'Rubus idaeus'],
+    ['Indigofera', 'नील का पौधा', 'Indigofera heterantha'],
+    ['Himalayan Inula', 'राल', 'Inula cappa'],
+    ['Indian Mallow', 'कंघी', 'Abutilon indicum'],
+    ['Himalayan Sumac', 'टुंगला', 'Rhus chinensis'],
+    ['Poison Ivy', 'बिच्छू पत्ती', 'Toxicodendron succedaneum'],
+    ['Wild Jasmine', 'जंगली चमेली', 'Jasminum multiflorum'],
+    ['Indigo Jasmine', 'नील चमेली', 'Jasminum humile'],
+    ['Himalayan Bush Grass', 'हिमालयी घास', 'Themeda anathera'],
+    ['Kush Grass', 'कुश', 'Desmostachya bipinnata'],
+    ['Date Palm', 'खजूर', 'Phoenix dactylifera'],
+    ['Wild Date Palm', 'जंगली खजूर', 'Phoenix sylvestris'],
+    ['Fish Tail Palm', 'काम्बू', 'Caryota urens'],
+    ['Agave (Sisal)', 'अगेव', 'Agave americana'],
+    ['Yucca', 'युक्का', 'Yucca gloriosa'],
+    ['Ailanthus (Tree of Heaven)', 'मारू', 'Ailanthus excelsa'],
+    ['Chinese Chestnut', 'चीनी चेस्टनट', 'Castanopsis tribuloides'],
+    ['Karanj (Pongam)', 'करंज', 'Pongamia pinnata'],
+    ['Mimosa', 'छुईमुई', 'Mimosa pudica'],
+    ['Royal Poinciana', 'गुलमोहर', 'Delonix elata'],
+    ['Himalayan Tree Fern', 'वृक्ष फर्न', 'Cyathea spinulosa'],
+    ['Indian Hemp', 'भांग', 'Cannabis sativa'],
+    ['Other / Unknown (specify)', 'अन्य', '(custom input)']
+  ];
+  sh.getRange(2, 1, SPECIES.length, 3).setValues(SPECIES);
+  sh.setColumnWidth(1, 220); sh.setColumnWidth(2, 150); sh.setColumnWidth(3, 240);
+  sh.setFrozenRows(1);
   return sh;
 }
 
@@ -24446,9 +24761,11 @@ function rebuildDashboard_() {
     .setHorizontalAlignment('center').setFontStyle('italic');
   sh.setRowHeight(2, 22);
 
-  // KPIs
+  // KPIs — counts + financial totals (financials read from each project tab)
   let totalTrees = 0, totalCoords = 0, totalHP = 0, totalMuck = 0;
+  let totalArea = 0, totalNPV = 0, totalFee = 0, totalFeeRcv = 0;
   const statusCounts = {}, districtCounts = {};
+  const finByUuid = {};   // uuid -> {area,npv,fee,feeRcv}
   master.forEach(function(r) {
     totalTrees  += parseInt(r.trees_count)  || 0;
     totalCoords += parseInt(r.coords_count) || 0;
@@ -24456,16 +24773,28 @@ function rebuildDashboard_() {
     totalMuck   += parseInt(r.muck_count)   || 0;
     if (r.status) statusCounts[r.status] = (statusCounts[r.status] || 0) + 1;
     if (r.district) districtCounts[r.district] = (districtCounts[r.district] || 0) + 1;
+    // pull financials from the project tab
+    try {
+      const pr = readProjectSheet_(r.sheet_name);
+      if (pr) {
+        const a  = parseFloat(pr.area) || 0;
+        const np = parseFloat(pr.npvAmount) || (a * (parseFloat(pr.npvEstimate) || 0));
+        const ft = parseFloat(pr.feeTotal) || 0;
+        const fr = parseFloat(pr.feeReceived) || 0;
+        totalArea += a; totalNPV += np; totalFee += ft; totalFeeRcv += fr;
+        finByUuid[r.uuid] = { area: a, npv: np, fee: ft, feeRcv: fr };
+      }
+    } catch (e) {}
   });
 
   const kpiRow = 4;
   const kpis = [
-    { label: 'PROJECTS',   value: master.length, color: '#1d4434' },
-    { label: 'TREES',      value: totalTrees,    color: '#a3491e' },
-    { label: 'GPS POINTS', value: totalCoords,   color: '#5b8ba1' },
-    { label: 'HP BENDS',   value: totalHP,       color: '#5b8ba1' },
-    { label: 'MUCK YARDS', value: totalMuck,     color: '#a3491e' },
-    { label: 'DISTRICTS',  value: Object.keys(districtCounts).length, color: '#1d4434' }
+    { label: 'PROJECTS',    value: master.length, color: '#1d4434' },
+    { label: 'TREES',       value: totalTrees,    color: '#a3491e' },
+    { label: 'AREA (ha)',   value: Math.round(totalArea * 10000) / 10000, color: '#2f7857' },
+    { label: 'NPV (Rs)',    value: Math.round(totalNPV),   color: '#2f7857' },
+    { label: 'FEE (Rs)',    value: Math.round(totalFee),   color: '#a3491e' },
+    { label: 'RECEIVED',    value: Math.round(totalFeeRcv),color: '#1d4434' }
   ];
   kpis.forEach(function(k, i) {
     const col = i + 1;
@@ -24514,7 +24843,8 @@ function rebuildDashboard_() {
   sh.setRowHeight(row, 28);
   row++;
 
-  const projHeaders = ['Code', 'Project Name', 'District', 'Status', 'Date', 'Trees', 'GPS', 'Updated'];
+  const projHeaders = ['Code', 'Project Name', 'District', 'Status', 'Area (ha)',
+                       'NPV (Rs)', 'Fee (Rs)', 'Trees', 'Updated'];
   sh.getRange(row, 1, 1, projHeaders.length).setValues([projHeaders])
     .setFontWeight('bold').setBackground('#f0e8d0').setBorder(true, true, true, true, false, false);
   row++;
@@ -24543,21 +24873,36 @@ function rebuildDashboard_() {
         try { updatedDisplay = Utilities.formatDate(new Date(r.updated_at), tz, 'dd MMM HH:mm'); }
         catch (e) { updatedDisplay = String(r.updated_at).slice(0, 16); }
       }
+      const fin = finByUuid[r.uuid] || { area: 0, npv: 0, fee: 0 };
       return [codeCell, r.project || '', r.district || '', r.status || '',
-        r.date || '', parseInt(r.trees_count) || 0, parseInt(r.coords_count) || 0,
-        updatedDisplay];
+        fin.area || '', Math.round(fin.npv) || '', Math.round(fin.fee) || '',
+        parseInt(r.trees_count) || 0, updatedDisplay];
     });
     sh.getRange(row, 1, projRows.length, projHeaders.length).setValues(projRows);
     sh.getRange(row, 1, projRows.length, 1).setFontColor('#1a73e8').setFontWeight('bold');
+    // TOTAL row
+    const totRow = row + projRows.length;
+    sh.getRange(totRow, 1).setValue('TOTAL — ' + projRows.length + ' projects')
+      .setFontWeight('bold').setBackground('#e8e0c8');
+    sh.getRange(totRow, 2, 1, 2).setBackground('#e8e0c8');
+    sh.getRange(totRow, 5).setFormula('=SUM(E' + row + ':E' + (totRow-1) + ')')
+      .setFontWeight('bold').setBackground('#e8e0c8');
+    sh.getRange(totRow, 6).setFormula('=SUM(F' + row + ':F' + (totRow-1) + ')')
+      .setFontWeight('bold').setBackground('#e8e0c8');
+    sh.getRange(totRow, 7).setFormula('=SUM(G' + row + ':G' + (totRow-1) + ')')
+      .setFontWeight('bold').setBackground('#e8e0c8');
+    sh.getRange(totRow, 8).setFormula('=SUM(H' + row + ':H' + (totRow-1) + ')')
+      .setFontWeight('bold').setBackground('#e8e0c8');
+    sh.getRange(totRow, 9).setBackground('#e8e0c8');
     for (let i = 0; i < projRows.length; i++) {
       if (i % 2 === 1) sh.getRange(row + i, 1, 1, projHeaders.length).setBackground('#fafaf5');
     }
-    row += projRows.length;
+    row += projRows.length + 1;
   }
 
-  sh.setColumnWidth(1, 180); sh.setColumnWidth(2, 380); sh.setColumnWidth(3, 110);
-  sh.setColumnWidth(4, 100); sh.setColumnWidth(5, 100); sh.setColumnWidth(6, 70);
-  sh.setColumnWidth(7, 70);  sh.setColumnWidth(8, 120);
+  sh.setColumnWidth(1, 170); sh.setColumnWidth(2, 320); sh.setColumnWidth(3, 110);
+  sh.setColumnWidth(4, 95);  sh.setColumnWidth(5, 80);  sh.setColumnWidth(6, 110);
+  sh.setColumnWidth(7, 100); sh.setColumnWidth(8, 65);  sh.setColumnWidth(9, 110);
   sh.setFrozenRows(kpiRow + 1);
 
   row += 2;
@@ -24605,7 +24950,7 @@ function readMaster_() {
 
 function sanitizeSheetName_(name) {
   if (!name) return 'Project-' + Date.now();
-  let s = String(name).replace(/[\\\/\?\*\[\]:'"]/g, '_').replace(/^\s+|\s+$/g, '');
+  let s = String(name).replace(/[\\\\\\/\\?\\*\\[\\]:'"]/g, '_').replace(/^\\s+|\\s+$/g, '');
   if (s.length > 95) s = s.slice(0, 95);
   return s || ('Project-' + Date.now());
 }
@@ -24629,12 +24974,20 @@ function uniqueSheetName_(base, currentUuid) {
 
 function writeProjectSheet_(rec) {
   const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  try { getSpeciesSheet_(); } catch (e) {}   // ensure Species master exists for VLOOKUPs
   const base = sanitizeSheetName_(rec.code || rec.uuid);
   const sheetName = uniqueSheetName_(base, rec.uuid);
   let sh = ss.getSheetByName(sheetName);
   if (sh) sh.clear();
   else sh = ss.insertSheet(sheetName);
   let row = 1;
+
+  // Colour scheme for editing guidance
+  var COL_EDIT  = '#dbe9ff';   // light blue  = raw data, safe to edit
+  var COL_CALC  = '#e2efda';   // light green = formula-calculated, do not edit
+  var COL_LOCK  = '#d9d9d9';   // grey        = structural, never touch
+  var FONT_EDIT = '#0000cc';
+  var FONT_CALC = '#375623';
 
   function marker(text, bgColor) {
     sh.getRange(row, 1, 1, 8).merge();
@@ -24649,7 +25002,26 @@ function writeProjectSheet_(rec) {
     row++;
   }
 
+  // ── LEGEND — explains the colour code for safe sheet editing ──
+  sh.getRange(row, 1, 1, 8).merge();
+  sh.getRange(row, 1).setValue('COLOUR GUIDE — edit blue cells only')
+    .setFontWeight('bold').setFontColor('#fff').setBackground('#1d4434')
+    .setHorizontalAlignment('center').setFontSize(11);
+  row++;
+  sh.getRange(row, 1).setValue(' EDITABLE — raw data ').setBackground(COL_EDIT)
+    .setFontColor(FONT_EDIT).setFontWeight('bold').setHorizontalAlignment('center');
+  sh.getRange(row, 2).setValue(' CALCULATED — do not edit ').setBackground(COL_CALC)
+    .setFontColor(FONT_CALC).setFontWeight('bold').setHorizontalAlignment('center');
+  sh.getRange(row, 3).setValue(' STRUCTURE — never touch ').setBackground(COL_LOCK)
+    .setFontWeight('bold').setHorizontalAlignment('center');
+  sh.getRange(row, 4, 1, 5).merge();
+  sh.getRange(row, 4).setValue('Edit blue cells, then re-import this project into the app. '
+    + 'Never delete the grey section headers or the END marker.')
+    .setFontStyle('italic').setFontColor('#666');
+  row += 2;
+
   marker(SECTION.META, '#1d4434');
+  var metaStartRow = row;
   const metaFields = [
     ['uuid', rec.uuid || ''], ['code', rec.code || ''], ['project', rec.project || ''],
     ['district', rec.district || ''], ['division', rec.division || ''], ['range', rec.range || ''],
@@ -24678,7 +25050,53 @@ function writeProjectSheet_(rec) {
     ['updated_at', rec.updated_at || new Date().toISOString()]
   ];
   sh.getRange(row, 1, metaFields.length, 2).setValues(metaFields);
+  // field-name column = grey/locked look
   sh.getRange(row, 1, metaFields.length, 1).setFontWeight('bold').setBackground('#f8f6f0');
+
+  // Colour-code + formula the META value column (column B).
+  // Calculated fields get a formula referencing other META rows, green.
+  // Everything else is raw editable data, blue. uuid/updated_at stay locked.
+  (function(){
+    var idx = {};
+    for (var i = 0; i < metaFields.length; i++) idx[metaFields[i][0]] = metaStartRow + i;
+    function setCalc(field, formula) {
+      if (idx[field] == null) return;
+      var c = sh.getRange(idx[field], 2);
+      c.setFormula(formula).setBackground(COL_CALC).setFontColor(FONT_CALC);
+    }
+    function setEdit(field) {
+      if (idx[field] == null) return;
+      sh.getRange(idx[field], 2).setBackground(COL_EDIT).setFontColor(FONT_EDIT);
+    }
+    function setLock(field) {
+      if (idx[field] == null) return;
+      sh.getRange(idx[field], 2).setBackground(COL_LOCK).setFontColor('#666');
+    }
+    // raw editable fields — everything is editable by default...
+    for (var f in idx) setEdit(f);
+    // ...then override the calculated ones with formulas (green)...
+    setCalc('area',     '=IF(AND(ISNUMBER(B'+idx['length']+'),ISNUMBER(B'+idx['width']+')),ROUND(B'+idx['length']+'*B'+idx['width']+'/10000,4),"")');
+    setCalc('npvAmount','=IF(AND(ISNUMBER(B'+idx['area']+'),ISNUMBER(B'+idx['npvEstimate']+')),ROUND(B'+idx['area']+'*B'+idx['npvEstimate']+',0),"")');
+    setCalc('caAmount', '=IF(AND(ISNUMBER(B'+idx['area']+'),ISNUMBER(B'+idx['caCost']+')),ROUND(B'+idx['area']+'*B'+idx['caCost']+',0),"")');
+    setCalc('feeBalance','=IF(ISNUMBER(B'+idx['feeTotal']+'),ROUND(MAX(0,B'+idx['feeTotal']+'-B'+idx['feeReceived']+'),0),"")');
+    // ...and lock the system fields.
+    setLock('uuid'); setLock('updated_at'); setLock('feeReceived');
+    // dropdowns on key META fields so sheet edits stay valid
+    try {
+      if (idx['status'] != null) {
+        var stRule = SpreadsheetApp.newDataValidation()
+          .requireValueInList(['draft','data-collection','review','submitted','approved','rejected'], true)
+          .setAllowInvalid(true).build();
+        sh.getRange(idx['status'], 2).setDataValidation(stRule);
+      }
+      if (idx['projectType'] != null) {
+        var ptRule = SpreadsheetApp.newDataValidation()
+          .requireValueInList(['Road','Transmission Line','Water Supply','Building','Other'], true)
+          .setAllowInvalid(true).build();
+        sh.getRange(idx['projectType'], 2).setDataValidation(ptRule);
+      }
+    } catch (e) {}
+  })();
   row += metaFields.length + 1;
 
   // ── OFFICERS / SIGNATORIES — readable rows (not just JSON) ──────
@@ -24763,7 +25181,36 @@ function writeProjectSheet_(rec) {
       t.accuracy || '', t.branch || '', t.created_at || '', t.uuid || ''];
   });
   if (treeRows.length > 0) {
+    var treeStart = row;
     sh.getRange(row, 1, treeRows.length, treeHeaders.length).setValues(treeRows);
+    // editable columns blue; species_hi & species_sci become VLOOKUP (green)
+    sh.getRange(treeStart, 1, treeRows.length, treeHeaders.length)
+      .setBackground('#dbe9ff').setFontColor('#0000cc');
+    for (var ti = 0; ti < treeRows.length; ti++) {
+      var trw = treeStart + ti;
+      // species_hi (col D=4) and species_sci (col E=5) auto-fill from Species sheet
+      sh.getRange(trw, 4).setFormula(
+        '=IFERROR(VLOOKUP(C'+trw+',Species!$A$2:$C$400,2,FALSE),"")')
+        .setBackground('#e2efda').setFontColor('#375623');
+      sh.getRange(trw, 5).setFormula(
+        '=IFERROR(VLOOKUP(C'+trw+',Species!$A$2:$C$400,3,FALSE),"")')
+        .setBackground('#e2efda').setFontColor('#375623');
+    }
+    // dropdowns: species_en (C) from Species list, condition (G), selStatus (H)
+    try {
+      var spRule = SpreadsheetApp.newDataValidation()
+        .requireValueInRange(getSpeciesSheet_().getRange('A2:A400'), true)
+        .setAllowInvalid(true).build();
+      sh.getRange(treeStart, 3, treeRows.length, 1).setDataValidation(spRule);
+      var condRule = SpreadsheetApp.newDataValidation()
+        .requireValueInList(['green standing','dry standing','fallen','damaged','stump'], true)
+        .setAllowInvalid(true).build();
+      sh.getRange(treeStart, 7, treeRows.length, 1).setDataValidation(condRule);
+      var selRule = SpreadsheetApp.newDataValidation()
+        .requireValueInList(['Selected','Rejected'], true)
+        .setAllowInvalid(true).build();
+      sh.getRange(treeStart, 8, treeRows.length, 1).setDataValidation(selRule);
+    } catch (e) {}
     row += treeRows.length;
   }
   row += 1;
@@ -24821,8 +25268,27 @@ function writeProjectSheet_(rec) {
       l.length || '', l.width || '', l.area || ''];
   });
   if (landRows.length > 0) {
+    var landStart = row;
     sh.getRange(row, 1, landRows.length, landHeaders.length).setValues(landRows);
+    // columns 1-7 (type..width) = editable blue ; column 8 (area) = formula green
+    sh.getRange(landStart, 1, landRows.length, 7)
+      .setBackground('#dbe9ff').setFontColor('#0000cc');
+    for (var li = 0; li < landRows.length; li++) {
+      var lr = landStart + li;
+      sh.getRange(lr, 8)
+        .setFormula('=IF(AND(ISNUMBER(F'+lr+'),ISNUMBER(G'+lr+')),ROUND(F'+lr+'*G'+lr+'/10000,4),"")')
+        .setBackground('#e2efda').setFontColor('#375623');
+    }
     row += landRows.length;
+    // land-type dropdown so sheet edits use valid names the app recognises
+    try {
+      var ltRule = SpreadsheetApp.newDataValidation()
+        .requireValueInList(['आरक्षित वन भूमि / Reserved Forest',
+          'सिविल एवं सोयम भूमि / Civil & Soyam', 'वन पंचायत भूमि / Van Panchayat',
+          'नाप भूमि / Nap (Revenue)', 'निजी भूमि / Private Land'], true)
+        .setAllowInvalid(true).build();
+      sh.getRange(landStart, 1, landRows.length, 1).setDataValidation(ltRule);
+    } catch (e) {}
   }
   row += 1;
 
